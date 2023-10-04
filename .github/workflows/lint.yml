@@ -1,6 +1,9 @@
 name: "Code lint"
 
-on: ["push"]
+on:
+  pull_request:
+  merge_group:
+  push:
 
 jobs:
   clean:
