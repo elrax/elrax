@@ -46,10 +46,10 @@
 		"@elrax/api": "workspace:*",
 		"@elrax/tailwind-config": "workspace:*",
 		"@types/babel__core": "7.20.2",
-		"@types/react": "18.2.22",
-		"@types/webpack-env": "1.18.1",
+		"@types/react": "18.2.25",
+		"@types/webpack-env": "1.18.2",
 		"babel-plugin-module-resolver": "5.0.0",
-		"postcss": "8.4.29",
-		"tailwindcss": "3.3.2"
+		"postcss": "8.4.31",
+		"tailwindcss": "3.3.3"
 	}
 }

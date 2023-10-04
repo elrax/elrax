@@ -20,8 +20,8 @@
 	},
 	"devDependencies": {
 		"@elrax/eslint-config": "workspace:*",
-		"eslint": "8.44.0",
-		"nx": "16.8.1",
+		"eslint": "8.50.0",
+		"nx": "16.9.1",
 		"prettier": "3.0.3",
 		"simple-git-hooks": "2.9.0",
 		"syncpack": "11.2.1"
