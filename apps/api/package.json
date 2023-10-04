@@ -1,0 +1,40 @@
+{
+	"name": "@elrax/api",
+	"version": "0.1.0",
+	"description": "Public API for Elrax Platform",
+	"homepage": "https://elrax.com",
+	"bugs": "https://github.com/elrax/elrax/issues",
+	"license": "AGPL-3.0-only",
+	"author": "Elrax Corp.",
+	"repository": "https://github.com/elrax/elrax",
+	"private": true,
+	"type": "module",
+	"main": "./src/client.ts",
+	"scripts": {
+		"clean": "rm -rf node_modules .wrangler",
+		"db:apply": "NO_D1_WARNING=true wrangler d1 migrations apply dev-db --local --env=dev",
+		"db:gen": "drizzle-kit generate:sqlite",
+		"db:list": "NO_D1_WARNING=true wrangler d1 migrations list dev-db --local --env=dev",
+		"db:studio": "drizzle-kit studio",
+		"dev": "NO_D1_WARNING=true wrangler dev --env=dev",
+		"format": "prettier --write --ignore-path=../../.gitignore .",
+		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
+		"prepare": "yes 2>/dev/null | pnpm db:apply"
+	},
+	"dependencies": {
+		"@trpc/server": "10.38.4",
+		"drizzle-orm": "0.28.6",
+		"hono": "3.7.2",
+		"superjson": "1.13.1",
+		"zod": "3.22.2"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "4.20230922.0",
+		"drizzle-kit": "0.19.13",
+		"wrangler": "3.9.1"
+	},
+	"peerDependencies": {
+		"better-sqlite3": "8.6.0",
+		"typescript": "5.2.2"
+	}
+}

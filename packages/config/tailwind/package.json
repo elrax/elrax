@@ -1,0 +1,19 @@
+{
+	"name": "@elrax/tailwind-config",
+	"version": "0.1.0",
+	"homepage": "https://elrax.com",
+	"bugs": "https://github.com/elrax/elrax/issues",
+	"license": "AGPL-3.0-only",
+	"author": "Elrax Corp.",
+	"repository": "github:elrax/elrax.git",
+	"private": true,
+	"main": "index.js",
+	"scripts": {
+		"clean": "rm -rf node_modules"
+	},
+	"devDependencies": {
+		"autoprefixer": "10.4.14",
+		"postcss": "8.4.29",
+		"tailwindcss": "3.3.2"
+	}
+}

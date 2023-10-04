@@ -1,0 +1,49 @@
+name: 👀 Tracking Issue
+description: Create a tracking issue for an accepted feature!
+labels: ["👀 tracking"]
+body:
+    - type: markdown
+      attributes:
+          value: "### About tracking issues"
+    - type: markdown
+      attributes:
+          value: |
+              Tracking issues are used to record the overall progress of development.
+              They are also used as hubs connecting to other relevant issues, e.g., bugs or open design questions.
+              A tracking issue is however not meant for large scale discussion, questions, or bug reports about a feature.
+              Instead, open a dedicated issue for the specific matter and add the relevant feature label.
+    - type: textarea
+      id: summary
+      attributes:
+          label: Summary
+          description: Provide more context and information about the feature for which this tracking issue is being created.
+          value: This is a tracking issue for the <feature name>
+      validations:
+          required: true
+    - type: textarea
+      id: steps
+      attributes:
+          label: Steps
+          description: |-
+              Include each step required to complete the feature. Typically this is a PR
+              implementing a feature, followed by a PR that stabilises the feature. However
+              for larger features an implementation could be broken up into multiple PRs.
+          placeholder: |-
+              - [ ] Task 1
+              - [ ] Task 2
+              - [ ] Test the new feature
+              - [ ] Adjust documentation
+      validations:
+          required: true
+    - type: textarea
+      id: questions
+      attributes:
+          label: Unresolved Questions
+          description: Include any open questions that need to be answered before the feature can be stabilised.
+          placeholder: |-
+              * Question 1
+              * Question 2
+              * Question 2
+          value: "* None yet."
+      validations:
+          required: false

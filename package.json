@@ -1,0 +1,89 @@
+{
+	"name": "elrax",
+	"version": "0.1.0",
+	"description": "Open-Source Video Crowdfunding Platform",
+	"homepage": "https://elrax.com",
+	"bugs": "https://github.com/elrax/elrax/issues",
+	"license": "AGPL-3.0-only",
+	"author": "Elrax Corp.",
+	"repository": "github:elrax/elrax.git",
+	"private": true,
+	"packageManager": "pnpm@8.8.0",
+	"scripts": {
+		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
+		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
+		"dev": "nx run-many -t=dev --exclude=elrax --output-style=stream",
+		"fix-pkgs": "syncpack fix-mismatches && syncpack set-semver-ranges && syncpack format",
+		"format": "nx run-many -t=format --exclude=elrax --output-style=stream",
+		"lint": "nx run-many -t=lint --exclude=elrax --output-style=stream",
+		"update-hooks": "simple-git-hooks"
+	},
+	"devDependencies": {
+		"@elrax/eslint-config": "workspace:*",
+		"eslint": "8.44.0",
+		"nx": "16.8.1",
+		"prettier": "3.0.3",
+		"simple-git-hooks": "2.9.0",
+		"syncpack": "11.2.1"
+	},
+	"peerDependencies": {
+		"typescript": "5.2.2"
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*",
+		"packages/config/*"
+	],
+	"eslintConfig": {
+		"root": true,
+		"extends": [
+			"@elrax/eslint-config"
+		],
+		"parser": "@typescript-eslint/parser",
+		"parserOptions": {
+			"project": true
+		}
+	},
+	"prettier": {
+		"useTabs": true,
+		"singleQuote": false,
+		"semi": false,
+		"trailingComma": "all",
+		"printWidth": 100
+	},
+	"simple-git-hooks": {
+		"pre-commit": "pnpm lint && pnpm fix-pkgs"
+	},
+	"syncpack": {
+		"dependencyTypes": [
+			"prod",
+			"dev",
+			"peer",
+			"resolutions"
+		],
+		"indent": "\t",
+		"sortFirst": [
+			"name",
+			"version",
+			"description",
+			"keywords",
+			"homepage",
+			"bugs",
+			"license",
+			"author",
+			"repository",
+			"private",
+			"packageManager",
+			"type",
+			"main",
+			"files",
+			"scripts",
+			"dependencies",
+			"devDependencies",
+			"peerDependencies",
+			"trustedDependencies",
+			"resolutions",
+			"workspaces"
+		]
+	}
+}
