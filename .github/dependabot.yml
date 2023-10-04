@@ -8,3 +8,11 @@ updates:
       prefix: fix
       prefix-development: chore
       include: scope
+    ignore:
+      - dependency-name: '\*'
+        update-types: ["version-update:semver-patch"]
+    groups:
+      prod-dependencies:
+        dependency-type: "production"
+      dev-dependencies:
+        dependency-type: "development"
