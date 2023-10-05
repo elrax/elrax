@@ -1,4 +1,5 @@
 {
+	"prettier.ignorePath": ".gitignore",
 	"workbench.editor.labelFormat": "short",
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
@@ -6,6 +7,5 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll": true,
 		"source.fixAll.eslint": true
-	},
-	"prettier.ignorePath": ".gitignore"
+	}
 }
