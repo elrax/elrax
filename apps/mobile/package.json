@@ -19,8 +19,8 @@
 	},
 	"dependencies": {
 		"@expo/vector-icons": "13.0.0",
-		"@react-native-community/netinfo": "9.3.10",
-		"@shopify/flash-list": "1.4.3",
+		"@react-native-community/netinfo": "9.4.1",
+		"@shopify/flash-list": "1.6.1",
 		"@tanstack/react-query": "4.35.7",
 		"@trpc/client": "10.38.5",
 		"@trpc/react-query": "10.38.5",
