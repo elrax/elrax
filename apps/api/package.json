@@ -25,16 +25,16 @@
 		"@trpc/server": "10.38.5",
 		"drizzle-orm": "0.28.6",
 		"hono": "3.7.4",
-		"superjson": "1.13.1",
+		"superjson": "1.13.3",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20230922.0",
+		"@cloudflare/workers-types": "4.20231002.0",
 		"drizzle-kit": "0.19.13",
-		"wrangler": "3.9.1"
+		"wrangler": "3.10.1"
 	},
 	"peerDependencies": {
-		"better-sqlite3": "8.6.0",
+		"better-sqlite3": "8.7.0",
 		"typescript": "5.2.2"
 	}
 }
