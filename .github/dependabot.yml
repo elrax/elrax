@@ -9,13 +9,13 @@ updates:
       prefix-development: chore
       include: scope
     ignore:
-      - dependency-name: "@expo/*"
-      - dependency-name: "expo*"
-      - dependency-name: "react*"
+      - dependency-name: "*expo*"
+      - dependency-name: "*react*"
+      - dependency-name: "@shopify*"
       - dependency-name: '\*'
         update-types: ["version-update:semver-patch"]
     groups:
-      deps-prod:
+      prod-deps:
         dependency-type: "production"
-      deps-dev:
+      dev-deps:
         dependency-type: "development"
