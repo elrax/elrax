@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "CLA Assistant"
-        if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
+        if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read and hereby sign the Contributor License Agreement.') || github.event_name == 'pull_request_target'
         uses: contributor-assistant/github-action@v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -29,7 +29,7 @@ jobs:
           remote-organization-name: elrax
           remote-repository-name: cla-signatures
           create-file-commit-message: "chore: creating file for storing CLA Signatures"
-          signed-commit-message: "chore: $contributorName has signed the CLA in $owner/$repo#$pullRequestNo"
+          signed-commit-message: "chore: $contributorName has signed the CLA in $owner/$repo"
           # custom-notsigned-prcomment: "pull request comment with introductory message to ask new contributors to sign"
           custom-pr-sign-comment: "I have read and hereby sign the Contributor License Agreement."
           custom-allsigned-prcomment: "**CLA Assistant Lite bot** All Contributors have signed the CLA."
