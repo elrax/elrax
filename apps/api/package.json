@@ -35,7 +35,6 @@
 		"wrangler": "3.10.1"
 	},
 	"peerDependencies": {
-		"better-sqlite3": "8.7.0",
 		"typescript": "5.2.2"
 	}
 }
