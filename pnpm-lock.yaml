@@ -37,8 +37,8 @@ importers:
   apps/api:
     dependencies:
       '@trpc/server':
-        specifier: 10.38.5
-        version: 10.38.5
+        specifier: 10.40.0
+        version: 10.40.0
       better-sqlite3:
         specifier: 8.7.0
         version: 8.7.0
@@ -46,8 +46,8 @@ importers:
         specifier: 0.28.6
         version: 0.28.6(@cloudflare/workers-types@4.20231002.0)(better-sqlite3@8.7.0)
       hono:
-        specifier: 3.7.4
-        version: 3.7.4
+        specifier: 3.7.5
+        version: 3.7.5
       superjson:
         specifier: 1.13.3
         version: 1.13.3
@@ -83,11 +83,11 @@ importers:
         specifier: 4.35.7
         version: 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.38.5
-        version: 10.38.5(@trpc/server@10.38.5)
+        specifier: 10.40.0
+        version: 10.40.0
       '@trpc/react-query':
         specifier: 10.38.5
-        version: 10.38.5(@tanstack/react-query@4.35.7)(@trpc/client@10.38.5)(@trpc/server@10.38.5)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.38.5(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(react-dom@18.2.0)(react@18.2.0)
       expo:
         specifier: 49.0.13
         version: 49.0.13(@babel/core@7.23.0)
@@ -3304,15 +3304,13 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/client@10.38.5(@trpc/server@10.38.5):
-    resolution: {integrity: sha512-tpGUsoAP+3CD/1KRqMdWZ+zebvB68/86SaVPAYHaEDozTFLQdNqTe98DS/T0S4hfh7WCKbMSObj40SCzE8amKQ==}
+  /@trpc/client@10.40.0:
+    resolution: {integrity: sha512-bT6BcdWjj0KzGQiimE6rB2tIaRYX0Ear4Gthb5szN/c01wrP0yC1Fbz2uCcm/QTVAwu4Lve5M+YjPoEaTHG6lg==}
     peerDependencies:
-      '@trpc/server': 10.38.5
-    dependencies:
-      '@trpc/server': 10.38.5
+      '@trpc/server': 10.40.0
     dev: false
 
-  /@trpc/react-query@10.38.5(@tanstack/react-query@4.35.7)(@trpc/client@10.38.5)(@trpc/server@10.38.5)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/react-query@10.38.5(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-cGpKfiQen3ba3lTII3+Y6Hm3KnC60AS9n2AYt07I7LZx/GknsGHq4h570imdIxr6Qb5LtYe3DFV13kzbm+yGeA==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
@@ -3322,14 +3320,13 @@ packages:
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
-      '@trpc/client': 10.38.5(@trpc/server@10.38.5)
-      '@trpc/server': 10.38.5
+      '@trpc/client': 10.40.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/server@10.38.5:
-    resolution: {integrity: sha512-J0d2Y3Gpt2bMohOshPBfuzDqVrPaE3OKEDtJYgTmLk5t1pZy3kXHQep4rP2LEIr+ELbmkelhcrSvvFLA+4/w/Q==}
+  /@trpc/server@10.40.0:
+    resolution: {integrity: sha512-49SUOMWzSZtu5+OdrADmJD+u+sjSE0qj1cWgYk2FY4jLkPJunLuNRuhzM7aOeBhiUjyfhg2YTfur8FN1WBmvEw==}
     dev: false
 
   /@types/babel__core@7.20.2:
@@ -6452,8 +6449,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /hono@3.7.4:
-    resolution: {integrity: sha512-Ep7SQMgw5Tf49fKBami4q940pvZW1E/524IU6Qt2tdFsjeWpXbKBTsJbj2zOsdcQ3sJxhJ+gGsXoLiichLE8mw==}
+  /hono@3.7.5:
+    resolution: {integrity: sha512-ZaaqAul84HHLXZKwwfH+eMInidwvRj9IdyOoI5Ze0v+WUOAAtQruml3QaUUWkOuI2Myt6IZAiUqkYklLK77k4g==}
     engines: {node: '>=16.0.0'}
     dev: false
 

@@ -22,9 +22,9 @@
 		"prepare": "yes 2>/dev/null | pnpm db:apply"
 	},
 	"dependencies": {
-		"@trpc/server": "10.38.5",
+		"@trpc/server": "10.40.0",
 		"drizzle-orm": "0.28.6",
-		"hono": "3.7.4",
+		"hono": "3.7.5",
 		"superjson": "1.13.3",
 		"zod": "3.22.4"
 	},
