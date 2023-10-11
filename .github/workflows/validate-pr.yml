@@ -40,5 +40,6 @@ jobs:
         if: ${{ steps.lint_pr_title.outputs.error_message == null }}
         with:
           header: pr-title-lint-error
+          only_update: true
           message: |
             Thank you for following the naming conventions! 🙏
