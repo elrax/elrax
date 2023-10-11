@@ -22,7 +22,7 @@
 		"prepare": "yes 2>/dev/null | pnpm db:apply"
 	},
 	"dependencies": {
-		"@trpc/server": "10.38.5",
+		"@trpc/server": "10.40.0",
 		"drizzle-orm": "0.28.6",
 		"drizzle-zod": "0.5.1",
 		"hono": "3.7.5",
@@ -32,7 +32,7 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20231002.0",
 		"drizzle-kit": "0.19.13",
-		"wrangler": "3.10.1"
+		"wrangler": "3.11.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.2.2"
