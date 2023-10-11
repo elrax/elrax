@@ -2,19 +2,24 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: "/"
+    open-pull-requests-limit: 2
     schedule:
       interval: weekly
     commit-message:
       prefix: fix
       prefix-development: chore
       include: scope
+    labels:
+      - "⬆️ dependencies"
+    groups:
+      deps:
+        patterns: ["*"]
+        update-types:
+          - "minor"
+          - "patch"
     ignore:
       - dependency-name: "*expo*"
       - dependency-name: "*react*"
       - dependency-name: "@shopify*"
       - dependency-name: '\*'
         update-types: ["version-update:semver-patch"]
-    groups:
-      deps:
-        patterns: ["*"]
-        update-types: ["minor"]
