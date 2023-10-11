@@ -34,7 +34,7 @@ We aim to create an application that will become standard for users on a par wit
 
 Please see our [contributing guide](./CONTRIBUTING.md).
 
-Elrax is **free, open-source software** licensed under [AGPL-3.0-only](./LICENSE).
+Elrax is **free, open-source software** licensed under [AGPL-3.0-only license](./LICENSE).
 
 You can [open issues](https://github.com/elrax/elrax/issues) for **bugs** you've found or **features** you think are missing. You can also submit pull requests to this repository or submit translations using [Crowdin](https://crowdin.com/project/elrax).
 
@@ -42,7 +42,7 @@ You can [open issues](https://github.com/elrax/elrax/issues) for **bugs** you've
 
 Copyright (c) 2023 Elrax Corp.
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 only.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 

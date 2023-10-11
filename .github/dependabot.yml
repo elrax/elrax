@@ -15,7 +15,6 @@ updates:
       - dependency-name: '\*'
         update-types: ["version-update:semver-patch"]
     groups:
-      prod-deps:
-        dependency-type: "production"
-      dev-deps:
-        dependency-type: "development"
+      deps:
+        patterns: ["*"]
+        update-types: ["minor"]

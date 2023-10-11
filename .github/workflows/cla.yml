@@ -25,7 +25,7 @@ jobs:
           path-to-signatures: "elrax/v1/cla.json"
           path-to-document: "https://elrax.com/cla"
           branch: "main"
-          allowlist: dependabot,github-actions[bot]
+          allowlist: dependabot[bot],github-actions[bot]
           remote-organization-name: elrax
           remote-repository-name: cla-signatures
           create-file-commit-message: "chore: creating file for storing CLA Signatures"

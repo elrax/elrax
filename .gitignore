@@ -63,10 +63,6 @@ web-build/
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
 
-# Prisma generated files
-zod-types/
-kysely-types/
-
 # Sentry
 .sentryclirc
 
