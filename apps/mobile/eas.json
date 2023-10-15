@@ -3,14 +3,37 @@
 		"version": ">= 5.4.0"
 	},
 	"build": {
+		"monorepo": {
+			"cache": {
+				"key": "nx",
+				"paths": ["../../node_modules/.cache/nx"]
+			},
+			"android": {
+				"resourceClass": "medium"
+			},
+			"ios": {
+				"resourceClass": "m-medium"
+			}
+		},
 		"development": {
+			"extends": "monorepo",
 			"developmentClient": true,
-			"distribution": "internal"
+			"distribution": "internal",
+			"android": {
+				"buildType": "apk"
+			}
 		},
 		"preview": {
+			"extends": "monorepo",
 			"distribution": "internal"
 		},
-		"production": {}
+		"production": {
+			"extends": "monorepo",
+			"distribution": "store",
+			"android": {
+				"buildType": "app-bundle"
+			}
+		}
 	},
 	"submit": {
 		"production": {}
