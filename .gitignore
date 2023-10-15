@@ -20,6 +20,8 @@ yarn-error.log*
 
 # env files
 .env
+!apps/api/.dev.vars
+!apps/mobile/.env
 
 # local env files
 .env.local

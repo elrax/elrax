@@ -22,7 +22,9 @@ const getLocalSqliteUrl = () => {
 	let sqliteFiles: string[] = []
 	try {
 		sqliteFiles = findByExt("./.wrangler", ".sqlite")
-	} catch {}
+	} catch (e) {
+		console.error("failed to find, got error", e)
+	}
 	if (sqliteFiles.length === 0) {
 		console.warn("No sqlite files found in .wrangler folder")
 	}

@@ -3,7 +3,8 @@
 		"version": ">= 5.4.0"
 	},
 	"build": {
-		"monorepo": {
+		"base": {
+			"pnpm": "8.9.0",
 			"cache": {
 				"key": "nx",
 				"paths": ["../../node_modules/.cache/nx"]
@@ -16,7 +17,7 @@
 			}
 		},
 		"development": {
-			"extends": "monorepo",
+			"extends": "base",
 			"developmentClient": true,
 			"distribution": "internal",
 			"android": {
@@ -24,11 +25,11 @@
 			}
 		},
 		"preview": {
-			"extends": "monorepo",
+			"extends": "base",
 			"distribution": "internal"
 		},
 		"production": {
-			"extends": "monorepo",
+			"extends": "base",
 			"distribution": "store",
 			"android": {
 				"buildType": "app-bundle"
