@@ -31,6 +31,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20231002.0",
+		"better-sqlite3": "9.0.0",
 		"drizzle-kit": "0.19.13",
 		"wrangler": "3.11.0"
 	},

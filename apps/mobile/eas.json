@@ -1,0 +1,42 @@
+{
+	"cli": {
+		"version": ">= 5.4.0"
+	},
+	"build": {
+		"base": {
+			"pnpm": "8.9.0",
+			"cache": {
+				"key": "nx",
+				"paths": ["../../node_modules/.cache/nx"]
+			},
+			"android": {
+				"resourceClass": "medium"
+			},
+			"ios": {
+				"resourceClass": "m-medium"
+			}
+		},
+		"development": {
+			"extends": "base",
+			"developmentClient": true,
+			"distribution": "internal",
+			"android": {
+				"buildType": "apk"
+			}
+		},
+		"preview": {
+			"extends": "base",
+			"distribution": "internal"
+		},
+		"production": {
+			"extends": "base",
+			"distribution": "store",
+			"android": {
+				"buildType": "app-bundle"
+			}
+		}
+	},
+	"submit": {
+		"production": {}
+	}
+}

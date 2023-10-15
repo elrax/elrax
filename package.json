@@ -8,7 +8,7 @@
 	"author": "Elrax Corp.",
 	"repository": "github:elrax/elrax.git",
 	"private": true,
-	"packageManager": "pnpm@8.8.0",
+	"packageManager": "pnpm@8.9.0",
 	"scripts": {
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
