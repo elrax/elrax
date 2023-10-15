@@ -2,8 +2,14 @@
 const defineConfig = {
 	name: "Elrax",
 	slug: "elrax",
+	owner: "elrax",
 	scheme: "elrax",
 	version: "0.1.0",
+	extra: {
+		eas: {
+			projectId: "7ccac9f6-2287-458f-94fd-dcfdb73b0864",
+		},
+	},
 	orientation: "portrait",
 	icon: "./assets/icon.png",
 	userInterfaceStyle: "light",
