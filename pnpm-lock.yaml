@@ -121,6 +121,9 @@ importers:
       expo-status-bar:
         specifier: 1.6.0
         version: 1.6.0
+      expo-updates:
+        specifier: 0.18.16
+        version: 0.18.16(expo@49.0.13)
       nativewind:
         specifier: 2.0.11
         version: 2.0.11(react@18.2.0)(tailwindcss@3.3.2)
@@ -5734,6 +5737,10 @@ packages:
       semver: 7.5.4
     dev: false
 
+  /expo-eas-client@0.6.0:
+    resolution: {integrity: sha512-FSPy0ThcJBvzEzOZVhpOrYyHgQ8U1jJ4v7u7tr1x0KOVRqyf25APEQZFxxRPn3zAYW0tQ+uDTCbrwNymFqhQfw==}
+    dev: false
+
   /expo-file-system@15.4.4(expo@49.0.13):
     resolution: {integrity: sha512-F0xS88D85F7qVQ61r0qBnzh6VW/s6iIl+VaQEEi2nAIOQHw1JIEj4yCXPLTtbyn5VmArbe2dSL3KYz1V+BLkKA==}
     peerDependencies:
@@ -5895,12 +5902,39 @@ packages:
     resolution: {integrity: sha512-e//Oi2WPdomMlMDD3skE4+1ZarKCJ/suvcB4Jo/nO427niKug5oppcPNYO+csR6y3ZglGuypS+3pp/hJ+Xp6fQ==}
     dev: false
 
+  /expo-structured-headers@3.3.0:
+    resolution: {integrity: sha512-t+h5Zqaukd3Tn97LaWPpibVsmiC/TFP8F+8sAUliwCSMzgcb5TATRs2NcAB+JcIr8EP3JJDyYXJrZle1cjs4mQ==}
+    dev: false
+
   /expo-updates-interface@0.10.1(expo@49.0.13):
     resolution: {integrity: sha512-I6JMR7EgjXwckrydDmrkBEX/iw750dcqpzQVsjznYWfi0HTEOxajLHB90fBFqQkUV5i5s4Fd3hYQ1Cn0oMzUbA==}
     peerDependencies:
       expo: '*'
     dependencies:
       expo: 49.0.13(@babel/core@7.23.0)
+    dev: false
+
+  /expo-updates@0.18.16(expo@49.0.13):
+    resolution: {integrity: sha512-5/3Yh6FHG8oRDz1pqpn7NEO6GQBH5GV/sygnkkn3JxsiXzlOsuOY7+x+gFr4CdKVyreaoJV863ZxKvxplVE4fA==}
+    hasBin: true
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@expo/code-signing-certificates': 0.0.5
+      '@expo/config': 8.1.2
+      '@expo/config-plugins': 7.2.5
+      arg: 4.1.0
+      chalk: 4.1.2
+      expo: 49.0.13(@babel/core@7.23.0)
+      expo-eas-client: 0.6.0
+      expo-manifests: 0.7.2
+      expo-structured-headers: 3.3.0
+      expo-updates-interface: 0.10.1(expo@49.0.13)
+      fbemitter: 3.0.0
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /expo@49.0.13(@babel/core@7.23.0):
