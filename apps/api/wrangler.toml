@@ -11,6 +11,7 @@ database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
 
 [env.staging]
+name = "elrax-api-staging"
 workers_dev = false
 vars = { ENVIRONMENT = "staging" }
 route = { pattern = "api-staging.elrax.com", custom_domain = true }
@@ -21,6 +22,7 @@ database_id = "aae4d36f-1ab7-4215-8665-b34012e5bdf9"
 migrations_dir = "migrations"
 
 [env.production]
+name = "elrax-api-production"
 workers_dev = false
 vars = { ENVIRONMENT = "production" }
 route = { pattern = "api.elrax.com", custom_domain = true }

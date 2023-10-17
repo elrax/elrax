@@ -1,22 +1,22 @@
 name: "Setup repository"
-description: "Setup repository, install node, pnpm, and packages with frozen-lockfile"
+description: "Dangerously checkout, install node, pnpm, and packages with frozen-lockfile"
 
 inputs:
   node-version:
     description: "Version of node to use, e.g. 20.x"
-    default: "20.x"
     required: true
+    default: "20.x"
   pnpm-version:
     description: "Version of pnpm to use, e.g. 8"
-    default: "8"
     required: true
+    default: "8"
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
-        # Checkout from PR code so we can run checks from forks
+        # Checkout from PR code so we can run this from forks
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 2
     - uses: pnpm/action-setup@v2
