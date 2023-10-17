@@ -1,0 +1,31 @@
+name: "Setup repository"
+description: "Setup repository, install node, pnpm, and packages with frozen-lockfile"
+
+inputs:
+  node-version:
+    description: "Version of node to use, e.g. 20.x"
+    default: "20.x"
+    required: true
+  pnpm-version:
+    description: "Version of pnpm to use, e.g. 8"
+    default: "8"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        # Checkout from PR code so we can run checks from forks
+        ref: ${{ github.event.pull_request.head.sha }}
+        fetch-depth: 2
+    - uses: pnpm/action-setup@v2
+      with:
+        version: ${{ inputs.pnpm-version }}
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: "pnpm"
+    - name: Install dependencies
+      run: pnpm i --frozen-lockfile
+      shell: bash

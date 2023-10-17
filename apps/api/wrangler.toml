@@ -1,12 +1,31 @@
 account_id = "82fd74a54708ed514403791b191174b5"
-compatibility_date = "2023-05-02"
+compatibility_date = "2023-10-10"
 main = "src/index.ts"
-workers_dev = true
 
 [env.dev]
-kv_namespaces = []
+vars = { ENVIRONMENT = "dev" }
 [[env.dev.d1_databases]]
 binding = "DB"
 database_name = "dev-db"
 database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[env.staging]
+workers_dev = false
+vars = { ENVIRONMENT = "staging" }
+route = { pattern = "api-staging.elrax.com", custom_domain = true }
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "elrax-db-staging"
+database_id = "aae4d36f-1ab7-4215-8665-b34012e5bdf9"
+migrations_dir = "migrations"
+
+[env.production]
+workers_dev = false
+vars = { ENVIRONMENT = "production" }
+route = { pattern = "api.elrax.com", custom_domain = true }
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "elrax-db-production"
+database_id = "6fdf3e76-2047-4de8-aee8-2c136ff02881"
 migrations_dir = "migrations"

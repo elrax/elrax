@@ -1,0 +1,20 @@
+name: Deployment
+
+concurrency:
+  group: staging
+  cancel-in-progress: false
+
+on:
+  push:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: ./.github/actions/setup
+
+      # - name: Deploy
+      #   uses: cloudflare/wrangler-action@v3
+      #   with:
+      #     apiToken: ${{ secrets.CF_API_TOKEN }}

@@ -21,5 +21,4 @@ updates:
       - dependency-name: "*expo*"
       - dependency-name: "*react*"
       - dependency-name: "@shopify*"
-      - dependency-name: '\*'
-        update-types: ["version-update:semver-patch"]
+      - dependency-name: "tailwindcss"

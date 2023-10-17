@@ -5,23 +5,10 @@ on:
   push:
 
 jobs:
-  clean:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
-          cache: "pnpm"
+      - uses: ./.github/actions/setup
 
-      - name: Install dependencies
-        run: pnpm i --frozen-lockfile
-
-      - name: Test code linting
+      - name: Copy .env and code lint
         run: cp .env.example .env && pnpm lint
