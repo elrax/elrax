@@ -8,17 +8,40 @@ on:
   push:
 
 jobs:
-  deployment:
+  preview-mobile:
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
 
-      - name: Deploy to Cloudflare
-        uses: cloudflare/wrangler-action@v3
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: ./apps/api/
-          environment: staging
-          packageManager: pnpm
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Create preview
+        uses: expo/expo-github-action/preview@v8
+        id: preview
+        with:
+          command: eas update --auto
+          working-directory: ./apps/mobile/
+          comment: false
+
+      - run: echo ${{ steps.preview.outputs.qr }}
+
+  # deploy-api:
+  #   runs-on: ubuntu-latest
+  #   environment: staging
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: ./.github/actions/setup
+
+  #     - name: Deploy to Cloudflare
+  #       uses: cloudflare/wrangler-action@v3
+  #       with:
+  #         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  #         workingDirectory: ./apps/api/
+  #         packageManager: pnpm
+  #         environment: staging
