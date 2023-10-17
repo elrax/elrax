@@ -24,6 +24,6 @@ jobs:
         uses: expo/expo-github-action/preview@v8
         id: preview
         with:
-          command: eas update --auto
+          command: eas update --auto --channel=development
           working-directory: ./apps/mobile/
           comment: true
