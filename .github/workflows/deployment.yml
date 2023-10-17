@@ -6,9 +6,27 @@ concurrency:
 
 on:
   push:
+    branches:
+      # TODO: Change this to main
+      - feat/eas-ci
 
 jobs:
-  preview-mobile:
+  deploy-api:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: ./apps/api/
+          packageManager: pnpm
+          environment: staging
+
+  update-mobile:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -28,20 +46,3 @@ jobs:
           command: eas update --auto
           working-directory: ./apps/mobile/
           comment: false
-
-      - run: echo ${{ steps.preview.outputs.qr }}
-
-  # deploy-api:
-  #   runs-on: ubuntu-latest
-  #   environment: staging
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./.github/actions/setup
-
-  #     - name: Deploy to Cloudflare
-  #       uses: cloudflare/wrangler-action@v3
-  #       with:
-  #         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  #         workingDirectory: ./apps/api/
-  #         packageManager: pnpm
-  #         environment: staging
