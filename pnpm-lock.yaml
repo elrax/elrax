@@ -86,11 +86,11 @@ importers:
         specifier: 4.35.7
         version: 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.40.0
-        version: 10.40.0(@trpc/server@10.40.0)
+        specifier: 10.41.0
+        version: 10.41.0
       '@trpc/react-query':
         specifier: 10.40.0
-        version: 10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.41.0)(react-dom@18.2.0)(react@18.2.0)
       expo:
         specifier: 49.0.13
         version: 49.0.13(@babel/core@7.23.2)
@@ -3316,15 +3316,13 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/client@10.40.0(@trpc/server@10.40.0):
-    resolution: {integrity: sha512-bT6BcdWjj0KzGQiimE6rB2tIaRYX0Ear4Gthb5szN/c01wrP0yC1Fbz2uCcm/QTVAwu4Lve5M+YjPoEaTHG6lg==}
+  /@trpc/client@10.41.0:
+    resolution: {integrity: sha512-W4lYULb7//2yXkULCKim49slXsBwiBq48rfge1yOWXdq0Ed8VxzXvZt8+uWOkxmHbQAw4lq8G5fCNYFB+Za6vQ==}
     peerDependencies:
-      '@trpc/server': 10.40.0
-    dependencies:
-      '@trpc/server': 10.40.0
+      '@trpc/server': 10.41.0
     dev: false
 
-  /@trpc/react-query@10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.40.0)(@trpc/server@10.40.0)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/react-query@10.40.0(@tanstack/react-query@4.35.7)(@trpc/client@10.41.0)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-DpJrV3lmYNo9xtPtcg49lfh9CUFap3ZivjhlSmfe4QPf7H6xBjAE+ml4OdJ0RmKvSTFvbLSOiNdB1k5O8zIdzQ==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
@@ -3334,8 +3332,7 @@ packages:
       react-dom: '>=16.8.0'
     dependencies:
       '@tanstack/react-query': 4.35.7(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
-      '@trpc/client': 10.40.0(@trpc/server@10.40.0)
-      '@trpc/server': 10.40.0
+      '@trpc/client': 10.41.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
