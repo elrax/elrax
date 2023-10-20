@@ -10,6 +10,12 @@ const defineConfig = {
 			projectId: "7ccac9f6-2287-458f-94fd-dcfdb73b0864",
 		},
 	},
+	updates: {
+		url: "https://u.expo.dev/7ccac9f6-2287-458f-94fd-dcfdb73b0864",
+	},
+	runtimeVersion: {
+		policy: "appVersion",
+	},
 	orientation: "portrait",
 	icon: "./assets/icon.png",
 	userInterfaceStyle: "light",

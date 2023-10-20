@@ -1,0 +1,59 @@
+name: Deployment
+
+concurrency:
+  group: staging
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+  # push:
+  # TODO: Remove this
+  # branches: ["main"]
+  # TODO: Pattern matched against refs/tags
+  # tags: ["*"]
+
+jobs:
+  deploy-api-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: ./apps/api/
+          packageManager: pnpm
+          environment: staging
+        env:
+          NO_D1_WARNING: true
+
+  deploy-mobile-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Create build
+        uses: expo/expo-github-action/preview@v8
+        with:
+          command: eas build --profile development --platform all
+          working-directory: ./apps/mobile/
+          comment: false
+
+      - name: Create update
+        uses: expo/expo-github-action/preview@v8
+        id: preview
+        with:
+          command: eas update --auto --channel=staging
+          working-directory: ./apps/mobile/
+          comment: false

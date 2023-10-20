@@ -18,6 +18,7 @@
 		},
 		"development": {
 			"extends": "base",
+			"channel": "development",
 			"developmentClient": true,
 			"distribution": "internal",
 			"android": {
@@ -26,10 +27,12 @@
 		},
 		"preview": {
 			"extends": "base",
+			"channel": "staging",
 			"distribution": "internal"
 		},
 		"production": {
 			"extends": "base",
+			"channel": "production",
 			"distribution": "store",
 			"android": {
 				"buildType": "app-bundle"

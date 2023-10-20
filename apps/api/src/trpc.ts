@@ -6,6 +6,7 @@ import { drizzle } from "drizzle-orm/d1"
 
 export type Env = {
 	DB: D1Database
+	ENVIRONMENT: "dev" | "staging" | "production"
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {
