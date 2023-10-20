@@ -5,13 +5,15 @@ concurrency:
   cancel-in-progress: false
 
 on:
-  push:
-    branches:
-      # TODO: Change this to main
-      - feat/eas-ci
+  workflow_dispatch:
+  # push:
+  # TODO: Remove this
+  # branches: ["main"]
+  # TODO: Pattern matched against refs/tags
+  # tags: ["*"]
 
 jobs:
-  deploy-api:
+  deploy-api-staging:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -28,7 +30,7 @@ jobs:
         env:
           NO_D1_WARNING: true
 
-  build-mobile:
+  deploy-mobile-staging:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -47,20 +49,6 @@ jobs:
           command: eas build --profile development --platform all
           working-directory: ./apps/mobile/
           comment: false
-
-  update-mobile:
-    needs: build-mobile
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Create update
         uses: expo/expo-github-action/preview@v8
