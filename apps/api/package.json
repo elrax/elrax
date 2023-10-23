@@ -22,18 +22,18 @@
 		"prepare": "yes 2>/dev/null | pnpm db:apply"
 	},
 	"dependencies": {
-		"@trpc/server": "10.40.0",
+		"@trpc/server": "10.41.0",
 		"drizzle-orm": "0.28.6",
 		"drizzle-zod": "0.5.1",
-		"hono": "3.8.0",
-		"superjson": "2.0.0",
+		"hono": "3.8.3",
+		"superjson": "2.1.0",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20231016.0",
 		"better-sqlite3": "9.0.0",
 		"drizzle-kit": "0.19.13",
-		"wrangler": "3.13.1"
+		"wrangler": "3.14.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.2.2"
