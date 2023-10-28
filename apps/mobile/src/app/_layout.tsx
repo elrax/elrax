@@ -7,8 +7,6 @@ export const unstable_settings = {
 	initialRouteName: "index",
 }
 
-// This is the main layout of the app
-// It wraps your pages with the providers they need
 export default function RootLayout() {
 	return (
 		<TRPCProvider>
@@ -17,10 +15,21 @@ export default function RootLayout() {
 					name="index"
 					options={{
 						href: "/",
-						tabBarActiveTintColor: "#000",
+						title: "Feed",
+						headerShown: false,
+						tabBarShowLabel: false,
+						tabBarActiveTintColor: "#fff",
 						tabBarIcon: ({ color }) => (
 							<FontAwesome5 name="search" size={24} color={color} />
 						),
+						tabBarStyle: {
+							height: 79,
+							backgroundColor: "#000A14",
+							borderTopWidth: 0,
+						},
+						tabBarIconStyle: {
+							color: "#fff",
+						},
 					}}
 				/>
 			</Tabs>
