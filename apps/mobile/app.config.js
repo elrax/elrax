@@ -23,7 +23,7 @@ const defineConfig = {
 	splash: {
 		image: "./assets/splash.png",
 		resizeMode: "contain",
-		backgroundColor: "#000000",
+		backgroundColor: "#000A14",
 	},
 	ios: {
 		bundleIdentifier: "com.elrax.elrax",

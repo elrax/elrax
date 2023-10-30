@@ -12,6 +12,7 @@ module.exports = (api) => {
 			"nativewind/babel",
 			"expo-router/babel",
 			["module-resolver", { alias: { "~": "./src" } }],
+			["@babel/plugin-transform-private-methods", { loose: true }],
 		],
 	}
 }
