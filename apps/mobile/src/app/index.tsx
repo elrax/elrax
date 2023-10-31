@@ -44,7 +44,6 @@ export default function Index() {
 		changed.forEach((element) => {
 			const cell = mediaRefs.current[element.key]
 			if (cell) {
-				// console.log(`element: ${JSON.stringify(element)}`)
 				if (element.isViewable) {
 					void cell.play()
 				} else {
@@ -78,7 +77,6 @@ export default function Index() {
 				alwaysBounceVertical={false}
 				viewabilityConfig={{
 					itemVisiblePercentThreshold: 50,
-					minimumViewTime: 1000,
 				}}
 				onViewableItemsChanged={onViewableItemsChanged.current}
 			/>
