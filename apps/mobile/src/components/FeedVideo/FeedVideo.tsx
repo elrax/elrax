@@ -117,9 +117,11 @@ const FeedVideo = (props: FeedVideoProps, parentRef: React.Ref<FeedVideoRef>) =>
 				usePoster={true}
 				resizeMode={ResizeMode.COVER}
 				isLooping
-				// onPlaybackStatusUpdate={(status) => {
-				// 	console.log(`status: ${JSON.stringify(status)}`)
-				// }}
+				onPlaybackStatusUpdate={(status) => {
+					if (!status.isLoaded) {
+						console.log(`Loading video: ${props.item.id}`)
+					}
+				}}
 			/>
 		</>
 	)

@@ -112,9 +112,6 @@ importers:
       expo-font:
         specifier: 11.4.0
         version: 11.4.0(expo@49.0.16)
-      expo-insights:
-        specifier: 0.2.0
-        version: 0.2.0(expo@49.0.16)
       expo-linear-gradient:
         specifier: 12.3.0
         version: 12.3.0(expo@49.0.16)
@@ -5372,15 +5369,6 @@ packages:
       react-native: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
     transitivePeerDependencies:
       - react-dom
-    dev: false
-
-  /expo-insights@0.2.0(expo@49.0.16):
-    resolution: {integrity: sha512-1TN1DALyCGXnohoxBO3hW+2T4X6h33StsmRUutw+Dp7Y4oDcrhB8ViDEhUzvVPPDWIRbYLmo6ZqzgvPltZUtJw==}
-    peerDependencies:
-      expo: '*'
-    dependencies:
-      expo: 49.0.16(@babel/core@7.23.2)
-      expo-eas-client: 0.6.0
     dev: false
 
   /expo-json-utils@0.7.1:
