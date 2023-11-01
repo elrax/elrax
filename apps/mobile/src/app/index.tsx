@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Dimensions, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
-import FeedVideo, { type FeedVideoItem, type FeedVideoRef } from "~/components/FeedVideo"
+import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
 import { Logs } from "expo"
@@ -12,7 +12,7 @@ Logs.enableExpoCliLogging()
 export default function Index() {
 	setStatusBarStyle("light")
 
-	const [feedVideos, setFeedVideos] = useState([] as FeedVideoItem[])
+	const [feedVideos, setFeedVideos] = useState([] as FeedItem[])
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
 
 	const tabBarHeight = useBottomTabBarHeight()
@@ -30,11 +30,25 @@ export default function Index() {
 				id: "1",
 				uri: "https://i.imgur.com/p9ETOA8.mp4",
 				uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
+				description: "Fine jewelry created just for you. Hand crafted and well made goods.",
+				author: {
+					id: "1",
+					username: "jewerlydesign",
+					displayName: "John Doe",
+					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
+				},
 			},
 			{
 				id: "2",
 				uri: "https://i.imgur.com/a8n04PT.mp4",
 				uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
+				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+				author: {
+					id: "2",
+					username: "johndoe",
+					displayName: "John Koe",
+					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
+				},
 			},
 		]
 		setFeedVideos(data)
@@ -60,7 +74,7 @@ export default function Index() {
 				data={feedVideos}
 				renderItem={({ item }) => (
 					<FeedVideo
-						videoHeight={videoHeight}
+						height={videoHeight}
 						item={item}
 						ref={(videoRef) => {
 							if (videoRef != null) {
@@ -74,6 +88,8 @@ export default function Index() {
 				keyExtractor={(item) => item.id}
 				estimatedItemSize={videoHeight}
 				removeClippedSubviews
+				showsVerticalScrollIndicator={false}
+				showsHorizontalScrollIndicator={false}
 				alwaysBounceVertical={false}
 				viewabilityConfig={{
 					itemVisiblePercentThreshold: 50,

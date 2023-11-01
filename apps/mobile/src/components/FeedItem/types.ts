@@ -1,12 +1,14 @@
-export type FeedVideoProps = {
-	item: FeedVideoItem
-	videoHeight: number
-}
-
-export type FeedVideoItem = {
+export type FeedItem = {
 	id: string
 	uri: string
 	uriPreview: string
+	description: string
+	author: {
+		id: string
+		username: string
+		displayName: string
+		uriAvatar: string
+	}
 }
 
 export type FeedVideoRef = {

@@ -13,6 +13,7 @@ module.exports = (api) => {
 			"expo-router/babel",
 			["module-resolver", { alias: { "~": "./src" } }],
 			["@babel/plugin-transform-private-methods", { loose: true }],
+			"react-native-reanimated/plugin",
 		],
 	}
 }
