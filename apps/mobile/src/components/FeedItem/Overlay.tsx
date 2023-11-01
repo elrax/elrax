@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { View, Text, Image, TouchableOpacity } from "react-native"
-import { useSharedValue } from "react-native-reanimated"
+import { useSharedValue, withSpring } from "react-native-reanimated"
 import { LinearGradient } from "expo-linear-gradient"
 import type { FeedItem } from "./types"
 import { Icon, AnimatedIcon } from "../Icon"
@@ -54,10 +54,10 @@ function BottomOverlay(item: FeedItem) {
 					activeOpacity={0.8}
 					className="py-1 items-center w-full"
 					onPressIn={() => {
-						likeAnimationSize.value = 28
+						likeAnimationSize.value = withSpring(28)
 					}}
 					onPressOut={() => {
-						likeAnimationSize.value = 32
+						likeAnimationSize.value = withSpring(32)
 					}}
 					onPress={() => {
 						setIsLiked(!isLiked)

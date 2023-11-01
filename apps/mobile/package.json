@@ -15,7 +15,8 @@
 		"dev": "expo start --dev-client",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"ios": "expo start --ios",
-		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore ."
+		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
+		"prepare": "mkdir -p ./node_modules/.cache/nx"
 	},
 	"dependencies": {
 		"@expo-google-fonts/nunito-sans": "0.2.3",
@@ -35,7 +36,7 @@
 		"expo-router": "2.0.9",
 		"expo-splash-screen": "0.20.5",
 		"expo-status-bar": "1.6.0",
-		"expo-updates": "0.18.16",
+		"expo-updates": "0.18.17",
 		"nativewind": "2.0.11",
 		"react": "18.2.0",
 		"react-native": "0.72.6",
