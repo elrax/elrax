@@ -131,8 +131,8 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
       expo-updates:
-        specifier: 0.18.16
-        version: 0.18.16(expo@49.0.16)
+        specifier: 0.18.17
+        version: 0.18.17(expo@49.0.16)
       nativewind:
         specifier: 2.0.11
         version: 2.0.11(react@18.2.0)(tailwindcss@3.3.2)
@@ -5532,8 +5532,8 @@ packages:
       expo: 49.0.16(@babel/core@7.23.2)
     dev: false
 
-  /expo-updates@0.18.16(expo@49.0.16):
-    resolution: {integrity: sha512-5/3Yh6FHG8oRDz1pqpn7NEO6GQBH5GV/sygnkkn3JxsiXzlOsuOY7+x+gFr4CdKVyreaoJV863ZxKvxplVE4fA==}
+  /expo-updates@0.18.17(expo@49.0.16):
+    resolution: {integrity: sha512-oyBDR94nYEtVw+iBod3N9LFqTfpLHofmUjh0lP12YZINUI89hvoAyqRe56eSnlpWkzziG6g1y4NGva0D0ViK6w==}
     hasBin: true
     peerDependencies:
       expo: '*'
