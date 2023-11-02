@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { View, Text, Image, TouchableOpacity } from "react-native"
-import { useSharedValue, withSpring } from "react-native-reanimated"
+import { View, Text, Image } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import type { FeedItem } from "./types"
-import { Icon, AnimatedIcon } from "../Icon"
+import { Icon } from "../Icon"
+import { TouchableScale } from "../TouchableScale"
 
 export type OverlayProps = {
 	item: FeedItem
@@ -27,38 +27,69 @@ export function Overlay({ item }: OverlayProps) {
 function BottomOverlay(item: FeedItem) {
 	const [currentLikes, setCurrentLikes] = useState(0)
 	const [isLiked, setIsLiked] = useState(false)
-	const likeAnimationSize = useSharedValue(32)
 
+	const iconShadow = {
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.6,
+		shadowRadius: 2,
+	}
 	return (
 		<View className="flex-row justify-between items-end">
-			<View className="w-full max-w-[82%]">
-				<TouchableOpacity activeOpacity={0.8}>
+			<View className="w-full max-w-[80%] items-start">
+				<TouchableScale>
+					<View className="mb-2 px-2.5 py-1 rounded-full border-[1px] border-white">
+						<Text className="font-ns-bold text-sm color-white">Skip preview</Text>
+					</View>
+				</TouchableScale>
+				<TouchableScale scaleTo={0.99}>
 					<Text className="font-ns-bold text-lg color-white">
 						@{item.author.username}
 					</Text>
-				</TouchableOpacity>
-				<Text className="font-ns-body text-base color-white">{item.description}</Text>
+				</TouchableScale>
+				<Text className="font-ns-body text-base color-white mb-2">{item.description}</Text>
+				<TouchableScale scaleTo={0.99} innerStyle="w-full">
+					<View
+						className="flex-row justify-between rounded-xl w-full pl-3 py-2"
+						style={{
+							backgroundColor: "rgba(24,24,24,0.8)",
+						}}
+					>
+						<View className="text-xs gap-0.2">
+							<Text className="font-ns-bold color-white">
+								$69,383 raised of $23,000
+							</Text>
+							<View className="flex-row gap-2">
+								<Text className="font-ns-body color-white">
+									<Icon name="clock" /> 33 days to go
+								</Text>
+								<Text className="font-ns-body color-white">
+									<Icon name="map-pin" /> San Francisco, CA
+								</Text>
+							</View>
+						</View>
+						<View className="justify-center">
+							<Icon color="white" size={24} name="chevron-right" />
+						</View>
+					</View>
+				</TouchableScale>
 			</View>
 			<View className="items-center justify-center pr-2 gap-2 w-18">
-				<TouchableOpacity activeOpacity={0.8} className="py-1 items-center w-full">
+				<TouchableScale innerStyle="pb-2 items-center w-full">
 					<Image
 						className="h-12 w-12 rounded-full"
 						alt="avatar"
 						source={{ uri: item.author.uriAvatar }}
 					/>
-					<View className="bg-[#4C5152] -mt-2.5 px-2 py-0.5 rounded-full">
+					<View className="bg-[#4C5152] -mt-2.5 px-2 py-0.5 rounded-full items-center">
 						<Text className="font-ns-bold text-xs color-white">Join</Text>
 					</View>
-				</TouchableOpacity>
-				<TouchableOpacity
-					activeOpacity={0.8}
-					className="py-1 items-center w-full"
-					onPressIn={() => {
-						likeAnimationSize.value = withSpring(28)
-					}}
-					onPressOut={() => {
-						likeAnimationSize.value = withSpring(32)
-					}}
+				</TouchableScale>
+				<TouchableScale
+					innerStyle="py-1 items-center w-full"
 					onPress={() => {
 						setIsLiked(!isLiked)
 						if (isLiked) {
@@ -68,10 +99,11 @@ function BottomOverlay(item: FeedItem) {
 						}
 					}}
 				>
-					<AnimatedIcon
+					<Icon
 						color={isLiked ? "#FFDB5A" : "white"}
-						size={likeAnimationSize}
+						size={32}
 						name={isLiked ? "star-1-close" : "star-1-open"}
+						style={iconShadow}
 					/>
 					<Text
 						className={`font-ns-bold text-center pt-2 ${
@@ -80,22 +112,23 @@ function BottomOverlay(item: FeedItem) {
 					>
 						{currentLikes}
 					</Text>
-				</TouchableOpacity>
-				<TouchableOpacity activeOpacity={0.8} className="py-1 items-center w-full">
-					<Icon color="white" size={32} name="message-circle" />
+				</TouchableScale>
+				<TouchableScale innerStyle="py-1 items-center w-full">
+					<Icon color="white" size={32} name="message-circle" style={iconShadow} />
 					<Text className="font-ns-bold color-white text-center pt-2">0</Text>
-				</TouchableOpacity>
-				<TouchableOpacity activeOpacity={0.8} className="py-1 items-center w-full">
-					<Icon color="white" size={32} name="send" />
+				</TouchableScale>
+				<TouchableScale innerStyle="py-1 items-center w-full">
+					<Icon color="white" size={32} name="send" style={iconShadow} />
 					<Text className="font-ns-bold color-white text-center pt-2">0</Text>
-				</TouchableOpacity>
-				<TouchableOpacity activeOpacity={0.8} className="py-1 items-center w-full">
+				</TouchableScale>
+				<TouchableScale innerStyle="py-1 items-center w-full">
 					<Image
+						style={iconShadow}
 						className="h-10 w-10 rounded-full"
 						alt="avatar"
 						source={{ uri: "https://i.imgur.com/d5502Q2.png" }}
 					/>
-				</TouchableOpacity>
+				</TouchableScale>
 			</View>
 		</View>
 	)
