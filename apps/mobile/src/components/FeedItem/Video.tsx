@@ -82,7 +82,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 
 	return (
 		<>
-			<Overlay item={props.item} height={props.height} />
+			<Overlay item={props.item} height={props.height} isScrolling={false} />
 			<Video
 				ref={refVideo}
 				style={{
@@ -114,8 +114,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 						const newValue = !isMuted
 						PlaybackMixin.setIsMutedAsync.call(refVideo.current, newValue)
 						setIsMuted(newValue)
-						// We don't really care if we clean up this here
-						// setLastTouchPos(null)
+						setLastTouchPos(null)
 					}
 				}}
 			/>
