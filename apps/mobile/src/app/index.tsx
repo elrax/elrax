@@ -73,7 +73,7 @@ export default function Index() {
 	return (
 		<>
 			<View
-				className="absolute z-20 p-4 w-full flex-row justify-between items-center"
+				className="absolute z-20 p-4 pr-5 w-full flex-row justify-between items-center"
 				style={{
 					top: Constants.statusBarHeight,
 					shadowColor: "#000",

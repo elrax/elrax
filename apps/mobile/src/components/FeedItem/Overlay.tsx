@@ -22,13 +22,13 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 				className={"absolute z-10 bottom-0 h-[160px] w-full"}
 			/>
 			<View
-				className="absolute z-20 p-4 pr-0 bottom-0 w-full max-w-full"
+				className="absolute z-20 p-4 pr-1 bottom-0 w-full max-w-full"
 				style={{
 					opacity: isScrolling ? 0.5 : 1,
 				}}
 			>
 				<View className="flex-row justify-between items-end">
-					<View className="w-full max-w-[84%] items-start">
+					<View className="w-full max-w-[82%] items-start">
 						<TouchableScale>
 							<View className="mb-2 px-2.5 py-1 rounded-full border-[1px] border-white">
 								<Text className="font-ns-bold text-sm color-white">
