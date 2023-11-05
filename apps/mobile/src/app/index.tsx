@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, View, Text } from "react-native"
+import { Dimensions, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
 import { Logs } from "expo"
-import Constants from "expo-constants"
 import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
-import { Icon } from "~/components/Icon"
+import FeedTopOverlay from "~/components/FeedTopOverlay"
 // import { api } from "~/utils/api"
 
 Logs.enableExpoCliLogging()
@@ -48,7 +47,7 @@ export default function Index() {
 				author: {
 					id: "2",
 					username: "johndoe",
-					displayName: "John Koe",
+					displayName: `${tabBarHeight}, ${windowHeight}, ${videoHeight}`,
 					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
 				},
 			},
@@ -72,31 +71,7 @@ export default function Index() {
 	// Read more about FlashList here: https://shopify.github.io/flash-list/docs/usage/
 	return (
 		<>
-			<View
-				className="absolute z-20 p-4 pr-5 w-full flex-row justify-between items-center"
-				style={{
-					top: Constants.statusBarHeight,
-					shadowColor: "#000",
-					shadowOffset: {
-						width: 0,
-						height: 0,
-					},
-					shadowOpacity: 0.4,
-					shadowRadius: 2,
-				}}
-			>
-				<View>
-					<Text className="font-ns-bold text-2xl text-white">
-						Series <Icon size={16} name="chevron-down" />
-					</Text>
-					<Text className="font-ns-body text-base text-white align-middle">
-						<Icon size={16} name="dribbble" /> Technology
-					</Text>
-				</View>
-				<View>
-					<Icon color="white" size={24} name="more-vertical" />
-				</View>
-			</View>
+			<FeedTopOverlay />
 			<View className="bg-[#000A14] h-full w-full">
 				<FlashList
 					data={feedVideos}
