@@ -1,12 +1,12 @@
 {
 	"name": "elrax",
 	"version": "0.1.0",
-	"description": "Open-Source Video Crowdfunding Platform",
+	"description": "An open-source video crowdfunding platform",
 	"homepage": "https://elrax.com",
 	"bugs": "https://github.com/elrax/elrax/issues",
 	"license": "AGPL-3.0-only",
 	"author": "Elrax Corp.",
-	"repository": "github:elrax/elrax.git",
+	"repository": "https://github.com/elrax/elrax",
 	"private": true,
 	"packageManager": "pnpm@8.9.0",
 	"scripts": {
