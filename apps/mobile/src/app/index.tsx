@@ -29,14 +29,15 @@ export default function Index() {
 		const data = [
 			{
 				id: "1",
-				uri: "https://i.imgur.com/p9ETOA8.mp4",
-				uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
+				uri: "https://i.imgur.com/10wReMX.mp4",
+				uriPreview: "https://i.imgur.com/1E7pBT2.png",
 				description: "Fine jewelry created just for you. Hand crafted and well made goods.",
 				author: {
 					id: "1",
-					username: "jewerlydesign",
-					displayName: "John Doe",
-					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
+					username: "jewerly",
+					displayName: "Tima Miroshnichenko",
+					uriAvatar:
+						"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
 				},
 			},
 			{

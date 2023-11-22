@@ -41,7 +41,7 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 								@{item.author.username}
 							</Text>
 						</TouchableScale>
-						<Text className="font-ns-body text-base color-white mb-2">
+						<Text className="font-ns-body text-base color-white mb-2" numberOfLines={1}>
 							{item.description}
 						</Text>
 						<TouchableScale scaleTo={0.99} innerStyle="w-full">
@@ -71,14 +71,19 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 						</TouchableScale>
 					</View>
 					<View className="items-center justify-center pr-1 gap-2 w-18">
-						<TouchableScale innerStyle="flex-column items-center pb-2">
-							<Image
-								className="h-12 w-12 rounded-full"
-								alt="avatar"
-								source={{ uri: item.author.uriAvatar }}
-							/>
-							<View className="bg-[#4C5152] -mt-2.5 py-0.5 rounded-full items-center">
+						<TouchableScale innerStyle="flex-column items-center mb-2">
+							<View
+								style={style.iconShadow}
+								className="bg-black rounded-full border-[1px] border-white overflow-hidden"
+							>
+								<Image
+									className="h-10 w-10"
+									alt="avatar"
+									source={{ uri: item.author.uriAvatar }}
+								/>
+								{/* <View className="bg-[#4C5152] -mt-2.5 py-0.5 rounded-full items-center">
 								<Text className="font-ns-bold text-xs color-white">Join</Text>
+							</View> */}
 							</View>
 						</TouchableScale>
 						<TouchableScale
@@ -93,8 +98,9 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 							}}
 						>
 							<Icon
+								className="text-center"
 								color={isLiked ? "#FFDB5A" : "white"}
-								size={32}
+								size={28}
 								name={isLiked ? "star-1-close" : "star-1-open"}
 								style={style.iconShadow}
 							/>
@@ -108,21 +114,28 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 						</TouchableScale>
 						<TouchableScale innerStyle="py-3 items-center w-full">
 							<Icon
+								className="text-center"
 								color="white"
-								size={32}
+								size={28}
 								name="message-circle"
 								style={style.iconShadow}
 							/>
 							<Text className="font-ns-bold color-white text-center pt-2">325</Text>
 						</TouchableScale>
 						<TouchableScale innerStyle="py-3 items-center w-full">
-							<Icon color="white" size={32} name="send" style={style.iconShadow} />
+							<Icon
+								className="text-center"
+								color="white"
+								size={28}
+								name="send"
+								style={style.iconShadow}
+							/>
 							<Text className="font-ns-bold color-white text-center pt-2">4321</Text>
 						</TouchableScale>
 						<TouchableScale innerStyle="pt-3 pb-2 items-center w-full">
 							<Image
 								style={style.iconShadow}
-								className="h-10 w-10 rounded-full"
+								className="h-10 w-10 rounded-full bg-black"
 								alt="avatar"
 								source={{ uri: "https://i.imgur.com/d5502Q2.png" }}
 							/>
