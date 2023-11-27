@@ -30,6 +30,21 @@ Elrax is an **open-source video platform** for **crowdfunding, progress tracking
 
 We aim to create an application that will become standard for users on a par with YouTube, Instagram, and TikTok. But unlike them, we will promote our **"Don't just watch, but participate"** approach. Each visit, whether short or long, will count and give users the feeling that they are part of something bigger, something important to them, society, or nature.
 
+## Core features
+
+-   **Video crowdfunding:** Video content is the core of our platform. Users can quickly find interesting projects and have fun at the same time.
+-   **Advanced user profile:** We value backers just as much as project creators. That's why every user of our platform has a public profile, with statistics, donation history and a gallery of earned rewards.
+-   **Open-source:** Together, we can transform the world for the better! We believe that ultimate crowdfunding platform should be open-source in order to be fully consistent with its core altruistic nature.
+-   **Development series:** Creators can publish videos of project development long before the start of crowdfunding campaign, thereby showing potential backers that the project is trustworthy.
+-   **User participation:** Not only project creators, but all users can publish videos on the platform to express their opinion, give useful advice, or participate in competitions and events.
+-   **Voting:** Users can influence projects by participating in key decisions while contributing funds. This helps project creators to be on the same page with their backers.
+
+## App design
+
+The user interface of our app is still under development, but we can already show you some recent screenshots of it.
+
+<img src="./.github/assets/app-design.png" width=400>
+
 ## Contributing
 
 Please see our [contributing guide](./CONTRIBUTING.md).
