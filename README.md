@@ -41,7 +41,8 @@ We aim to create an application that will become standard for users on a par wit
 
 ## App design
 
-The user interface of our app is still under development, but we can already show you some recent screenshots of it.
+The UI design of our app is still under development, but we can already show you some recent screenshots of it.<br/>
+Also if you want to see the full UI design of the current version you can visit our [public Figma file](<https://www.figma.com/file/pFTklpnUIXmmKeUSCCkGY4/Elrax-App-(vAlpha)>).
 
 <img src="./.github/assets/app-design.png" width=400>
 
