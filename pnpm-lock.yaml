@@ -103,6 +103,9 @@ importers:
       expo:
         specifier: 49.0.19
         version: 49.0.19(@babel/core@7.23.3)
+      expo-asset:
+        specifier: 8.10.1
+        version: 8.10.1(expo@49.0.19)
       expo-av:
         specifier: 13.4.1
         version: 13.4.1(expo@49.0.19)

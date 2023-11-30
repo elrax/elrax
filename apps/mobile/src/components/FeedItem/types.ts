@@ -1,8 +1,11 @@
+import type { Category } from "../FeedTopOverlay"
+
 export type FeedItem = {
 	id: string
 	uri: string
 	uriPreview: string
 	description: string
+	category: Category
 	author: {
 		id: string
 		username: string
@@ -12,6 +15,7 @@ export type FeedItem = {
 }
 
 export type FeedVideoRef = {
+	getItem: () => FeedItem
 	/**
 	 * Plays the video in the component if the ref
 	 * of the video is not null.

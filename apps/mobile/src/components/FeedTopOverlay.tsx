@@ -3,7 +3,17 @@ import { View, Text } from "react-native"
 import Constants from "expo-constants"
 import { Icon } from "./Icon"
 
-export default function FeedTopOverlay() {
+export type Category = {
+	icon: string
+	name: string
+	type: string
+}
+
+export type FeedTopOverlayProps = {
+	category: Category
+}
+
+export default function FeedTopOverlay({ category }: FeedTopOverlayProps) {
 	return (
 		<View
 			className="absolute z-20 p-4 pr-5 w-full flex-row justify-between items-center"
@@ -20,10 +30,10 @@ export default function FeedTopOverlay() {
 		>
 			<View>
 				<Text className="font-ns-bold text-2xl text-white">
-					Series <Icon size={16} name="chevron-down" />
+					{category.type} <Icon size={16} name="chevron-down" />
 				</Text>
 				<Text className="font-ns-body text-base text-white align-middle">
-					<Icon size={16} name="dribbble" /> Technology
+					<Icon size={16} name={category.icon} /> {category.name}
 				</Text>
 			</View>
 			<View>

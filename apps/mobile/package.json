@@ -27,6 +27,7 @@
 		"@trpc/client": "10.43.6",
 		"@trpc/react-query": "10.43.6",
 		"expo": "49.0.19",
+		"expo-asset": "8.10.1",
 		"expo-av": "13.4.1",
 		"expo-constants": "14.4.2",
 		"expo-dev-client": "2.4.12",

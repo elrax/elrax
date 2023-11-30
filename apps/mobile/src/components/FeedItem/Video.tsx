@@ -19,6 +19,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	useImperativeHandle(
 		parentRef,
 		() => ({
+			getItem,
 			play,
 			unload,
 			pause,
@@ -31,6 +32,10 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 		console.debug(`FeedVideo status: ${JSON.stringify(status)}`)
 		return () => void unload()
 	}, [])
+
+	const getItem = () => {
+		return props.item
+	}
 
 	const play = async () => {
 		console.debug("FeedVideo: play")
