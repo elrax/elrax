@@ -47,7 +47,7 @@ importers:
         version: 10.43.6
       drizzle-orm:
         specifier: 0.29.0
-        version: 0.29.0(@cloudflare/workers-types@4.20231025.0)(better-sqlite3@9.1.1)
+        version: 0.29.0(@cloudflare/workers-types@1.20231121.0)(better-sqlite3@9.1.1)
       drizzle-zod:
         specifier: 0.5.1
         version: 0.5.1(drizzle-orm@0.29.0)(zod@3.22.4)
@@ -65,8 +65,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: 4.20231025.0
-        version: 4.20231025.0
+        specifier: 1.20231121.0
+        version: 1.20231121.0
       better-sqlite3:
         specifier: 9.1.1
         version: 9.1.1
@@ -74,8 +74,8 @@ importers:
         specifier: 0.20.4
         version: 0.20.4
       wrangler:
-        specifier: 3.16.0
-        version: 3.16.0
+        specifier: 3.17.0
+        version: 3.17.0
 
   apps/mobile:
     dependencies:
@@ -1748,8 +1748,9 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workers-types@4.20231025.0:
-    resolution: {integrity: sha512-TkcZkntUTOcvJ4vgmwpNfLTclpMbmbClZCe62B25/VTukmyv91joRa4eKzSjzCZUXTbFHNmVdOpmGaaJU2U3+A==}
+  /@cloudflare/workers-types@1.20231121.0:
+    resolution: {integrity: sha512-5IOo8mTRbkW7HCQDEbX9cqHHQ3md+soLLNyZnd2OFRVMaBIpo/0VLfcxvqC4s+eSKgTgkwjaK8nTs4ARPLfEOA==}
+    deprecated: This version was published by mistake. Please upgrade to `@cloudflare/workers-types@^4.20231121.0`.
 
   /@drizzle-team/studio@0.0.27:
     resolution: {integrity: sha512-vkgflb8g/7WCdVCuxWE6tCzjZB0q4lLIK6mwH1aleNRqIGOhEWq/E2I8HmKquz1v0GRDHLFd19ZzrVSITt2Uqg==}
@@ -4838,7 +4839,7 @@ packages:
       hanji: 0.0.5
       json-diff: 0.9.0
       minimatch: 7.4.6
-      wrangler: 3.16.0
+      wrangler: 3.17.0
       zod: 3.22.4
     transitivePeerDependencies:
       - bufferutil
@@ -4846,7 +4847,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /drizzle-orm@0.29.0(@cloudflare/workers-types@4.20231025.0)(better-sqlite3@9.1.1):
+  /drizzle-orm@0.29.0(@cloudflare/workers-types@1.20231121.0)(better-sqlite3@9.1.1):
     resolution: {integrity: sha512-AC+CuW4GezVjsZDGU9u9B4HyikudOyYVhjm6he3Xn1D6Kky7bHGKob97MMX2piO+t9b6UuajLzlii/T/lu1qwA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4908,7 +4909,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
-      '@cloudflare/workers-types': 4.20231025.0
+      '@cloudflare/workers-types': 1.20231121.0
       better-sqlite3: 9.1.1
     dev: false
 
@@ -4918,7 +4919,7 @@ packages:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
-      drizzle-orm: 0.29.0(@cloudflare/workers-types@4.20231025.0)(better-sqlite3@9.1.1)
+      drizzle-orm: 0.29.0(@cloudflare/workers-types@1.20231121.0)(better-sqlite3@9.1.1)
       zod: 3.22.4
     dev: false
 
@@ -7346,8 +7347,8 @@ packages:
     resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
     engines: {node: '>=10'}
 
-  /miniflare@3.20231030.0:
-    resolution: {integrity: sha512-iCg1dNauUG+kNp7jizcNmV/1XFItuTDvD/6xIC34PrszgKxYCbBO2R72y5NEDJTwaqr5ohQI/320wuJ8GEe7nQ==}
+  /miniflare@3.20231030.1:
+    resolution: {integrity: sha512-Y+EkgV/aFg/3Y/xfFtImK36sLZGXvNS45avVEz0cUCA2pGpg4hGdPu1Udmz5b06SyeUEFVf/dEDMJwdRYVEgLw==}
     engines: {node: '>=16.13'}
     hasBin: true
     dependencies:
@@ -9823,8 +9824,8 @@ packages:
       '@cloudflare/workerd-windows-64': 1.20231030.0
     dev: true
 
-  /wrangler@3.16.0:
-    resolution: {integrity: sha512-MIx35sSdFKE3hnfWB6xWUnrt3OiyKK+PQnc9kFLjksLESX0tLmEk1gdvThYHliY90kkelS+nbH48SUGTFAI5BA==}
+  /wrangler@3.17.0:
+    resolution: {integrity: sha512-xMPB7mmGzAzeel5bFAKOIO7O+rIG1TT7+iRiu4RAjxPkCAWRAL79++zi7KJVFnyHzGh+PBF91ramBWH2m8VDUw==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     dependencies:
@@ -9834,7 +9835,7 @@ packages:
       blake3-wasm: 2.1.5
       chokidar: 3.5.3
       esbuild: 0.17.19
-      miniflare: 3.20231030.0
+      miniflare: 3.20231030.1
       nanoid: 3.3.7
       path-to-regexp: 6.2.1
       resolve.exports: 2.0.2
