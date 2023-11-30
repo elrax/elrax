@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { SplashScreen, Tabs } from "expo-router"
 import { TRPCProvider } from "~/utils/api"
-import { useFonts } from "expo-font"
-import { Icon } from "~/components/Icon"
+import { useIconFont, Icon } from "~/components/Icon"
+import { useNunitoSans } from "~/components/Fonts"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -11,16 +11,15 @@ export const unstable_settings = {
 }
 
 export default function RootLayout() {
-	const [fontsLoaded, fontsError] = useFonts({
-		elraxIcons: require("../../assets/elrax-icons.ttf"),
-	})
+	const [iconsLoaded] = useIconFont()
+	const [fontsLoaded] = useNunitoSans()
 	useEffect(() => {
-		console.debug(`Fonts loaded: ${fontsLoaded}`)
-		if (fontsLoaded || fontsError) {
+		console.debug(`Fonts: ${fontsLoaded}, icons: ${iconsLoaded}`)
+		if (iconsLoaded && fontsLoaded) {
 			SplashScreen.hideAsync()
 		}
-	}, [fontsLoaded, fontsError])
-	if (!fontsLoaded || fontsError) {
+	}, [iconsLoaded, fontsLoaded])
+	if (!fontsLoaded || !fontsLoaded) {
 		return null
 	}
 
