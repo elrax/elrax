@@ -1,10 +1,10 @@
 import { procedure, router } from "../trpc"
-import { users } from "../schema"
+// import { users } from "../schema"
 
 export const appRouter = router({
-	getVideos: procedure.query(async ({ ctx }) => {
-		const result = await ctx.db.select().from(users).all()
-		console.log(result)
+	getVideos: procedure.query(async () => {
+		// const result = await ctx.db.select().from(users).all()
+		// console.log(result)
 
 		const data = [
 			{

@@ -45,10 +45,10 @@ const defineConfig = {
 			"expo-build-properties",
 			{
 				android: {
-					compileSdkVersion: 31,
-					targetSdkVersion: 31,
+					compileSdkVersion: 33,
+					targetSdkVersion: 33,
 					minSdkVersion: 24,
-					buildToolsVersion: "31.0.0",
+					buildToolsVersion: "33.0.0",
 				},
 				ios: {
 					deploymentTarget: "13.0",

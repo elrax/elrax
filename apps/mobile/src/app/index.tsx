@@ -3,12 +3,9 @@ import { Dimensions, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
-import { Logs } from "expo"
 import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
 import { api } from "~/utils/api"
-
-Logs.enableExpoCliLogging()
 
 export default function Index() {
 	setStatusBarStyle("light")
@@ -28,32 +25,36 @@ export default function Index() {
 		console.log(`${tabBarHeight}, ${windowHeight}, ${videoHeight}`)
 	}
 
+	const videos = api.getVideos.useQuery()
 	useEffect(() => {
-		const videos = api.getVideos.useQuery()
-		console.log(`videos: ${JSON.stringify(videos)}`)
-
-		const fallbackVideos = [
-			{
-				id: "1",
-				uri: "https://pub-ea97d46c112a41d586775fe849ec9f70.r2.dev/10wReMX/10wReMX.m3u8",
-				uriPreview: "https://i.imgur.com/1E7pBT2.png",
-				description: "Fine jewelry created just for you. Hand crafted and well made goods.",
-				category: {
-					icon: "dribbble",
-					name: "Technology",
-					type: "Series",
-				},
-				author: {
+		if (videos.data && videos.data.length > 0) {
+			return setFeedVideos(videos.data)
+		}
+		if (feedVideos.length === 0 && !videos.data) {
+			const fallbackVideos = [
+				{
 					id: "1",
-					username: "jewerly",
-					displayName: "Tima Miroshnichenko",
-					uriAvatar:
-						"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
+					uri: "https://pub-ea97d46c112a41d586775fe849ec9f70.r2.dev/10wReMX/10wReMX.m3u8",
+					uriPreview: "https://i.imgur.com/1E7pBT2.png",
+					description:
+						"Fine jewelry created just for you. Hand crafted and well made goods.",
+					category: {
+						icon: "dribbble",
+						name: "Technology",
+						type: "Series",
+					},
+					author: {
+						id: "1",
+						username: "jewerly",
+						displayName: "Tima Miroshnichenko",
+						uriAvatar:
+							"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
+					},
 				},
-			},
-		]
-		setFeedVideos(fallbackVideos)
-	}, [])
+			]
+			return setFeedVideos(fallbackVideos)
+		}
+	}, [videos])
 
 	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
 		changed.forEach((element) => {
