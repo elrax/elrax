@@ -4,10 +4,9 @@ import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
 import { Logs } from "expo"
-import { useAssets } from "expo-asset"
 import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
-// import { api } from "~/utils/api"
+import { api } from "~/utils/api"
 
 Logs.enableExpoCliLogging()
 
@@ -21,10 +20,6 @@ export default function Index() {
 	})
 	const [feedVideos, setFeedVideos] = useState([] as FeedItem[])
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
-	const [assets, error] = useAssets([require("../../assets/videos/10wReMX.mp4")])
-	if (error) {
-		console.log(`got asset loading error: ${error.message}`)
-	}
 
 	const tabBarHeight = useBottomTabBarHeight()
 	const windowHeight = Dimensions.get("window").height
@@ -34,15 +29,13 @@ export default function Index() {
 	}
 
 	useEffect(() => {
-		if (!assets?.length) {
-			return
-		}
-		// const welcomeQuery = api.welcome.useQuery()
+		const videos = api.getVideos.useQuery()
+		console.log(`videos: ${JSON.stringify(videos)}`)
 
-		const data = [
+		const fallbackVideos = [
 			{
 				id: "1",
-				uri: assets[0]?.localUri || "",
+				uri: "https://pub-ea97d46c112a41d586775fe849ec9f70.r2.dev/10wReMX/10wReMX.m3u8",
 				uriPreview: "https://i.imgur.com/1E7pBT2.png",
 				description: "Fine jewelry created just for you. Hand crafted and well made goods.",
 				category: {
@@ -58,26 +51,9 @@ export default function Index() {
 						"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
 				},
 			},
-			{
-				id: "2",
-				uri: "https://i.imgur.com/a8n04PT.mp4",
-				uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
-				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-				category: {
-					icon: "aperture",
-					name: "Footage",
-					type: "Series",
-				},
-				author: {
-					id: "2",
-					username: "johndoe",
-					displayName: `${tabBarHeight}, ${windowHeight}, ${videoHeight}`,
-					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
-				},
-			},
 		]
-		setFeedVideos(data)
-	}, [assets])
+		setFeedVideos(fallbackVideos)
+	}, [])
 
 	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
 		changed.forEach((element) => {
