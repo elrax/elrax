@@ -48,7 +48,7 @@
 		"superjson": "2.2.1"
 	},
 	"devDependencies": {
-		"@babel/core": "7.23.5",
+		"@babel/core": "7.23.6",
 		"@babel/plugin-transform-private-methods": "7.23.3",
 		"@elrax/api": "workspace:*",
 		"@elrax/tailwind-config": "workspace:*",
