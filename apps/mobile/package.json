@@ -35,6 +35,7 @@
 		"expo-constants": "14.4.2",
 		"expo-dev-client": "2.4.12",
 		"expo-font": "11.4.0",
+		"expo-image-picker": "14.3.2",
 		"expo-linear-gradient": "12.3.0",
 		"expo-linking": "5.0.2",
 		"expo-router": "2.0.14",
@@ -61,6 +62,6 @@
 		"@types/webpack-env": "1.18.4",
 		"babel-plugin-module-resolver": "5.0.0",
 		"postcss": "8.4.32",
-		"tailwindcss": "3.3.6"
+		"tailwindcss": "=3.3.2"
 	}
 }

@@ -2,6 +2,18 @@ import { procedure, router } from "../trpc"
 // import { users } from "../schema"
 
 export const appRouter = router({
+	uploadVideo: procedure.query(async ({ ctx }) => {
+		// TODO: Move this logic to Durable Objects
+
+		const object = await ctx.env.BUCKET.get("count")
+		if (!object) {
+			await ctx.env.BUCKET.put("count", "0")
+			return 0
+		}
+		const value = parseInt(await object.text()) + 1
+		await ctx.env.BUCKET.put("count", value.toString())
+		return value
+	}),
 	getVideos: procedure.query(async () => {
 		// const result = await ctx.db.select().from(users).all()
 		// console.log(result)
