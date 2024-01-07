@@ -6,6 +6,7 @@ import { drizzle } from "drizzle-orm/d1"
 
 export type Env = {
 	DB: D1Database
+	BUCKET: R2Bucket
 	ENVIRONMENT: "dev" | "staging" | "production"
 }
 
