@@ -38,7 +38,8 @@ const defineConfig = {
 		[
 			"@config-plugins/ffmpeg-kit-react-native",
 			{
-				package: "video",
+				// https://github.com/arthenica/ffmpeg-kit#9-packages
+				package: "min-gpl",
 			},
 		],
 		[

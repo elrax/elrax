@@ -7,7 +7,12 @@ import { drizzle } from "drizzle-orm/d1"
 export type Env = {
 	DB: D1Database
 	BUCKET: R2Bucket
+
 	ENVIRONMENT: "dev" | "staging" | "production"
+	CF_BUCKET_NAME: string
+	CF_ACCOUNT_ID: string
+	CF_ACCESS_KEY_ID: string
+	CF_SECRET_ACCESS_KEY: string
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {

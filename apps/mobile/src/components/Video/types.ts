@@ -1,6 +1,6 @@
 import type { Category } from "../FeedTopOverlay"
 
-export type FeedItem = {
+export type VideoProps = {
 	id: string
 	uri: string
 	uriPreview: string
@@ -15,7 +15,7 @@ export type FeedItem = {
 }
 
 export type FeedVideoRef = {
-	getItem: () => FeedItem
+	getItem: () => VideoProps
 	/**
 	 * Plays the video in the component if the ref
 	 * of the video is not null.

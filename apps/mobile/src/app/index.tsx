@@ -3,8 +3,9 @@ import { Dimensions, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
-import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
+import { FeedVideo, type VideoProps, type FeedVideoRef } from "~/components/Video"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
+import { fallbackVideos } from "~/utils/fallbacks"
 import { api } from "~/utils/api"
 
 export default function Index() {
@@ -15,7 +16,7 @@ export default function Index() {
 		name: "Loading",
 		type: "Series",
 	})
-	const [feedVideos, setFeedVideos] = useState([] as FeedItem[])
+	const [feedVideos, setFeedVideos] = useState([] as VideoProps[])
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
 
 	const tabBarHeight = useBottomTabBarHeight()
@@ -31,27 +32,6 @@ export default function Index() {
 			return setFeedVideos(videos.data)
 		}
 		if (feedVideos.length === 0 && !videos.data) {
-			const fallbackVideos = [
-				{
-					id: "1",
-					uri: "https://pub-ea97d46c112a41d586775fe849ec9f70.r2.dev/10wReMX/10wReMX.m3u8",
-					uriPreview: "https://i.imgur.com/1E7pBT2.png",
-					description:
-						"Fine jewelry created just for you. Hand crafted and well made goods.",
-					category: {
-						icon: "dribbble",
-						name: "Technology",
-						type: "Series",
-					},
-					author: {
-						id: "1",
-						username: "jewerly",
-						displayName: "Tima Miroshnichenko",
-						uriAvatar:
-							"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
-					},
-				},
-			]
 			return setFeedVideos(fallbackVideos)
 		}
 	}, [videos])
