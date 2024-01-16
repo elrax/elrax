@@ -1,13 +1,8 @@
 import React from "react"
 import { View, Text } from "react-native"
 import Constants from "expo-constants"
+import type { Category } from "@elrax/api"
 import { Icon } from "./Icon"
-
-export type Category = {
-	icon: string
-	name: string
-	type: string
-}
 
 export type FeedTopOverlayProps = {
 	category: Category

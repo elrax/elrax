@@ -1,18 +1,4 @@
-import type { Category } from "../FeedTopOverlay"
-
-export type VideoProps = {
-	id: string
-	uri: string
-	uriPreview: string
-	description: string
-	category: Category
-	author: {
-		id: string
-		username: string
-		displayName: string
-		uriAvatar: string
-	}
-}
+import type { VideoProps } from "@elrax/api"
 
 export type FeedVideoRef = {
 	getItem: () => VideoProps

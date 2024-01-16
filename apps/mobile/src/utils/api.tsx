@@ -17,7 +17,7 @@ export { type RouterInputs, type RouterOutputs } from "@elrax/api"
  * Extend this function when going to production by
  * setting the baseUrl to your production API URL.
  */
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
 	const apiUrl = process.env.EXPO_PUBLIC_API_URL
 	if (apiUrl === "production") {
 		return apiUrl

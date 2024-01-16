@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "sqlite",
-	"id": "d7c52343-0f7d-4cee-abe2-43e2249a530a",
+	"id": "45d107c0-dd44-4e88-9980-5c7295289847",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"categories": {
@@ -11,6 +11,13 @@
 					"name": "id",
 					"type": "text",
 					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
 					"notNull": true,
 					"autoincrement": false
 				},
@@ -58,6 +65,13 @@
 					"notNull": true,
 					"autoincrement": false
 				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
 				"createdAt": {
 					"name": "createdAt",
 					"type": "integer",
@@ -65,8 +79,15 @@
 					"notNull": true,
 					"autoincrement": false
 				},
-				"name": {
-					"name": "name",
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"username": {
+					"name": "username",
 					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
@@ -79,12 +100,21 @@
 					"notNull": false,
 					"autoincrement": false
 				},
-				"title": {
-					"name": "title",
-					"type": "text",
+				"avatarIndex": {
+					"name": "avatarIndex",
+					"type": "integer",
 					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"storage": {
+					"name": "storage",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
 				}
 			},
 			"indexes": {},
@@ -99,6 +129,13 @@
 					"name": "id",
 					"type": "text",
 					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
 					"notNull": true,
 					"autoincrement": false
 				},
@@ -165,7 +202,7 @@
 					"name": "categoryId",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
 				}
 			},

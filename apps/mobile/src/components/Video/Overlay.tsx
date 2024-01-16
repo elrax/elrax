@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { View, Text, Image, StyleSheet } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
-import type { FeedItem } from "./types"
+import type { VideoProps } from "@elrax/api"
 import { Icon } from "../Icon"
 import { TouchableScale } from "../TouchableScale"
 
 export type OverlayProps = {
-	item: FeedItem
+	item: VideoProps
 	height: number
 	isScrolling: boolean
 }

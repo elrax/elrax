@@ -6,13 +6,14 @@ import {
 	getInfoAsync,
 	cacheDirectory,
 	readDirectoryAsync,
+	deleteAsync,
 } from "expo-file-system"
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from "ffmpeg-kit-react-native"
 import { Video } from "expo-av"
-import { api } from "~/utils/api"
+import { api, getBaseUrl } from "~/utils/api"
 
 const videoTmpFolder = "uploadVideo"
-const videoName = "result.m3u8"
+const videoName = "video.m3u8"
 
 const fetchImageFromUri = async (uri: string) => {
 	const res = await fetch(uri)
@@ -31,10 +32,11 @@ const getResultPath = async (id: string) => {
 	// Checks if gif directory exists. If not, creates it
 	async function ensureDirExists() {
 		const dirInfo = await getInfoAsync(videoDir)
-		if (!dirInfo.exists) {
-			console.log("Temp directory doesn't exist, creating...")
-			await makeDirectoryAsync(videoDir, { intermediates: true })
+		if (dirInfo.exists) {
+			console.log("Temp directory already exist, deleting...")
+			await deleteAsync(dirInfo.uri, { idempotent: true })
 		}
+		await makeDirectoryAsync(videoDir, { intermediates: true })
 	}
 	await ensureDirExists()
 	return `${videoDir}${videoName}`
@@ -68,11 +70,8 @@ export default function Upload() {
 		FFmpegKitConfig.init()
 	}, [])
 
-	const getUploadVideoURL = api.getUploadVideoURL.useMutation({
-		onSuccess: (data) => {
-			console.log(`getUploadVideoURL: ${JSON.stringify(data)}`)
-		},
-	})
+	const getUploadVideoURL = api.getUploadVideoURL.useMutation()
+	const updateVideo = api.updateVideo.useMutation()
 
 	const onClick = async () => {
 		if (status.btn === "Select video" || status.btn === "Try select again") {
@@ -104,7 +103,7 @@ export default function Upload() {
 
 		const resultVideo = await getResultPath(videoTmpFolder)
 		const ffmpegSession = await FFmpegKit.execute(
-			`-i ${source} -c:v libx264 -profile:v baseline -level 3.0 -c:a aac -b:a 128k -start_number 0 -hls_time 10 -hls_list_size 0 -f hls ${resultVideo}`,
+			`-i ${source} -c:v libx264 -profile:v baseline -level 4.0 -preset medium -b:v 2500k -maxrate 2500k -bufsize 5000k -pix_fmt yuv420p -c:a aac -b:a 128k -ar 48000 -ac 2 -start_number 0 -hls_time 2 -hls_playlist_type vod -f hls ${resultVideo}`,
 		)
 		const result = await ffmpegSession.getReturnCode()
 		if (ReturnCode.isSuccess(result)) {
@@ -123,15 +122,18 @@ export default function Upload() {
 		console.log(`Upload: ${result.replace(videoName, "")}`)
 
 		const partNames = await readDirectoryAsync(result.replace(videoName, ""))
-		const urls = await getUploadVideoURL.mutateAsync({ partNames })
+		const { videoId, uploadUrls } = await getUploadVideoURL.mutateAsync({ partNames })
 		console.log(`${partNames.length} files to upload: ${JSON.stringify(partNames)}`)
 
 		for (const partName of partNames) {
-			const url = urls[partName]
-			if (!url) {
+			const uploadUrl = uploadUrls[partName]
+			if (!uploadUrl) {
 				setStatus({ btn: "Try upload again", msg: "Failed to upload video." })
 				return
 			}
+			let url = uploadUrl
+			if (url.startsWith("/")) url = getBaseUrl() + url
+			console.log(`Upload url: ${url}`)
 			const path = result.replace(videoName, partName)
 			const { blob, contentType } = await fetchImageFromUri(path)
 			const uploadResult = await fetch(url, {
@@ -141,10 +143,11 @@ export default function Upload() {
 					"Content-Type": contentType,
 				},
 			})
-			console.log(`Result: ${JSON.stringify(uploadResult)}`)
+			console.log(`${partName} upload status: ${uploadResult.status}`)
 		}
+		const url = await updateVideo.mutateAsync({ videoId })
 		setStatus({ btn: null, msg: "Video uploaded." })
-		// TODO: Submit video
+		console.log("Video url: " + url)
 	}
 
 	return (
