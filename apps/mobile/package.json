@@ -54,7 +54,7 @@
 		"superjson": "2.2.1"
 	},
 	"devDependencies": {
-		"@babel/core": "7.23.6",
+		"@babel/core": "7.23.7",
 		"@babel/plugin-transform-private-methods": "7.23.3",
 		"@elrax/api": "workspace:*",
 		"@elrax/tailwind-config": "workspace:*",
@@ -62,7 +62,7 @@
 		"@types/react": "18.2.45",
 		"@types/webpack-env": "1.18.4",
 		"babel-plugin-module-resolver": "5.0.0",
-		"postcss": "8.4.32",
+		"postcss": "8.4.33",
 		"tailwindcss": "=3.3.2"
 	}
 }
