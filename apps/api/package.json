@@ -16,24 +16,26 @@
 		"db:gen": "drizzle-kit generate:sqlite",
 		"db:list": "NO_D1_WARNING=true wrangler d1 migrations list dev-db --local --env=dev",
 		"db:studio": "drizzle-kit studio",
-		"dev": "NO_D1_WARNING=true wrangler dev --env=dev",
+		"dev": "NO_D1_WARNING=true wrangler dev --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
 		"prepare": "yes 2>/dev/null | pnpm db:apply"
 	},
 	"dependencies": {
-		"@trpc/server": "10.44.1",
-		"drizzle-orm": "0.29.1",
+		"@paralleldrive/cuid2": "2.2.2",
+		"@trpc/server": "10.45.0",
+		"aws4fetch": "1.0.17",
+		"drizzle-orm": "0.29.3",
 		"drizzle-zod": "0.5.1",
-		"hono": "3.11.1",
+		"hono": "3.12.3",
 		"superjson": "2.2.1",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "1.20231121.0",
-		"better-sqlite3": "9.2.0",
-		"drizzle-kit": "0.20.6",
-		"wrangler": "3.18.0"
+		"@cloudflare/workers-types": "4.20231218.0",
+		"better-sqlite3": "9.2.2",
+		"drizzle-kit": "0.20.12",
+		"wrangler": "3.22.4"
 	},
 	"peerDependencies": {
 		"typescript": "5.2.2"

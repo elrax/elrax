@@ -1,33 +1,50 @@
 import React, { useState } from "react"
 import { View, Text, Image, StyleSheet } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
-import type { FeedItem } from "./types"
+import Animated, {
+	useAnimatedStyle,
+	interpolate,
+	Extrapolation,
+	useDerivedValue,
+	withTiming,
+} from "react-native-reanimated"
+import type { VideoProps } from "@elrax/api"
 import { Icon } from "../Icon"
 import { TouchableScale } from "../TouchableScale"
 
 export type OverlayProps = {
-	item: FeedItem
+	item: VideoProps
 	height: number
-	isScrolling: boolean
+	opacity: number
 }
 
-export function Overlay({ item, isScrolling }: OverlayProps) {
+export function Overlay({ item, opacity }: OverlayProps) {
 	const [currentLikes, setCurrentLikes] = useState(3112)
 	const [isLiked, setIsLiked] = useState(false)
+
+	const opacityDerived = useDerivedValue(() => {
+		return withTiming(opacity, { duration: 200 })
+	})
+	const animatedStyles = useAnimatedStyle(() => ({
+		opacity: interpolate(opacityDerived.value, [0, 1], [0, 1], Extrapolation.CLAMP),
+	}))
 
 	return (
 		<>
 			<LinearGradient
-				colors={["rgba(0,0,0,0.0)", "rgba(0,0,0,0.5)"]}
+				colors={["rgba(0,0,0,0.0)", "rgba(0,0,0,0.6)"]}
 				className={"absolute z-10 bottom-0 h-[160px] w-full"}
+				pointerEvents="none"
 			/>
-			<View
-				className="absolute z-20 p-4 pr-1 bottom-0 w-full max-w-full"
-				style={{
-					opacity: isScrolling ? 0.5 : 1,
-				}}
+			<Animated.View
+				className="absolute z-20 bottom-0 max-w-full"
+				style={animatedStyles}
+				pointerEvents="box-none"
 			>
-				<View className="flex-row justify-between items-end">
+				<View
+					className="flex-row ml-4 mb-4 justify-between items-end"
+					pointerEvents="box-none"
+				>
 					<View className="w-full max-w-[82%] items-start">
 						<TouchableScale>
 							<View className="mb-2 px-2.5 py-1 rounded-full border-[1px] border-white">
@@ -70,7 +87,7 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 							</View>
 						</TouchableScale>
 					</View>
-					<View className="items-center justify-center pr-1 gap-2 w-18">
+					<View className="items-center -mr-2 justify-center pr-1 gap-2 w-18">
 						<TouchableScale innerStyle="flex-column items-center mb-2">
 							<View
 								style={style.iconShadow}
@@ -142,7 +159,7 @@ export function Overlay({ item, isScrolling }: OverlayProps) {
 						</TouchableScale>
 					</View>
 				</View>
-			</View>
+			</Animated.View>
 		</>
 	)
 }

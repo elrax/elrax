@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, View } from "react-native"
+import { Dimensions, RefreshControl, Text, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
-import { Logs } from "expo"
-import { useAssets } from "expo-asset"
-import { FeedVideo, type FeedItem, type FeedVideoRef } from "~/components/FeedItem"
+import type { VideoProps } from "@elrax/api"
+import { FeedVideo, type FeedVideoRef } from "~/components/Video"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
-// import { api } from "~/utils/api"
-
-Logs.enableExpoCliLogging()
+import { api } from "~/utils/api"
 
 export default function Index() {
 	setStatusBarStyle("light")
@@ -19,12 +16,10 @@ export default function Index() {
 		name: "Loading",
 		type: "Series",
 	})
-	const [feedVideos, setFeedVideos] = useState([] as FeedItem[])
+	const [feedVideos, setFeedVideos] = useState([] as VideoProps[])
+	const [isLoading, setIsLoading] = useState(true)
+	const [currentVideoId, setCurrentVideoId] = useState(null as null | string)
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
-	const [assets, error] = useAssets([require("../../assets/videos/10wReMX.mp4")])
-	if (error) {
-		console.log(`got asset loading error: ${error.message}`)
-	}
 
 	const tabBarHeight = useBottomTabBarHeight()
 	const windowHeight = Dimensions.get("window").height
@@ -33,61 +28,34 @@ export default function Index() {
 		console.log(`${tabBarHeight}, ${windowHeight}, ${videoHeight}`)
 	}
 
+	const videos = api.getVideos.useQuery()
+	if (!videos.isLoading && isLoading) {
+		setIsLoading(false)
+	}
 	useEffect(() => {
-		if (!assets?.length) {
-			return
+		console.log(`videos status: ${videos.status}`)
+		if (videos.data && videos.data.length > 0) {
+			if (feedVideos.length > 0 && currentVideoId) {
+				mediaRefs.current[currentVideoId]?.stop()
+			}
+			setFeedVideos(videos.data)
+			if (videos.data[0]) {
+				setCurrentVideoId(videos.data[0].id)
+			}
 		}
-		// const welcomeQuery = api.welcome.useQuery()
-
-		const data = [
-			{
-				id: "1",
-				uri: assets[0]?.localUri || "",
-				uriPreview: "https://i.imgur.com/1E7pBT2.png",
-				description: "Fine jewelry created just for you. Hand crafted and well made goods.",
-				category: {
-					icon: "dribbble",
-					name: "Technology",
-					type: "Series",
-				},
-				author: {
-					id: "1",
-					username: "jewerly",
-					displayName: "Tima Miroshnichenko",
-					uriAvatar:
-						"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
-				},
-			},
-			{
-				id: "2",
-				uri: "https://i.imgur.com/a8n04PT.mp4",
-				uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
-				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-				category: {
-					icon: "aperture",
-					name: "Footage",
-					type: "Series",
-				},
-				author: {
-					id: "2",
-					username: "johndoe",
-					displayName: `${tabBarHeight}, ${windowHeight}, ${videoHeight}`,
-					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
-				},
-			},
-		]
-		setFeedVideos(data)
-	}, [assets])
+	}, [videos.data])
 
 	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
 		changed.forEach((element) => {
 			const cell = mediaRefs.current[element.key]
 			if (cell) {
 				if (element.isViewable) {
+					console.log(`Playing: ${element.key}`)
 					setCategory(cell.getItem().category)
-					void cell.play()
+					setCurrentVideoId(element.key)
+					cell.play()
 				} else {
-					void cell.pause()
+					cell.pause()
 				}
 			}
 		})
@@ -107,10 +75,38 @@ export default function Index() {
 							ref={(videoRef) => {
 								if (videoRef != null) {
 									mediaRefs.current[item.id] = videoRef
+									if (currentVideoId === item.id) {
+										videoRef.play()
+									}
 								}
 							}}
+							isVisible={currentVideoId === item.id}
 						/>
 					)}
+					ListEmptyComponent={
+						<View
+							className="flex items-center justify-center"
+							style={{
+								height: videoHeight,
+							}}
+						>
+							<Text className="font-ns-bold text-base color-white">
+								{videos?.isLoading ? "Loading..." : "No videos found."}
+							</Text>
+						</View>
+					}
+					refreshControl={
+						<RefreshControl
+							titleColor={"transparent"}
+							tintColor={"#fff"}
+							progressViewOffset={30}
+							refreshing={isLoading}
+							onRefresh={() => {
+								setIsLoading(true)
+								videos.refetch()
+							}}
+						/>
+					}
 					pagingEnabled
 					decelerationRate={"normal"}
 					keyExtractor={(item) => item.id}

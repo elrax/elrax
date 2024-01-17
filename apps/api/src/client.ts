@@ -3,6 +3,7 @@ import type { AppRouter } from "./router"
 
 export { appRouter, type AppRouter } from "./router"
 export { createContext } from "./trpc"
+export type * from "./types"
 
 /**
  * Inference helpers for input types

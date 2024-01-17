@@ -33,7 +33,30 @@ const defineConfig = {
 	android: {
 		package: "com.elrax.elrax",
 	},
-	plugins: ["expo-router"],
+	plugins: [
+		"expo-router",
+		[
+			"@config-plugins/ffmpeg-kit-react-native",
+			{
+				// https://github.com/arthenica/ffmpeg-kit#9-packages
+				package: "min-gpl",
+			},
+		],
+		[
+			"expo-build-properties",
+			{
+				android: {
+					compileSdkVersion: 33,
+					targetSdkVersion: 33,
+					minSdkVersion: 24,
+					buildToolsVersion: "33.0.0",
+				},
+				ios: {
+					deploymentTarget: "13.4",
+				},
+			},
+		],
+	],
 }
 
 export default () => defineConfig

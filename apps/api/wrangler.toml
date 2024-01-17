@@ -9,6 +9,9 @@ binding = "DB"
 database_name = "dev-db"
 database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
+[[env.dev.r2_buckets]]
+binding = "BUCKET"
+bucket_name = "bucket-dev"
 
 [env.staging]
 name = "elrax-api-staging"
@@ -20,6 +23,9 @@ binding = "DB"
 database_name = "elrax-db-staging"
 database_id = "aae4d36f-1ab7-4215-8665-b34012e5bdf9"
 migrations_dir = "migrations"
+[[env.staging.r2_buckets]]
+binding = "BUCKET"
+bucket_name = "elrax-staging"
 
 [env.production]
 name = "elrax-api-production"
