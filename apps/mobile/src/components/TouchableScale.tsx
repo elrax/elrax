@@ -19,8 +19,6 @@ export type TouchableScaleProps = {
 	touchableProps?: React.ComponentProps<typeof TouchableOpacity>
 }
 
-const TimingConfig = { duration: 50 }
-
 const TouchableScaleInner = ({
 	onPress,
 	innerStyle,
@@ -31,7 +29,7 @@ const TouchableScaleInner = ({
 }: TouchableScaleProps) => {
 	const pressed = useSharedValue(false)
 	const progress = useDerivedValue(() => {
-		return pressed.value ? withTiming(1, TimingConfig) : withTiming(0, TimingConfig)
+		return pressed.value ? withTiming(1, { duration: 50 }) : withTiming(0, { duration: 50 })
 	})
 	const animatedStyle = useAnimatedStyle(() => {
 		const scale = interpolate(progress.value, [0, 1], [1, scaleTo], Extrapolate.CLAMP)

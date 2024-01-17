@@ -2,7 +2,7 @@ import { AwsClient } from "aws4fetch"
 import z from "zod"
 import { createId } from "@paralleldrive/cuid2"
 import { TRPCError } from "@trpc/server"
-import { eq } from "drizzle-orm"
+import { eq, sql } from "drizzle-orm"
 import { Storage, VideoUploadStatus } from "../db/types"
 import { getVideoUrl } from "../utils/storage"
 import { type Env, Environment, procedure, router } from "../trpc"
@@ -125,7 +125,11 @@ export const appRouter = router({
 			return getVideoUrl(foundVideo.id, foundVideo.storage, ctx.env, ctx.req.url)
 		}),
 	getVideos: procedure.query(async ({ ctx }) => {
-		const foundVideos = await ctx.db.select().from(videos)
+		const foundVideos = await ctx.db
+			.select()
+			.from(videos)
+			.orderBy(sql`RANDOM()`)
+			.limit(10)
 
 		const recommendedVideos: VideoProps[] = foundVideos.map((v) => {
 			return {

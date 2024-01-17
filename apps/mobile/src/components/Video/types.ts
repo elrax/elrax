@@ -6,9 +6,9 @@ export type FeedVideoRef = {
 	 * Plays the video in the component if the ref
 	 * of the video is not null.
 	 *
-	 * @returns {void}
+	 * @returns {boolean}
 	 */
-	play: () => Promise<void>
+	play: () => Promise<boolean>
 	/**
 	 * Unloads the video in the component if the ref
 	 * of the video is not null.
@@ -16,21 +16,21 @@ export type FeedVideoRef = {
 	 * This will make sure unnecessary video instances are
 	 * not in memory at all times
 	 *
-	 * @returns {void}
+	 * @returns {boolean}
 	 */
-	unload: () => Promise<void>
+	unload: () => Promise<boolean>
 	/**
 	 * Pauses the video in the component if the ref
 	 * of the video is not null.
 	 *
-	 * @returns {void}
+	 * @returns {boolean}
 	 */
-	pause: () => Promise<void>
+	pause: () => Promise<boolean>
 	/**
 	 * Stops the video in the component if the ref
 	 * of the video is not null.
 	 *
-	 * @returns {void}
+	 * @returns {boolean}
 	 */
-	stop: () => Promise<void>
+	stop: () => Promise<boolean>
 }

@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, View } from "react-native"
+import { Dimensions, RefreshControl, Text, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
 import type { VideoProps } from "@elrax/api"
 import { FeedVideo, type FeedVideoRef } from "~/components/Video"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
-import { fallbackVideos } from "~/utils/fallbacks"
 import { api } from "~/utils/api"
 
 export default function Index() {
@@ -18,6 +17,8 @@ export default function Index() {
 		type: "Series",
 	})
 	const [feedVideos, setFeedVideos] = useState([] as VideoProps[])
+	const [isLoading, setIsLoading] = useState(true)
+	const [currentVideoId, setCurrentVideoId] = useState(null as null | string)
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
 
 	const tabBarHeight = useBottomTabBarHeight()
@@ -28,24 +29,33 @@ export default function Index() {
 	}
 
 	const videos = api.getVideos.useQuery()
+	if (!videos.isLoading && isLoading) {
+		setIsLoading(false)
+	}
 	useEffect(() => {
+		console.log(`videos status: ${videos.status}`)
 		if (videos.data && videos.data.length > 0) {
-			return setFeedVideos(videos.data)
+			if (feedVideos.length > 0 && currentVideoId) {
+				mediaRefs.current[currentVideoId]?.stop()
+			}
+			setFeedVideos(videos.data)
+			if (videos.data[0]) {
+				setCurrentVideoId(videos.data[0].id)
+			}
 		}
-		if (feedVideos.length === 0 && !videos.data) {
-			return setFeedVideos(fallbackVideos)
-		}
-	}, [videos])
+	}, [videos.data])
 
 	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
 		changed.forEach((element) => {
 			const cell = mediaRefs.current[element.key]
 			if (cell) {
 				if (element.isViewable) {
+					console.log(`Playing: ${element.key}`)
 					setCategory(cell.getItem().category)
-					void cell.play()
+					setCurrentVideoId(element.key)
+					cell.play()
 				} else {
-					void cell.pause()
+					cell.pause()
 				}
 			}
 		})
@@ -65,10 +75,38 @@ export default function Index() {
 							ref={(videoRef) => {
 								if (videoRef != null) {
 									mediaRefs.current[item.id] = videoRef
+									if (currentVideoId === item.id) {
+										videoRef.play()
+									}
 								}
 							}}
+							isVisible={currentVideoId === item.id}
 						/>
 					)}
+					ListEmptyComponent={
+						<View
+							className="flex items-center justify-center"
+							style={{
+								height: videoHeight,
+							}}
+						>
+							<Text className="font-ns-bold text-base color-white">
+								{videos?.isLoading ? "Loading..." : "No videos found."}
+							</Text>
+						</View>
+					}
+					refreshControl={
+						<RefreshControl
+							titleColor={"transparent"}
+							tintColor={"#fff"}
+							progressViewOffset={30}
+							refreshing={isLoading}
+							onRefresh={() => {
+								setIsLoading(true)
+								videos.refetch()
+							}}
+						/>
+					}
 					pagingEnabled
 					decelerationRate={"normal"}
 					keyExtractor={(item) => item.id}
