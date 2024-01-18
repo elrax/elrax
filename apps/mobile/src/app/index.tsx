@@ -36,7 +36,7 @@ export default function Index() {
 		console.log(`videos status: ${videos.status}`)
 		if (videos.data && videos.data.length > 0) {
 			if (feedVideos.length > 0 && currentVideoId) {
-				mediaRefs.current[currentVideoId]?.stop()
+				mediaRefs.current[currentVideoId]?.pause()
 			}
 			setFeedVideos(videos.data)
 			if (videos.data[0]) {

@@ -9,7 +9,7 @@ import {
 	deleteAsync,
 } from "expo-file-system"
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from "ffmpeg-kit-react-native"
-import { Video } from "expo-av"
+import Video from "react-native-video"
 import { api, getBaseUrl } from "~/utils/api"
 
 const videoTmpFolder = "uploadVideo"
@@ -62,7 +62,6 @@ const getSourceVideo = async () => {
 
 export default function Upload() {
 	const [status, setStatus] = useState({ btn: "Select video" as string | null, msg: "" })
-	// const [thumbnail, setThumbnail] = useState(null as string | null)
 	const [result, setResult] = useState(null as string | null)
 	const [source, setSource] = useState(null as string | null)
 
@@ -80,6 +79,10 @@ export default function Upload() {
 			await onConvertClick()
 		} else if (status.btn === "Upload video") {
 			await onUploadClick()
+		} else if (status.btn === "Okay") {
+			setStatus({ btn: "Select video", msg: "" })
+			setResult(null)
+			setSource(null)
 		}
 	}
 
@@ -100,6 +103,8 @@ export default function Upload() {
 			return
 		}
 		setStatus({ btn: null, msg: "Converting..." })
+
+		// TODO: Generate thumbnail and poster images
 
 		const resultVideo = await getResultPath(videoTmpFolder)
 		const ffmpegSession = await FFmpegKit.execute(
@@ -146,7 +151,7 @@ export default function Upload() {
 			console.log(`${partName} upload status: ${uploadResult.status}`)
 		}
 		const url = await updateVideo.mutateAsync({ videoId })
-		setStatus({ btn: null, msg: "Video uploaded." })
+		setStatus({ btn: "Okay", msg: "Video uploaded." })
 		console.log("Video url: " + url)
 	}
 

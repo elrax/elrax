@@ -115,9 +115,6 @@ importers:
       expo-asset:
         specifier: 8.10.1
         version: 8.10.1(expo@49.0.21)
-      expo-av:
-        specifier: 13.4.1
-        version: 13.4.1(expo@49.0.21)
       expo-build-properties:
         specifier: 0.8.3
         version: 0.8.3(expo@49.0.21)
@@ -178,6 +175,9 @@ importers:
       react-native-screens:
         specifier: 3.22.1
         version: 3.22.1(react-native@0.72.6)(react@18.2.0)
+      react-native-video:
+        specifier: 6.0.0-beta.4
+        version: 6.0.0-beta.4(react-native@0.72.6)(react@18.2.0)
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -5658,14 +5658,6 @@ packages:
       - supports-color
     dev: false
 
-  /expo-av@13.4.1(expo@49.0.21):
-    resolution: {integrity: sha512-0K8QEFzZeNGrppzYUs8wOtjOyPPkxzlVYbEHM6WzIQOG1uYYNOJkJB3aQHVFXHmz+AzoHwMrUjcschofwaMNeg==}
-    peerDependencies:
-      expo: '*'
-    dependencies:
-      expo: 49.0.21(@babel/core@7.23.6)
-    dev: false
-
   /expo-build-properties@0.8.3(expo@49.0.21):
     resolution: {integrity: sha512-kEDDuAadHqJTkvCGK4fXYHVrePiJO1DjyW95AicmwuGwQvGJydYFbuoauf9ybAU+4UH4arhbce8gHI3ZpIj3Jw==}
     peerDependencies:
@@ -8857,6 +8849,16 @@ packages:
       react-freeze: 1.0.3(react@18.2.0)
       react-native: 0.72.6(@babel/core@7.23.6)(@babel/preset-env@7.23.8)(react@18.2.0)
       warn-once: 0.1.1
+    dev: false
+
+  /react-native-video@6.0.0-beta.4(react-native@0.72.6)(react@18.2.0):
+    resolution: {integrity: sha512-kQgOiDkhURoisfW3Z8faIIkuYWp4y5galWszBPh332Ms6SY2KtKe+a611slvTJ9LM3xPCiOtnnaIHBhvab44bQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.2.0
+      react-native: 0.72.6(@babel/core@7.23.6)(@babel/preset-env@7.23.8)(react@18.2.0)
     dev: false
 
   /react-native@0.72.6(@babel/core@7.23.6)(@babel/preset-env@7.23.8)(react@18.2.0):
