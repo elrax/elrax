@@ -1,10 +1,10 @@
-export const fallbackVideos = [
+import type { VideoProps } from "@elrax/api"
+
+export const fallbackVideos: VideoProps[] = [
 	{
 		id: "1",
-		// uri: "https://cdn-staging.elrax.com/scotalnd/result.m3u8",
-		// uri: "https://pub-f4b1cab6a3644e97bb12bb70e7d2a336.r2.dev/scotalnd/result.m3u8",
-		uri: "https://pub-ea97d46c112a41d586775fe849ec9f70.r2.dev/10wReMX/10wReMX.m3u8",
-		uriPreview: "https://i.imgur.com/1E7pBT2.png",
+		urlVideo: "https://cdn-staging.elrax.com/10wReMX/10wReMX.m3u8",
+		urlPoster: "https://i.imgur.com/1E7pBT2.png",
 		description: "Fine jewelry created just for you. Hand crafted and well made goods.",
 		category: {
 			icon: "dribbble",

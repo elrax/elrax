@@ -6,8 +6,8 @@ export type Category = {
 
 export type VideoProps = {
 	id: string
-	uri: string
-	uriPreview: string
+	urlVideo: string
+	urlPoster: string
 	description?: string
 	category: Category
 	author: {

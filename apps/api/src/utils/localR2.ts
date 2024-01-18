@@ -35,7 +35,7 @@ export const initLocalR2Api = (app: Hono<{ Bindings: Env }>) => {
 		const headers = new Headers()
 		object.writeHttpMetadata(headers)
 		headers.set("etag", object.httpEtag)
-		headers.set("Cache-Control", "max-age=3600")
+		headers.set("Cache-Control", "max-age=36000")
 		return new Response(object.body, {
 			headers,
 		})

@@ -1,28 +1,34 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
-import type { NativeTouchEvent } from "react-native"
+import { type NativeTouchEvent } from "react-native"
 import Video, { type VideoRef } from "react-native-video"
 import { useNavigation } from "expo-router"
+// import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import type { FeedVideoRef } from "./types"
 import { Overlay } from "./Overlay"
+import { useVideoViewState } from "~/stores/videoViewState"
 
 export type FeedVideoProps = {
 	item: VideoProps
 	height: number
-	isVisible: boolean
 }
 
 export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref<FeedVideoRef>) => {
 	const navigation = useNavigation()
 
 	const refVideo = useRef<VideoRef>(null)
-	const [muted, setMuted] = useState(false)
+	const [isMuted, toggleMute, setCurrentVideoId] = useVideoViewState((state) => [
+		state.isMuted,
+		state.toggleMute,
+		state.setCurrentVideoId,
+	])
 	const [paused, setPaused] = useState(true)
 	const [lastTouchPos, setLastTouchPos] = useState(null as null | NativeTouchEvent)
 	const [overlayOpacity, setOverlayOpacity] = useState(1)
 	const [pauseTimeoutId, setPauseTimeoutId] = useState(
 		null as null | ReturnType<typeof setTimeout>,
 	)
+	// const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
 
 	useImperativeHandle(
 		parentRef,
@@ -35,21 +41,19 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	)
 
 	useEffect(() => {
-		const unsub1 = navigation.addListener("blur", () => {
-			if (props.isVisible) {
-				pause()
-			}
-		})
 		const unsub2 = navigation.addListener("focus", () => {
-			if (props.isVisible) {
-				play()
-			}
+			if (isVisible()) play()
+		})
+		const unsub1 = navigation.addListener("blur", () => {
+			pause()
 		})
 		return () => {
 			unsub1()
 			unsub2()
 		}
 	}, [navigation])
+
+	const isVisible = () => props.item.id === useVideoViewState.getState().currentVideoId
 
 	const getItem = () => {
 		return props.item
@@ -59,6 +63,8 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 		if (!refVideo.current) return
 		console.debug(`Video ${props.item.id}: play`)
 		setPaused(false)
+		setCurrentVideoId(props.item.id)
+		// setVideoPlayUrlBy(props.item.urlVideo)
 	}
 
 	const pause = () => {
@@ -91,18 +97,18 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 			<Overlay item={props.item} height={props.height} opacity={overlayOpacity} />
 			<Video
 				ref={refVideo}
-				style={{
-					width: "100%",
-					height: props.height,
-				}}
-				poster={props.item.uriPreview}
+				style={{ height: props.height }}
+				source={{ uri: props.item.urlVideo }}
+				poster={props.item.urlPoster}
 				posterResizeMode={"cover"}
 				paused={paused}
 				mixWithOthers="duck"
 				ignoreSilentSwitch="ignore"
-				source={{ uri: props.item.uri }}
 				repeat
-				muted={muted}
+				muted={isMuted}
+				onError={(e) => {
+					console.log(`Video error ${props.item.id}: ${JSON.stringify(e)}`)
+				}}
 				resizeMode="cover"
 				onTouchStart={(e) => {
 					setLastTouchPos(e.nativeEvent)
@@ -117,14 +123,12 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 					const x = e.nativeEvent.locationX
 					const y = e.nativeEvent.locationY
 					const isClicked = lastTouchPos?.locationX === x || lastTouchPos?.locationY === y
-					if (isClicked && refVideo.current && !paused) {
-						setMuted(!muted)
+					if (isClicked && !paused) {
+						toggleMute()
+						console.log(`Video ${props.item.id}: toggle mute`)
 					}
 
-					// TODO: Fix bug with resume on scroll
-					// + isVisible sometimes not correct
-					// if (props.isVisible) {}
-					play()
+					if (isVisible() && paused) play()
 					setLastTouchPos(null)
 				}}
 			/>
