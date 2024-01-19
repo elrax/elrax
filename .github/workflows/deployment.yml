@@ -46,7 +46,7 @@ jobs:
       - name: Create build
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas build --profile development --platform all
+          command: eas build --profile staging --platform all
           working-directory: ./apps/mobile/
           comment: false
 

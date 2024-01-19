@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { type NativeTouchEvent } from "react-native"
 import Video, { type VideoRef } from "react-native-video"
 import { useNavigation } from "expo-router"
-// import { useAsyncCache } from "react-native-cache-video"
+import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import type { FeedVideoRef } from "./types"
 import { Overlay } from "./Overlay"
@@ -28,7 +28,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	const [pauseTimeoutId, setPauseTimeoutId] = useState(
 		null as null | ReturnType<typeof setTimeout>,
 	)
-	// const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
+	const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
 
 	useImperativeHandle(
 		parentRef,
@@ -41,6 +41,21 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	)
 
 	useEffect(() => {
+		console.log(`${cachedVideoUrl}`)
+		if (cachedVideoUrl) {
+			fetch(cachedVideoUrl)
+				.then((res) => {
+					console.log(`res: ${res.status}`)
+				})
+				.catch((err) => {
+					console.log(`err: ${err}`)
+					console.log(`err: ${JSON.stringify(err)}`)
+				})
+		}
+	}, [cachedVideoUrl])
+	useEffect(() => {
+		console.log(`${cachedVideoUrl}`)
+
 		const unsub2 = navigation.addListener("focus", () => {
 			if (isVisible()) play()
 		})
@@ -62,9 +77,10 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	const play = () => {
 		if (!refVideo.current) return
 		console.debug(`Video ${props.item.id}: play`)
+		// setVideoPlayUrlBy(props.item.urlVideo)
+		setVideoPlayUrlBy("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
 		setPaused(false)
 		setCurrentVideoId(props.item.id)
-		// setVideoPlayUrlBy(props.item.urlVideo)
 	}
 
 	const pause = () => {
@@ -98,7 +114,9 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 			<Video
 				ref={refVideo}
 				style={{ height: props.height }}
-				source={{ uri: props.item.urlVideo }}
+				source={{
+					uri: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" /*props.item.urlVideo*/,
+				}}
 				poster={props.item.urlPoster}
 				posterResizeMode={"cover"}
 				paused={paused}

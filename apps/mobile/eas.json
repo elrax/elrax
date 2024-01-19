@@ -12,6 +12,15 @@
 				"resourceClass": "m-medium"
 			}
 		},
+		"simulator": {
+			"extends": "base",
+			"channel": "development",
+			"developmentClient": true,
+			"distribution": "internal",
+			"ios": {
+				"simulator": true
+			}
+		},
 		"development": {
 			"extends": "base",
 			"channel": "development",
@@ -21,7 +30,7 @@
 				"buildType": "apk"
 			}
 		},
-		"preview": {
+		"staging": {
 			"extends": "base",
 			"channel": "staging",
 			"distribution": "internal"
