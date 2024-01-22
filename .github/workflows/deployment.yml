@@ -43,7 +43,7 @@ jobs:
         uses: expo/expo-github-action/preview@v8
         with:
           # temporary iOS only, replace with "all" when needed
-          command: eas build -e=staging -p=ios --non-interactive >/dev/null
+          command: eas build -e=staging -p=ios --non-interactive
           working-directory: ./apps/mobile/
           comment: false
 
