@@ -12,7 +12,7 @@ on:
   # tags: ["*"]
 
 jobs:
-  deploy-api-staging:
+  deploy-staging:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -33,13 +33,6 @@ jobs:
           CF_ACCESS_KEY_ID: ${{ secrets.CF_ACCESS_KEY_ID }}
           CF_SECRET_ACCESS_KEY: ${{ secrets.CF_SECRET_ACCESS_KEY }}
 
-  deploy-mobile-staging:
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
@@ -49,7 +42,8 @@ jobs:
       - name: Create build
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas build --profile staging --platform all
+          # temporary iOS only, replace with "all" when needed
+          command: eas build -e=staging -p=ios --non-interactive >/dev/null
           working-directory: ./apps/mobile/
           comment: false
 

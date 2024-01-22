@@ -5,10 +5,6 @@ import { useIconFont, Icon } from "~/components/Icon"
 import { useNunitoSans } from "~/components/Fonts"
 import NetInfo from "@react-native-community/netinfo"
 import { onlineManager } from "@tanstack/react-query"
-import { Logs } from "expo"
-
-// For debug purposes only
-Logs.enableExpoCliLogging()
 
 SplashScreen.preventAutoHideAsync()
 onlineManager.setEventListener((setOnline) => {
