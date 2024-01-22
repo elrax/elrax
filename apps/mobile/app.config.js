@@ -4,7 +4,7 @@ const defineConfig = {
 	slug: "elrax",
 	owner: "elrax",
 	scheme: "elrax",
-	version: "0.1.0",
+	version: "0.1.1",
 	extra: {
 		eas: {
 			projectId: "7ccac9f6-2287-458f-94fd-dcfdb73b0864",
@@ -27,7 +27,7 @@ const defineConfig = {
 	},
 	ios: {
 		bundleIdentifier: "com.elrax.elrax",
-		buildNumber: "0.1.0",
+		buildNumber: "0.1.1",
 		supportsTablet: true,
 	},
 	android: {

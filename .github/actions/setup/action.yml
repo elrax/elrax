@@ -2,10 +2,10 @@ name: "Setup repository"
 description: "Dangerously checkout, install node, bun, and packages with frozen-lockfile"
 
 inputs:
-  node-version:
-    description: "Version of node to use, e.g. 20.x"
-    required: true
-    default: "20.x"
+  # node-version:
+  #   description: "Version of node to use, e.g. 20.x"
+  #   required: true
+  #   default: "20.x"
   bun-version:
     description: "Version of bun to use, e.g. 1.0.x"
     required: true
@@ -22,9 +22,9 @@ runs:
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: ${{ inputs.bun-version }}
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
+    # - uses: actions/setup-node@v3
+    #   with:
+    #     node-version: ${{ inputs.node-version }}
     - name: Install dependencies
       run: bun i --frozen-lockfile
       shell: bash

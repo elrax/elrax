@@ -66,7 +66,11 @@
 		"@types/react": "18.2.48",
 		"@types/webpack-env": "1.18.4",
 		"babel-plugin-module-resolver": "5.0.0",
+		"babel-preset-expo": "10.0.1",
 		"postcss": "8.4.33",
-		"tailwindcss": "3.4.1"
+		"tailwindcss": "3.2.2"
+	},
+	"peerDependencies": {
+		"ajv": "8.12.0"
 	}
 }
