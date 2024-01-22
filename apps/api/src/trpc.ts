@@ -5,6 +5,7 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { drizzle } from "drizzle-orm/d1"
 import type { Environment } from "./types"
 
+/** Server environment variables */
 export type Env = {
 	DB: D1Database
 	BUCKET: R2Bucket

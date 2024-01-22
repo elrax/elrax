@@ -188,7 +188,7 @@ export default function Upload() {
 					<Image source={{ uri: thumbnail }} style={{ width: 200, height: 200 }} />
 				</View>
 			)}
-			{source && <Video source={{ uri: source }} {...videoSettings} />}
+			{source && <Video muted source={{ uri: source }} {...videoSettings} />}
 		</View>
 	)
 }

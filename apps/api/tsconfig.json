@@ -4,8 +4,8 @@
 		"target": "esnext",
 		"module": "esnext",
 		"lib": ["esnext"],
-		"types": ["@cloudflare/workers-types"]
+		"types": ["@cloudflare/workers-types"],
 	},
 	"include": ["**/*.ts"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules"],
 }

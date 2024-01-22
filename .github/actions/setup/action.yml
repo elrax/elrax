@@ -1,15 +1,15 @@
 name: "Setup repository"
-description: "Dangerously checkout, install node, pnpm, and packages with frozen-lockfile"
+description: "Dangerously checkout, install node, bun, and packages with frozen-lockfile"
 
 inputs:
   node-version:
     description: "Version of node to use, e.g. 20.x"
     required: true
     default: "20.x"
-  pnpm-version:
-    description: "Version of pnpm to use, e.g. 8"
+  bun-version:
+    description: "Version of bun to use, e.g. 1.0.x"
     required: true
-    default: "8"
+    default: "latest"
 
 runs:
   using: "composite"
@@ -19,13 +19,12 @@ runs:
         # Checkout from PR code so we can run this from forks
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 2
-    - uses: pnpm/action-setup@v2
+    - uses: oven-sh/setup-bun@v1
       with:
-        version: ${{ inputs.pnpm-version }}
+        bun-version: ${{ inputs.bun-version }}
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
-        cache: "pnpm"
     - name: Install dependencies
-      run: pnpm i --frozen-lockfile
+      run: bun i --frozen-lockfile
       shell: bash

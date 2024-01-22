@@ -12,4 +12,4 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Copy .env and code lint
-        run: cp .env.example .env && pnpm lint
+        run: cp .env.example .env && bun lint

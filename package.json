@@ -1,6 +1,6 @@
 {
 	"name": "elrax",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "An open-source video crowdfunding platform",
 	"homepage": "https://elrax.com",
 	"bugs": "https://github.com/elrax/elrax/issues",
@@ -8,7 +8,7 @@
 	"author": "Elrax Corp.",
 	"repository": "https://github.com/elrax/elrax",
 	"private": true,
-	"packageManager": "pnpm@8.9.0",
+	"packageManager": "bun@1.0.25",
 	"scripts": {
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
@@ -19,14 +19,14 @@
 		"update-hooks": "simple-git-hooks"
 	},
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "6.14.0",
-		"@typescript-eslint/parser": "6.14.0",
-		"eslint": "8.55.0",
+		"@typescript-eslint/eslint-plugin": "6.19.0",
+		"@typescript-eslint/parser": "6.19.0",
+		"eslint": "8.56.0",
 		"eslint-config-prettier": "9.1.0",
-		"nx": "17.2.3",
-		"prettier": "3.1.1",
+		"nx": "17.2.8",
+		"prettier": "3.2.4",
 		"simple-git-hooks": "2.9.0",
-		"syncpack": "11.2.1"
+		"syncpack": "12.3.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.2.2"
@@ -84,9 +84,20 @@
 		"printWidth": 100
 	},
 	"simple-git-hooks": {
-		"pre-commit": "pnpm lint && pnpm fix-pkgs"
+		"pre-commit": "bun lint && bun fix-pkgs"
 	},
 	"syncpack": {
+		"semverGroups": [
+			{
+				"range": "",
+				"dependencies": [
+					"**"
+				],
+				"packages": [
+					"**"
+				]
+			}
+		],
 		"dependencyTypes": [
 			"prod",
 			"dev",

@@ -24,7 +24,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ./apps/api/
-          packageManager: pnpm
+          packageManager: bun
           environment: staging
         env:
           NO_D1_WARNING: true

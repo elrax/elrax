@@ -1,6 +1,6 @@
 {
 	"name": "@elrax/api",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Server API for Elrax Platform",
 	"homepage": "https://elrax.com",
 	"bugs": "https://github.com/elrax/elrax/issues",
@@ -19,7 +19,7 @@
 		"dev": "NO_D1_WARNING=true wrangler dev --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
-		"prepare": "yes 2>/dev/null | pnpm db:apply"
+		"prepare": "yes 2>/dev/null | bun db:apply"
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "2.2.2",
@@ -27,15 +27,15 @@
 		"aws4fetch": "1.0.17",
 		"drizzle-orm": "0.29.3",
 		"drizzle-zod": "0.5.1",
-		"hono": "3.12.3",
+		"hono": "3.12.6",
 		"superjson": "2.2.1",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20231218.0",
-		"better-sqlite3": "9.2.2",
-		"drizzle-kit": "0.20.12",
-		"wrangler": "3.22.4"
+		"@cloudflare/workers-types": "4.20240117.0",
+		"better-sqlite3": "9.3.0",
+		"drizzle-kit": "0.20.13",
+		"wrangler": "3.23.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.2.2"
