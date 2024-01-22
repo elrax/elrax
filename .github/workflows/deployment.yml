@@ -7,7 +7,6 @@ concurrency:
 on:
   workflow_dispatch:
   # push:
-  # TODO: Remove this
   # branches: ["main"]
   # TODO: Pattern matched against refs/tags
   # tags: ["*"]
@@ -29,6 +28,10 @@ jobs:
           environment: staging
         env:
           NO_D1_WARNING: true
+          CF_BUCKET_NAME: elrax-staging
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_ACCESS_KEY_ID: ${{ secrets.CF_ACCESS_KEY_ID }}
+          CF_SECRET_ACCESS_KEY: ${{ secrets.CF_SECRET_ACCESS_KEY }}
 
   deploy-mobile-staging:
     runs-on: ubuntu-latest

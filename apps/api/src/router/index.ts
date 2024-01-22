@@ -129,7 +129,7 @@ export const appRouter = router({
 			.select()
 			.from(videos)
 			.orderBy(sql`RANDOM()`)
-			.limit(1)
+			.limit(10)
 
 		const recommendedVideos: VideoProps[] = foundVideos.map((v) => {
 			const urlVideo = getVideoUrl(v.id, v.storage, ctx.env, ctx.req.url)
