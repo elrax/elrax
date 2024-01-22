@@ -1,3 +1,10 @@
+/** Application environments */
+export enum Environment {
+	DEV = "dev",
+	STAGING = "staging",
+	PRODUCTION = "production",
+}
+
 export type Category = {
 	icon: string
 	name: string
@@ -6,8 +13,8 @@ export type Category = {
 
 export type VideoProps = {
 	id: string
-	uri: string
-	uriPreview: string
+	urlVideo: string
+	urlPoster: string
 	description?: string
 	category: Category
 	author: {

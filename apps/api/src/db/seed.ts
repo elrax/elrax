@@ -1,10 +1,10 @@
-export const videos = [
+import type { VideoProps } from "../types"
+
+export const videos: VideoProps[] = [
 	{
 		id: "1",
-		// uri: "https://customer-at43xdrd2w5i45wr.cloudflarestream.com/7380a07e670c28c24216d214c6ca2ad4/manifest/video.m3u8",
-		// uri: "https://cdn-staging.elrax.com/10wReMX/10wReMX.m3u8",
-		uri: "https://cdn-staging.elrax.com/acjxh8jwbugpip6vvbpoh3q6/video.m3u8",
-		uriPreview: "https://i.imgur.com/1E7pBT2.png",
+		urlVideo: "https://cdn-staging.elrax.com/acjxh8jwbugpip6vvbpoh3q6/video.m3u8",
+		urlPoster: "https://i.imgur.com/1E7pBT2.png",
 		description: "Fine jewelry created just for you. Hand crafted and well made goods.",
 		category: {
 			icon: "dribbble",
@@ -21,8 +21,8 @@ export const videos = [
 	},
 	{
 		id: "2",
-		uri: "https://cdn-staging.elrax.com/jv309m6az43la5amrajgzymx/video.m3u8",
-		uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
+		urlVideo: "https://cdn-staging.elrax.com/jv309m6az43la5amrajgzymx/video.m3u8",
+		urlPoster: "https://i.imgur.com/ljZTgRN.jpeg",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 		category: {
 			icon: "aperture",
@@ -38,8 +38,8 @@ export const videos = [
 	},
 	{
 		id: "3",
-		uri: "https://cdn-staging.elrax.com/na2r23buam6nzguc6znw3dzr/video.m3u8",
-		uriPreview: "https://i.imgur.com/ljZTgRN.jpeg",
+		urlVideo: "https://cdn-staging.elrax.com/na2r23buam6nzguc6znw3dzr/video.m3u8",
+		urlPoster: "https://i.imgur.com/ljZTgRN.jpeg",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 		category: {
 			icon: "aperture",

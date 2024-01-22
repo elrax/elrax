@@ -3,13 +3,7 @@ import superjson from "superjson"
 import type { inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { drizzle } from "drizzle-orm/d1"
-
-/** Application environments */
-export enum Environment {
-	DEV = "dev",
-	STAGING = "staging",
-	PRODUCTION = "production",
-}
+import type { Environment } from "./types"
 
 export type Env = {
 	DB: D1Database

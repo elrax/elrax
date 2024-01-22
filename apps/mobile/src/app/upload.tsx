@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, Button, StyleSheet } from "react-native"
+import { View, Image, Text, Button, StyleSheet } from "react-native"
 import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker"
 import {
 	makeDirectoryAsync,
@@ -9,11 +9,12 @@ import {
 	deleteAsync,
 } from "expo-file-system"
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from "ffmpeg-kit-react-native"
-import { Video } from "expo-av"
+import Video from "react-native-video"
 import { api, getBaseUrl } from "~/utils/api"
 
 const videoTmpFolder = "uploadVideo"
 const videoName = "video.m3u8"
+const thumbnailName = "thumbnail0.png"
 
 const fetchImageFromUri = async (uri: string) => {
 	const res = await fetch(uri)
@@ -60,9 +61,34 @@ const getSourceVideo = async () => {
 	return res
 }
 
+const videoToHLS = async (source: string, dest: string) => {
+	const ffmpegSession = await FFmpegKit.execute(
+		`-i ${source} -c:v libx264 -profile:v baseline -level 4.0 -preset medium -b:v 2500k -maxrate 2500k -bufsize 5000k -pix_fmt yuv420p -c:a aac -b:a 128k -ar 48000 -ac 2 -start_number 0 -hls_time 2 -hls_playlist_type vod -f hls ${dest}`,
+	)
+	const result = await ffmpegSession.getReturnCode()
+	if (ReturnCode.isSuccess(result)) {
+		return true
+	} else {
+		console.error(result)
+		return false
+	}
+}
+
+const videoToThumbnail = async (source: string, dest: string) => {
+	// TODO: Specify second
+	const ffmpegSession = await FFmpegKit.execute(`-i ${source} -ss 1 -vframes:v 1 ${dest}`)
+	const result = await ffmpegSession.getReturnCode()
+	if (ReturnCode.isSuccess(result)) {
+		return true
+	} else {
+		console.error(result)
+		return false
+	}
+}
+
 export default function Upload() {
 	const [status, setStatus] = useState({ btn: "Select video" as string | null, msg: "" })
-	// const [thumbnail, setThumbnail] = useState(null as string | null)
+	const [thumbnail, setThumbnail] = useState(null as string | null)
 	const [result, setResult] = useState(null as string | null)
 	const [source, setSource] = useState(null as string | null)
 
@@ -80,6 +106,10 @@ export default function Upload() {
 			await onConvertClick()
 		} else if (status.btn === "Upload video") {
 			await onUploadClick()
+		} else if (status.btn === "Okay") {
+			setStatus({ btn: "Select video", msg: "" })
+			setResult(null)
+			setSource(null)
 		}
 	}
 
@@ -102,17 +132,15 @@ export default function Upload() {
 		setStatus({ btn: null, msg: "Converting..." })
 
 		const resultVideo = await getResultPath(videoTmpFolder)
-		const ffmpegSession = await FFmpegKit.execute(
-			`-i ${source} -c:v libx264 -profile:v baseline -level 4.0 -preset medium -b:v 2500k -maxrate 2500k -bufsize 5000k -pix_fmt yuv420p -c:a aac -b:a 128k -ar 48000 -ac 2 -start_number 0 -hls_time 2 -hls_playlist_type vod -f hls ${resultVideo}`,
-		)
-		const result = await ffmpegSession.getReturnCode()
-		if (ReturnCode.isSuccess(result)) {
+		const resultThumbnail = resultVideo.replace(videoName, thumbnailName)
+
+		const thumbnailRes = await videoToThumbnail(source, resultThumbnail)
+		const videoRes = await videoToHLS(source, resultVideo)
+		if (thumbnailRes && videoRes) {
+			setStatus({ btn: "Upload video", msg: "Video converted." })
+			setThumbnail(resultThumbnail)
 			setResult(resultVideo)
-			console.log(resultVideo)
-		} else {
-			console.error(result)
 		}
-		setStatus({ btn: "Upload video", msg: "Video converted." })
 	}
 	const onUploadClick = async () => {
 		if (!result) {
@@ -146,7 +174,7 @@ export default function Upload() {
 			console.log(`${partName} upload status: ${uploadResult.status}`)
 		}
 		const url = await updateVideo.mutateAsync({ videoId })
-		setStatus({ btn: null, msg: "Video uploaded." })
+		setStatus({ btn: "Okay", msg: "Video uploaded." })
 		console.log("Video url: " + url)
 	}
 
@@ -154,14 +182,13 @@ export default function Upload() {
 		<View className="bg-[#000A14] h-full w-full flex justify-center items-center">
 			{status.btn && <Button onPress={onClick} title={status.btn} />}
 			{status.msg && <Text className="font-ns-bold text-xl text-white">{status.msg}</Text>}
-			{/* thumbnail && (
-				<Text className="font-ns-bold text-xl text-white">
-					Preview:
+			{thumbnail && (
+				<View className="flex flex-col">
+					<Text className="font-ns-bold text-xl text-white">Thumbnail:</Text>
 					<Image source={{ uri: thumbnail }} style={{ width: 200, height: 200 }} />
-				</Text>
-			) */}
+				</View>
+			)}
 			{source && <Video source={{ uri: source }} {...videoSettings} />}
-			{result && <Video source={{ uri: result }} {...videoSettings} />}
 		</View>
 	)
 }

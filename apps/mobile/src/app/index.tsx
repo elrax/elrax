@@ -3,10 +3,12 @@ import { Dimensions, RefreshControl, Text, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
+// import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import { FeedVideo, type FeedVideoRef } from "~/components/Video"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
 import { api } from "~/utils/api"
+import { useVideoViewState } from "~/stores/videoViewState"
 
 export default function Index() {
 	setStatusBarStyle("light")
@@ -18,8 +20,9 @@ export default function Index() {
 	})
 	const [feedVideos, setFeedVideos] = useState([] as VideoProps[])
 	const [isLoading, setIsLoading] = useState(true)
-	const [currentVideoId, setCurrentVideoId] = useState(null as null | string)
+	const [currentVideoId] = useVideoViewState((state) => [state.currentVideoId])
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
+	// const lfuPolicyRef = useRef(new LFUPolicy(5))
 
 	const tabBarHeight = useBottomTabBarHeight()
 	const windowHeight = Dimensions.get("window").height
@@ -36,12 +39,9 @@ export default function Index() {
 		console.log(`videos status: ${videos.status}`)
 		if (videos.data && videos.data.length > 0) {
 			if (feedVideos.length > 0 && currentVideoId) {
-				mediaRefs.current[currentVideoId]?.stop()
+				mediaRefs.current[currentVideoId]?.pause()
 			}
 			setFeedVideos(videos.data)
-			if (videos.data[0]) {
-				setCurrentVideoId(videos.data[0].id)
-			}
 		}
 	}, [videos.data])
 
@@ -52,7 +52,6 @@ export default function Index() {
 				if (element.isViewable) {
 					console.log(`Playing: ${element.key}`)
 					setCategory(cell.getItem().category)
-					setCurrentVideoId(element.key)
 					cell.play()
 				} else {
 					cell.pause()
@@ -66,6 +65,7 @@ export default function Index() {
 		<>
 			<FeedTopOverlay category={category} />
 			<View className="bg-[#000A14] h-full w-full">
+				{/* <CacheManagerProvider cachePolicy={lfuPolicyRef.current}> */}
 				<FlashList
 					data={feedVideos}
 					renderItem={({ item }) => (
@@ -80,7 +80,6 @@ export default function Index() {
 									}
 								}
 							}}
-							isVisible={currentVideoId === item.id}
 						/>
 					)}
 					ListEmptyComponent={

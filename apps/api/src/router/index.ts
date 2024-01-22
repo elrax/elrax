@@ -132,10 +132,13 @@ export const appRouter = router({
 			.limit(10)
 
 		const recommendedVideos: VideoProps[] = foundVideos.map((v) => {
+			const urlVideo = getVideoUrl(v.id, v.storage, ctx.env, ctx.req.url)
+			const urlPoster = urlVideo.replace("video.m3u8", `thumbnail${v.thumbnailIndex}.png`)
 			return {
 				id: v.id,
-				uri: getVideoUrl(v.id, v.storage, ctx.env, ctx.req.url),
-				uriPreview: "https://i.imgur.com/1E7pBT2.png",
+				createdAt: v.createdAt,
+				urlVideo,
+				urlPoster,
 				description: v.description,
 				category: {
 					icon: "dribbble",
@@ -150,8 +153,6 @@ export const appRouter = router({
 				},
 			} as VideoProps
 		})
-		console.log(recommendedVideos)
-
 		return recommendedVideos
 	}),
 })

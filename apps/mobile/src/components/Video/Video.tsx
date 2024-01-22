@@ -1,124 +1,84 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
-import type { NativeTouchEvent } from "react-native"
-import { ResizeMode, Audio, Video, InterruptionModeIOS } from "expo-av"
-import { type AVPlaybackStatus, PlaybackMixin } from "expo-av/build/AV"
+import { type NativeTouchEvent } from "react-native"
+import Video, { type VideoRef } from "react-native-video"
+import { useNavigation } from "expo-router"
+// import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import type { FeedVideoRef } from "./types"
 import { Overlay } from "./Overlay"
+import { useVideoViewState } from "~/stores/videoViewState"
 
 export type FeedVideoProps = {
 	item: VideoProps
 	height: number
-	isVisible: boolean
 }
 
 export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref<FeedVideoRef>) => {
-	const refVideo: React.Ref<Video> = useRef(null)
-	const [status, setStatus] = React.useState(null as null | AVPlaybackStatus)
+	const navigation = useNavigation()
+
+	const refVideo = useRef<VideoRef>(null)
+	const [isMuted, toggleMute, setCurrentVideoId] = useVideoViewState((state) => [
+		state.isMuted,
+		state.toggleMute,
+		state.setCurrentVideoId,
+	])
+	const [paused, setPaused] = useState(true)
 	const [lastTouchPos, setLastTouchPos] = useState(null as null | NativeTouchEvent)
 	const [overlayOpacity, setOverlayOpacity] = useState(1)
 	const [pauseTimeoutId, setPauseTimeoutId] = useState(
 		null as null | ReturnType<typeof setTimeout>,
 	)
+	// const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
 
 	useImperativeHandle(
 		parentRef,
 		() => ({
 			getItem,
 			play,
-			unload,
 			pause,
-			stop,
 		}),
 		[],
 	)
 
 	useEffect(() => {
-		console.debug(`FeedVideo status: ${JSON.stringify(status)}`)
-		return () => void unload()
-	}, [])
+		const unsub2 = navigation.addListener("focus", () => {
+			if (isVisible()) play()
+		})
+		const unsub1 = navigation.addListener("blur", () => {
+			pause()
+		})
+		return () => {
+			unsub1()
+			unsub2()
+		}
+	}, [navigation])
+
+	const isVisible = () => props.item.id === useVideoViewState.getState().currentVideoId
 
 	const getItem = () => {
 		return props.item
 	}
 
-	const play = async (noAudioSet?: boolean) => {
-		if (!refVideo.current) {
-			return false
-		}
-		const status = await refVideo.current.getStatusAsync()
-		if (status.isLoaded && status.isPlaying) {
-			return false
-		}
-		if (!noAudioSet) {
-			await Audio.setAudioModeAsync({
-				playsInSilentModeIOS: true,
-				interruptionModeIOS: InterruptionModeIOS.DoNotMix,
-				shouldDuckAndroid: true,
-				staysActiveInBackground: false,
-			})
-		}
-		console.debug("FeedVideo: play")
-		// FIXME: Somewhy doesn't work without this
-		await PlaybackMixin.playAsync.call(refVideo.current)
-		return true
+	const play = () => {
+		if (!refVideo.current) return
+		console.debug(`Video ${props.item.id}: play`)
+		// setVideoPlayUrlBy(props.item.urlVideo)
+		// setVideoPlayUrlBy("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
+		setPaused(false)
+		setCurrentVideoId(props.item.id)
 	}
 
-	const pause = async () => {
-		if (!refVideo.current) {
-			return false
-		}
-		const status = await refVideo.current.getStatusAsync()
-		if (status.isLoaded && !status.isPlaying) {
-			return false
-		}
-		console.debug("FeedVideo: pause")
-		await PlaybackMixin.pauseAsync.call(refVideo.current)
-		return true
-	}
-
-	const toggleMute = async () => {
-		if (!refVideo.current) {
-			return false
-		}
-		console.debug("FeedVideo: toggle mute")
-		const status = await refVideo.current.getStatusAsync()
-		if (!status.isLoaded) {
-			return false
-		}
-		// TODO: Make mute global
-		const newValue = !status.isMuted
-		await PlaybackMixin.setIsMutedAsync.call(refVideo.current, newValue)
-		return true
-	}
-
-	const stop = async () => {
-		if (!refVideo.current) {
-			return false
-		}
-		const status = await refVideo.current.getStatusAsync()
-		if (status.isLoaded && !status.isPlaying) {
-			return false
-		}
-		console.debug("FeedVideo: stop")
-		await PlaybackMixin.stopAsync.call(refVideo.current)
-		return true
-	}
-
-	const unload = async () => {
-		if (!refVideo.current) {
-			return false
-		}
-		console.debug("FeedVideo: unload")
-		await refVideo.current.unloadAsync()
-		return true
+	const pause = () => {
+		if (!refVideo.current) return
+		console.debug(`Video ${props.item.id}: pause`)
+		setPaused(true)
 	}
 
 	const setPauseTimeout = () => {
 		const timeoutId = setTimeout(() => {
 			setOverlayOpacity(0)
 			pause()
-		}, 300)
+		}, 200)
 		setPauseTimeoutId(timeoutId)
 	}
 
@@ -129,43 +89,30 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 		if (pauseTimeoutId) {
 			setPauseTimeoutId(null)
 			clearTimeout(pauseTimeoutId)
-			return true
 		}
-		return false
 	}
 
-	// TODO: Fix video multiple and constant calls to file api for the same video
-
+	// Read more about Video component here: https://react-native-video.github.io/react-native-video
 	return (
 		<>
 			<Overlay item={props.item} height={props.height} opacity={overlayOpacity} />
 			<Video
 				ref={refVideo}
-				style={{
-					width: "100%",
-					height: props.height,
-				}}
+				style={{ height: props.height }}
 				source={{
-					uri: props.item.uri,
+					uri: props.item.urlVideo /* cachedVideoUrl */,
 				}}
-				posterSource={{
-					uri: props.item.uriPreview,
+				poster={props.item.urlPoster}
+				posterResizeMode={"cover"}
+				paused={paused}
+				mixWithOthers="duck"
+				ignoreSilentSwitch="ignore"
+				repeat
+				muted={isMuted}
+				onError={(e) => {
+					console.log(`Video error ${props.item.id}: ${JSON.stringify(e)}`)
 				}}
-				posterStyle={{
-					resizeMode: "cover",
-					width: "100%",
-					height: props.height,
-				}}
-				usePoster={true}
-				resizeMode={ResizeMode.COVER}
-				onPlaybackStatusUpdate={(status) => {
-					setStatus(() => status)
-					if (status.isLoaded) {
-						if (status.didJustFinish) {
-							void refVideo.current?.replayAsync()
-						}
-					}
-				}}
+				resizeMode="cover"
 				onTouchStart={(e) => {
 					setLastTouchPos(e.nativeEvent)
 					setPauseTimeout()
@@ -179,13 +126,12 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 					const x = e.nativeEvent.locationX
 					const y = e.nativeEvent.locationY
 					const isClicked = lastTouchPos?.locationX === x || lastTouchPos?.locationY === y
-					if (isClicked && refVideo.current && status?.isLoaded && status?.isPlaying) {
+					if (isClicked && !paused) {
 						toggleMute()
+						console.log(`Video ${props.item.id}: toggle mute`)
 					}
 
-					if (props.isVisible) {
-						play(true)
-					}
+					if (isVisible() && paused) play()
 					setLastTouchPos(null)
 				}}
 			/>

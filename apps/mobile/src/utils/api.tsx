@@ -6,6 +6,7 @@ import { createTRPCReact } from "@trpc/react-query"
 import superjson from "superjson"
 
 import type { AppRouter } from "@elrax/api"
+import Config from "../config"
 
 /**
  * A set of typesafe hooks for consuming the API.
@@ -18,16 +19,15 @@ export { type RouterInputs, type RouterOutputs } from "@elrax/api"
  * setting the baseUrl to your production API URL.
  */
 export const getBaseUrl = () => {
-	const apiUrl = process.env.EXPO_PUBLIC_API_URL
-	if (apiUrl === "production") {
-		return apiUrl
+	if (Config.apiUrl) {
+		return Config.apiUrl
 	}
-
 	const debuggerHost = Constants.expoConfig?.hostUri
 	const localhost = debuggerHost?.split(":")[0]
-
 	if (!localhost) {
-		return "https://api-staging.elrax.com"
+		throw new Error(
+			"Could not determine localhost. Make sure you are running the server on the same network.",
+		)
 	}
 	return `http://${localhost}:8787`
 }
