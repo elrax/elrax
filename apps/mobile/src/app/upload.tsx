@@ -110,6 +110,7 @@ export default function Upload() {
 			setStatus({ btn: "Select video", msg: "" })
 			setResult(null)
 			setSource(null)
+			setThumbnail(null)
 		}
 	}
 
