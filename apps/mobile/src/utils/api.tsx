@@ -25,9 +25,8 @@ export const getBaseUrl = () => {
 	const debuggerHost = Constants.expoConfig?.hostUri
 	const localhost = debuggerHost?.split(":")[0]
 	if (!localhost) {
-		throw new Error(
-			"Could not determine localhost. Make sure you are running the server on the same network.",
-		)
+		console.log("Could not determine localhost. Trying connection to staging.")
+		return "https://api-staging.elrax.com"
 	}
 	return `http://${localhost}:8787`
 }

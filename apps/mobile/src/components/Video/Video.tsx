@@ -1,12 +1,14 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
-import { type NativeTouchEvent } from "react-native"
+import type { NativeTouchEvent } from "react-native"
 import Video, { type VideoRef } from "react-native-video"
 import { useNavigation } from "expo-router"
-// import { useAsyncCache } from "react-native-cache-video"
+import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
+import { Environment } from "@elrax/api/src/types"
 import type { FeedVideoRef } from "./types"
 import { Overlay } from "./Overlay"
 import { useVideoViewState } from "~/stores/videoViewState"
+import Config from "~/config"
 
 export type FeedVideoProps = {
 	item: VideoProps
@@ -28,7 +30,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	const [pauseTimeoutId, setPauseTimeoutId] = useState(
 		null as null | ReturnType<typeof setTimeout>,
 	)
-	// const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
+	const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
 
 	useImperativeHandle(
 		parentRef,
@@ -62,8 +64,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	const play = () => {
 		if (!refVideo.current) return
 		console.debug(`Video ${props.item.id}: play`)
-		// setVideoPlayUrlBy(props.item.urlVideo)
-		// setVideoPlayUrlBy("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8")
+		setVideoPlayUrlBy(props.item.urlVideo)
 		setPaused(false)
 		setCurrentVideoId(props.item.id)
 	}
@@ -92,6 +93,10 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 		}
 	}
 
+	// We don't want to use cache during local development.
+	// Primarily because somewhy it's not working with http.
+	const uri = Config.env !== Environment.DEV ? cachedVideoUrl : props.item.urlVideo
+
 	// Read more about Video component here: https://react-native-video.github.io/react-native-video
 	return (
 		<>
@@ -99,9 +104,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 			<Video
 				ref={refVideo}
 				style={{ height: props.height }}
-				source={{
-					uri: props.item.urlVideo /* cachedVideoUrl */,
-				}}
+				source={{ uri }}
 				poster={props.item.urlPoster}
 				posterResizeMode={"cover"}
 				paused={paused}

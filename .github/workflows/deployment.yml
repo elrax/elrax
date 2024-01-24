@@ -26,7 +26,7 @@ jobs:
           NO_D1_WARNING: true
         run: |
           cd ./apps/api/
-          pnpm wrangler d1 migrations apply -e=staging elrax-db-staging
+          bun wrangler d1 migrations apply -e=staging elrax-db-staging
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3

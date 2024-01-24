@@ -3,7 +3,6 @@ import { Dimensions, RefreshControl, Text, View } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { setStatusBarStyle } from "expo-status-bar"
-// import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import { FeedVideo, type FeedVideoRef } from "~/components/Video"
 import FeedTopOverlay from "~/components/FeedTopOverlay"
@@ -22,7 +21,6 @@ export default function Index() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [currentVideoId] = useVideoViewState((state) => [state.currentVideoId])
 	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
-	// const lfuPolicyRef = useRef(new LFUPolicy(5))
 
 	const tabBarHeight = useBottomTabBarHeight()
 	const windowHeight = Dimensions.get("window").height
@@ -65,7 +63,6 @@ export default function Index() {
 		<>
 			<FeedTopOverlay category={category} />
 			<View className="bg-[#000A14] h-full w-full">
-				{/* <CacheManagerProvider cachePolicy={lfuPolicyRef.current}> */}
 				<FlashList
 					data={feedVideos}
 					renderItem={({ item }) => (

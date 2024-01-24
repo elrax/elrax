@@ -29,9 +29,15 @@ const defineConfig = {
 		bundleIdentifier: "com.elrax.elrax",
 		buildNumber: "0.1.1",
 		supportsTablet: true,
+		splash: {
+			backgroundColor: "#000A14",
+		},
 	},
 	android: {
 		package: "com.elrax.elrax",
+		splash: {
+			backgroundColor: "#000A14",
+		},
 	},
 	plugins: [
 		"expo-router",
