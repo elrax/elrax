@@ -12,19 +12,28 @@ on:
   # tags: ["*"]
 
 jobs:
-  deploy-api-staging:
+  deploy-staging:
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
 
+      - name: Apply DB migrations
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NO_D1_WARNING: true
+        run: |
+          cd ./apps/api/
+          bun wrangler d1 migrations apply -e=staging elrax-db-staging
+
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ./apps/api/
-          packageManager: pnpm
+          packageManager: bun
           environment: staging
         env:
           NO_D1_WARNING: true
@@ -32,13 +41,6 @@ jobs:
           CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_ACCESS_KEY_ID: ${{ secrets.CF_ACCESS_KEY_ID }}
           CF_SECRET_ACCESS_KEY: ${{ secrets.CF_SECRET_ACCESS_KEY }}
-
-  deploy-mobile-staging:
-    runs-on: ubuntu-latest
-    environment: staging
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -49,7 +51,8 @@ jobs:
       - name: Create build
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas build --profile staging --platform all
+          # temporary iOS only, replace with "all" when needed
+          command: eas build -e=staging -p=ios --non-interactive
           working-directory: ./apps/mobile/
           comment: false
 

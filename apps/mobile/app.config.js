@@ -4,7 +4,7 @@ const defineConfig = {
 	slug: "elrax",
 	owner: "elrax",
 	scheme: "elrax",
-	version: "0.1.0",
+	version: "0.1.1",
 	extra: {
 		eas: {
 			projectId: "7ccac9f6-2287-458f-94fd-dcfdb73b0864",
@@ -27,11 +27,17 @@ const defineConfig = {
 	},
 	ios: {
 		bundleIdentifier: "com.elrax.elrax",
-		buildNumber: "0.1.0",
+		buildNumber: "0.1.1",
 		supportsTablet: true,
+		splash: {
+			backgroundColor: "#000A14",
+		},
 	},
 	android: {
 		package: "com.elrax.elrax",
+		splash: {
+			backgroundColor: "#000A14",
+		},
 	},
 	plugins: [
 		"expo-router",
@@ -54,6 +60,15 @@ const defineConfig = {
 				ios: {
 					deploymentTarget: "13.4",
 				},
+			},
+		],
+		[
+			"expo-font",
+			{
+				fonts: [
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_400Regular.ttf",
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_700Bold.ttf",
+				],
 			},
 		],
 	],

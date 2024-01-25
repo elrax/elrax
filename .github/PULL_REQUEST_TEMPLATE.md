@@ -18,13 +18,13 @@
 
 ## Type of change
 
-<!-- Please delete bullets that are not relevant. -->
+<!-- Please delete options that are not relevant. -->
 
-- [ ] Bug fix (non-breaking change which fixes an issue).
-- [ ] Chore (refactoring code, technical debt, workflow improvements).
-- [ ] New feature (non-breaking change which adds functionality).
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected).
-- [ ] This change requires a documentation update.
+- Bug fix (non-breaking change which fixes an issue).
+- Chore (refactoring code, technical debt, workflow improvements).
+- New feature (non-breaking change which adds functionality).
+- Breaking change (fix or feature that would cause existing functionality to not work as expected).
+- This change requires a documentation update.
 
 ## How should this be tested?
 
@@ -35,15 +35,12 @@
 - What is expected (happy path) to have (input and output)?
 - Any other important info that could help to test that PR?
 
-## Mandatory Tasks
-
-- [ ] Make sure you have self-reviewed the code. A decent-sized PR without self-review might be rejected.
-
 ## Checklist
 
 <!-- Please remove all the bullets irrelevant to your PR. -->
 
 - I haven't read the [contributing guide](https://github.com/elrax/elrax/blob/main/CONTRIBUTING.md).
+- I haven't self-reviewed the code.
 - My code doesn't follow the style guidelines of this project.
 - I haven't commented on my code, particularly in hard-to-understand areas.
 - I haven't checked if my PR needs changes to the documentation.

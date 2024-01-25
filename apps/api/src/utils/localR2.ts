@@ -1,5 +1,6 @@
 import type { Hono } from "hono"
-import { type Env, Environment } from "../trpc"
+import type { Env } from "../trpc"
+import { Environment } from "../types"
 
 export const initLocalR2Api = (app: Hono<{ Bindings: Env }>) => {
 	// Upload file to R2 Bucket. Works only in dev environment

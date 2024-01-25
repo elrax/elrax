@@ -5,10 +5,10 @@ import { TRPCError } from "@trpc/server"
 import { eq, sql } from "drizzle-orm"
 import { Storage, VideoUploadStatus } from "../db/types"
 import { getVideoUrl } from "../utils/storage"
-import { type Env, Environment, procedure, router } from "../trpc"
+import { type Env, procedure, router } from "../trpc"
 import { dateNow } from "../utils/date"
 import { users, videos } from "../db/schema"
-import type { VideoProps } from "../types"
+import { type VideoProps, Environment } from "../types"
 
 const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => {
 	const m3u8File = partNames.find((v) => v.includes(".m3u8"))

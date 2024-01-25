@@ -110,6 +110,7 @@ export default function Upload() {
 			setStatus({ btn: "Select video", msg: "" })
 			setResult(null)
 			setSource(null)
+			setThumbnail(null)
 		}
 	}
 
@@ -188,7 +189,7 @@ export default function Upload() {
 					<Image source={{ uri: thumbnail }} style={{ width: 200, height: 200 }} />
 				</View>
 			)}
-			{source && <Video source={{ uri: source }} {...videoSettings} />}
+			{source && <Video muted source={{ uri: source }} {...videoSettings} />}
 		</View>
 	)
 }

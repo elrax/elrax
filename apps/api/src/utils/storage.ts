@@ -1,5 +1,6 @@
-import { Environment, type Env } from "../trpc"
 import { Storage } from "../db/types"
+import { Environment } from "../types"
+import type { Env } from "../trpc"
 
 /** Returns current base url. Used in dev environment */
 export const getCurrentUrl = (fullUrl: string) => {

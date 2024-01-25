@@ -1,14 +1,11 @@
 import React, { useEffect } from "react"
 import { SplashScreen, Tabs } from "expo-router"
-import { TRPCProvider } from "~/utils/api"
-import { useIconFont, Icon } from "~/components/Icon"
-import { useNunitoSans } from "~/components/Fonts"
 import NetInfo from "@react-native-community/netinfo"
 import { onlineManager } from "@tanstack/react-query"
-import { Logs } from "expo"
-
-// For debug purposes only
-Logs.enableExpoCliLogging()
+import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
+import { TRPCProvider } from "~/utils/api"
+import { useIconFont, Icon } from "~/components/Icon"
+// import { useNunitoSans } from "~/components/Fonts"
 
 SplashScreen.preventAutoHideAsync()
 onlineManager.setEventListener((setOnline) => {
@@ -22,15 +19,17 @@ export const unstable_settings = {
 }
 
 export default function RootLayout() {
+	const lfuPolicyRef = React.useRef(new LFUPolicy(5))
+
 	const [iconsLoaded] = useIconFont()
-	const [fontsLoaded] = useNunitoSans()
+	// const [fontsLoaded] = useNunitoSans()
 	useEffect(() => {
-		console.debug(`Fonts: ${fontsLoaded}, icons: ${iconsLoaded}`)
-		if (iconsLoaded && fontsLoaded) {
+		// console.debug(`Fonts: ${fontsLoaded}, icons: ${iconsLoaded}`)
+		if (iconsLoaded /* && fontsLoaded*/) {
 			SplashScreen.hideAsync()
 		}
-	}, [iconsLoaded, fontsLoaded])
-	if (!fontsLoaded || !fontsLoaded) {
+	}, [iconsLoaded /*, fontsLoaded*/])
+	if (!iconsLoaded /*&& !fontsLoaded*/) {
 		return null
 	}
 
@@ -58,39 +57,46 @@ export default function RootLayout() {
 		},
 	})
 	return (
-		<TRPCProvider>
-			<Tabs>
-				<Tabs.Screen
-					name="index"
-					options={defaultTabOptions("/", "Feed", "home-close", "home-open")}
-				/>
-				<Tabs.Screen
-					name="search"
-					options={defaultTabOptions("/search", "Search", "search-close", "search-open")}
-				/>
-				<Tabs.Screen
-					name="upload"
-					options={defaultTabOptions("/upload", "Upload", "plus-close", "plus-open")}
-				/>
-				<Tabs.Screen
-					name="notifications"
-					options={defaultTabOptions(
-						"/notifications",
-						"Notifications",
-						"bell-close",
-						"bell-open",
-					)}
-				/>
-				<Tabs.Screen
-					name="profile"
-					options={defaultTabOptions(
-						"/profile",
-						"Profile",
-						"profile-new-close",
-						"profile-new-open",
-					)}
-				/>
-			</Tabs>
-		</TRPCProvider>
+		<CacheManagerProvider cachePolicy={lfuPolicyRef.current}>
+			<TRPCProvider>
+				<Tabs>
+					<Tabs.Screen
+						name="index"
+						options={defaultTabOptions("/", "Feed", "home-close", "home-open")}
+					/>
+					<Tabs.Screen
+						name="search"
+						options={defaultTabOptions(
+							"/search",
+							"Search",
+							"search-close",
+							"search-open",
+						)}
+					/>
+					<Tabs.Screen
+						name="upload"
+						options={defaultTabOptions("/upload", "Upload", "plus-close", "plus-open")}
+					/>
+					<Tabs.Screen
+						name="notifications"
+						options={defaultTabOptions(
+							"/notifications",
+							"Notifications",
+							"bell-close",
+							"bell-open",
+						)}
+					/>
+					<Tabs.Screen
+						name="profile"
+						options={defaultTabOptions(
+							"/profile",
+							"Profile",
+							"profile-new-close",
+							"profile-new-open",
+						)}
+					/>
+				</Tabs>
+			</TRPCProvider>
+		</CacheManagerProvider>
 	)
 }
