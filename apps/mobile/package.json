@@ -11,7 +11,7 @@
 	"main": "expo-router/entry",
 	"scripts": {
 		"android": "expo start --android",
-		"clean": "rm -rf node_modules .expo",
+		"clean": "rm -rf node_modules .expo dist",
 		"dev": "expo start --dev-client",
 		"fix": "expo install --fix",
 		"format": "prettier --write --ignore-path=../../.gitignore .",

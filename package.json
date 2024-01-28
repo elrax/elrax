@@ -16,15 +16,19 @@
 		"fix-pkgs": "syncpack fix-mismatches && syncpack set-semver-ranges && syncpack format",
 		"format": "nx run-many -t=format --exclude=elrax --output-style=stream",
 		"lint": "nx run-many -t=lint --exclude=elrax --output-style=stream",
+		"release": "release-it",
 		"update-hooks": "simple-git-hooks"
 	},
 	"devDependencies": {
+		"@release-it/bumper": "6.0.1",
+		"@release-it/conventional-changelog": "8.0.1",
 		"@typescript-eslint/eslint-plugin": "6.19.0",
 		"@typescript-eslint/parser": "6.19.0",
 		"eslint": "8.56.0",
 		"eslint-config-prettier": "9.1.0",
 		"nx": "17.2.8",
 		"prettier": "3.2.4",
+		"release-it": "17.0.3",
 		"simple-git-hooks": "2.9.0",
 		"syncpack": "12.3.0"
 	},
@@ -82,6 +86,46 @@
 		"semi": false,
 		"trailingComma": "all",
 		"printWidth": 100
+	},
+	"release-it": {
+		"hooks": {
+			"after:bump": "bun run fix-pkgs"
+		},
+		"git": {
+			"commitMessage": "chore: release v${version}"
+		},
+		"github": {
+			"release": true
+		},
+		"npm": {
+			"publish": false
+		},
+		"plugins": {
+			"@release-it/bumper": {
+				"out": [
+					"apps/**/package.json",
+					"packages/**/package.json"
+				]
+			},
+			"@release-it/conventional-changelog": {
+				"infile": "CHANGELOG.md",
+				"header": "# Changelog",
+				"preset": {
+					"name": "conventionalcommits",
+					"types": [
+						{
+							"type": "feat",
+							"section": "Features"
+						},
+						{
+							"type": "fix",
+							"section": "Bug Fixes"
+						},
+						{}
+					]
+				}
+			}
+		}
 	},
 	"simple-git-hooks": {
 		"pre-commit": "bun lint && bun fix-pkgs"
