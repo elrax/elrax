@@ -1,14 +1,8 @@
 import { cva, type VariantProps } from "class-variance-authority"
 import React from "react"
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { cn } from "~/utils/style"
 import { Pressable, Text, View } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
-
-// TODO: move function to utils
-function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs))
-}
 
 const buttonVariants = cva(
 	["flex-row items-center w-full justify-center rounded-[36px] overflow-hidden"],
