@@ -101,7 +101,8 @@
 			"releaseName": "v${version}"
 		},
 		"npm": {
-			"publish": false
+			"publish": false,
+			"ignoreVersion": true
 		},
 		"plugins": {
 			"@release-it/bumper": {
