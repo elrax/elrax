@@ -1,6 +1,6 @@
 {
 	"name": "@elrax/api",
-	"version": "0.1.1",
+	"version": "0.0.1",
 	"description": "Server API for Elrax Platform",
 	"homepage": "https://elrax.com",
 	"bugs": "https://github.com/elrax/elrax/issues",
