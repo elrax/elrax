@@ -58,7 +58,7 @@
 		"zustand": "4.5.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.23.7",
+		"@babel/core": "7.23.9",
 		"@babel/plugin-transform-private-methods": "7.23.3",
 		"@elrax/api": "workspace:*",
 		"@elrax/tailwind-config": "workspace:*",
