@@ -92,10 +92,13 @@
 			"after:bump": "bun run fix-pkgs"
 		},
 		"git": {
+			"tagName": "v${version}",
+			"requireBranch": "main",
 			"commitMessage": "chore: release v${version}"
 		},
 		"github": {
-			"release": true
+			"release": true,
+			"releaseName": "v${version}"
 		},
 		"npm": {
 			"publish": false

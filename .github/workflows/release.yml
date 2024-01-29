@@ -6,6 +6,11 @@ concurrency:
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version (major/minor/patch)"
+        required: true
+        default: "patch"
 
 jobs:
   release:
@@ -16,7 +21,11 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/setup
 
+      - name: Set git config
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - name: Create changelog and release
-        run: bun run release --ci
+        run: bun run release --ci -i=${{ github.event.inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
