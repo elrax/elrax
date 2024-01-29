@@ -71,9 +71,9 @@ export const appRouter = router({
 			await ctx.db
 				.insert(users)
 				.values({
-					id: "mock",
-					email: "mock",
-					username: "mock",
+					id: "user12",
+					email: "user12",
+					username: "user12",
 				})
 				.onConflictDoNothing()
 
@@ -86,7 +86,7 @@ export const appRouter = router({
 				segmentsNumber: input.partNames.filter((v) => v.includes(".ts")).length,
 				uploadStatus: VideoUploadStatus.Uploading,
 				// References
-				authorId: "mock",
+				authorId: "user12",
 			})
 
 			return {
@@ -139,16 +139,16 @@ export const appRouter = router({
 				createdAt: v.createdAt,
 				urlVideo,
 				urlPoster,
-				description: v.description,
+				description: "sample description", // v.description,
 				category: {
 					icon: "dribbble",
 					name: "Technology",
 					type: "Series",
 				},
 				author: {
-					id: "mock",
-					username: "mock",
-					displayName: "mock",
+					id: "user12",
+					username: "user12",
+					displayName: "user12",
 					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
 				},
 			} as VideoProps
