@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import React from "react"
+import React, { useRef } from "react"
 import { cn } from "~/utils/style"
-import { Pressable, Text, View } from "react-native"
+import { Pressable, Text, View, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 
 const buttonVariants = cva(
@@ -30,8 +30,7 @@ const buttonTextVariants = cva("text-base px-2", {
 			gradient: "text-white",
 		},
 		size: {
-			// TODO: check if font is applying
-			default: "font-ns-bold font-bold",
+			default: "font-ns-bold",
 		},
 	},
 	defaultVariants: {
@@ -39,6 +38,7 @@ const buttonTextVariants = cva("text-base px-2", {
 		size: "default",
 	},
 })
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
 const Button = React.forwardRef<
 	React.ElementRef<typeof Pressable>,
@@ -47,6 +47,24 @@ const Button = React.forwardRef<
 			textClass?: string
 		}
 >(({ className, textClass, variant = "default", size, children, disabled, ...props }, ref) => {
+	const fadeAnim = useRef(new Animated.Value(0)).current
+
+	const animateGradient = () => {
+		Animated.timing(fadeAnim, {
+			toValue: 1,
+			duration: 300,
+			useNativeDriver: true,
+		}).start()
+	}
+
+	const resetGradient = () => {
+		Animated.timing(fadeAnim, {
+			toValue: 0,
+			duration: 300,
+			useNativeDriver: true,
+		}).start()
+	}
+
 	return (
 		<View>
 			<Pressable
@@ -62,17 +80,30 @@ const Button = React.forwardRef<
 					}),
 				)}
 				ref={ref}
+				onPressIn={animateGradient}
+				onPressOut={resetGradient}
 				disabled={disabled}
 				{...props}
 			>
 				{({ pressed }) =>
 					variant === "gradient" ? (
-						<LinearGradient
+						<View
 							className="flex-row w-full h-full justify-center items-center"
-							colors={disabled ? ["#CFA7FB", "#B4CBFC"] : ["#9747FF", "#007EE5"]}
-							start={{ x: 0, y: 0 }}
-							end={{ x: 1, y: 0 }}
+							style={{ position: "relative" }}
 						>
+							<LinearGradient
+								colors={["#9747FF", "#007EE5"]}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 1, y: 0 }}
+								className="absolute w-full h-full"
+							/>
+							<AnimatedLinearGradient
+								colors={["#007EE5", "#9747FF"]}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 1, y: 0 }}
+								className="absolute w-full h-full"
+								style={{ opacity: fadeAnim }}
+							/>
 							<Text
 								className={cn(
 									pressed && "opacity-70",
@@ -81,7 +112,7 @@ const Button = React.forwardRef<
 							>
 								{children as string | string[]}
 							</Text>
-						</LinearGradient>
+						</View>
 					) : (
 						<Text
 							className={cn(
