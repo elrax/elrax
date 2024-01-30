@@ -29,7 +29,7 @@ export default function Index() {
 		console.log(`${tabBarHeight}, ${windowHeight}, ${videoHeight}`)
 	}
 
-	const videos = api.getVideos.useQuery()
+	const videos = api.video.getVideos.useQuery()
 	if (!videos.isLoading && isLoading) {
 		setIsLoading(false)
 	}
