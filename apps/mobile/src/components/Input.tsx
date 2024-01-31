@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react"
-import { TextInput, View, TouchableOpacity } from "react-native"
+import { TextInput, View, TouchableOpacity, Text } from "react-native"
 import { cn } from "~/utils/style"
 import { Icon } from "./Icon"
 
 const Input = React.forwardRef<
 	React.ElementRef<typeof TextInput>,
-	React.ComponentPropsWithoutRef<typeof TextInput> & { type?: "text" | "password" }
->(({ className, placeholderClassName, type = "text", ...props }, ref) => {
+	React.ComponentPropsWithoutRef<typeof TextInput> & {
+		type?: "text" | "password"
+		errorMsg: string
+	}
+>(({ className, errorMsg, type = "text", ...props }, ref) => {
 	const [text, setText] = useState("")
+	// const [error, setError] = useState(false)
 	const [isSecure, setIsSecure] = useState(type === "password")
 
 	useEffect(() => {
@@ -41,7 +45,6 @@ const Input = React.forwardRef<
 				onChangeText={(text) => setText(text)}
 				value={text}
 				secureTextEntry={isSecure}
-				placeholderClassName={cn(placeholderClassName)}
 				{...props}
 			/>
 			{text.length > 0 && (
@@ -58,6 +61,19 @@ const Input = React.forwardRef<
 						name={type === "password" ? (isSecure ? "eye" : "eye-off") : "x-circle"}
 					/>
 				</TouchableOpacity>
+			)}
+			{type === "password" && (
+				<View className="mt-1 flex-row justify-between">
+					<Text className="text-[#9A9BA2] font-ns-body">
+						Letters, numbers, and special characters
+					</Text>
+					<Text className="text-[#9A9BA2] font-ns-body">{text.length}/16</Text>
+				</View>
+			)}
+			{false && (
+				<View className="mt-1">
+					<Text className="text-[#FF6C7E] font-ns-body">{errorMsg}</Text>
+				</View>
 			)}
 		</View>
 	)

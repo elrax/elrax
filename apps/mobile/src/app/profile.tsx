@@ -21,10 +21,17 @@ export default function Profile() {
 				</View>
 			</View>
 			<View className="bg-white w-full p-2">
-				<Input placeholder="Full name" />
+				<Input
+					placeholder="Full name"
+					errorMsg="This username isn't available. try a suggested username, or enter a new one."
+				/>
 			</View>
 			<View className="bg-white w-full p-2">
-				<Input type="password" placeholder="Password" />
+				<Input
+					type="password"
+					placeholder="Password"
+					errorMsg="This password isn't strong enough"
+				/>
 			</View>
 		</View>
 	)
