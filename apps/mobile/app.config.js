@@ -66,8 +66,13 @@ const defineConfig = {
 			"expo-font",
 			{
 				fonts: [
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_200ExtraLight.ttf",
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_300Light.ttf",
 					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_400Regular.ttf",
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_600SemiBold.ttf",
 					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_700Bold.ttf",
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_800ExtraBold.ttf",
+					"../../node_modules/@expo-google-fonts/nunito-sans/NunitoSans_900Black.ttf",
 				],
 			},
 		],
