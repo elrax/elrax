@@ -1,122 +1,149 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, RefreshControl, Text, View } from "react-native"
-import { FlashList, type ViewToken } from "@shopify/flash-list"
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
+import React from "react"
+import { ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { setStatusBarStyle } from "expo-status-bar"
-import type { VideoProps } from "@elrax/api"
-import { FeedVideo, type FeedVideoRef } from "~/components/Video"
-import FeedTopOverlay from "~/components/FeedTopOverlay"
-import { api } from "~/utils/api"
-import { useVideoViewState } from "~/stores/videoViewState"
+import {
+	AppleAuthenticationButton,
+	AppleAuthenticationButtonStyle,
+	AppleAuthenticationButtonType,
+	AppleAuthenticationScope,
+	signInAsync,
+} from "expo-apple-authentication"
+import { AccessToken, LoginManager } from "react-native-fbsdk-next"
+// import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin"
+import { Image } from "expo-image"
+import { Button } from "~/components/Button"
+import { router } from "expo-router"
+
+const images = {
+	auth: require("../assets/auth.png"),
+}
 
 export default function Index() {
-	setStatusBarStyle("light")
+	setStatusBarStyle("dark")
 
-	const [category, setCategory] = useState({
-		icon: "download-cloud",
-		name: "Loading",
-		type: "Series",
-	})
-	const [feedVideos, setFeedVideos] = useState([] as VideoProps[])
-	const [isLoading, setIsLoading] = useState(true)
-	const [currentVideoId] = useVideoViewState((state) => [state.currentVideoId])
-	const mediaRefs = useRef({} as { [key: string]: FeedVideoRef })
+	// React.useEffect(() => {
+	// 	GoogleSignin.configure({
+	// 		iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
+	// 	})
+	// }, [])
 
-	const tabBarHeight = useBottomTabBarHeight()
-	const windowHeight = Dimensions.get("window").height
-	const videoHeight = windowHeight - tabBarHeight
-	if (videoHeight !== 765) {
-		console.log(`${tabBarHeight}, ${windowHeight}, ${videoHeight}`)
-	}
+	// const signInWithGoogle = async () => {
+	// 	try {
+	// 		await GoogleSignin.hasPlayServices()
+	// 		const userInfo = await GoogleSignin.signIn()
+	// 		console.log(`google user info: ${JSON.stringify(userInfo)}`)
+	// 	} catch (error) {
+	// 		if (error) {
+	// 			console.log(`error: ${JSON.stringify(error)}`)
+	// 		}
+	// 	}
+	// }
 
-	const videos = api.getVideos.useQuery()
-	if (!videos.isLoading && isLoading) {
-		setIsLoading(false)
-	}
-	useEffect(() => {
-		console.log(`videos status: ${videos.status}`)
-		if (videos.data && videos.data.length > 0) {
-			if (feedVideos.length > 0 && currentVideoId) {
-				mediaRefs.current[currentVideoId]?.pause()
+	const signInWithFacebook = async () => {
+		try {
+			const result = await LoginManager.logInWithPermissions(["public_profile", "email"])
+			if (result.isCancelled) {
+				console.log("login is cancelled.")
+			} else {
+				AccessToken.getCurrentAccessToken().then((data) => {
+					console.log(data?.accessToken.toString())
+					// TODO: Call server to finish login with facebook
+					router.replace("(app)/feed")
+				})
 			}
-			setFeedVideos(videos.data)
+		} catch (error) {
+			if (error) {
+				console.log("login has error: " + error)
+			}
 		}
-	}, [videos.data])
+	}
 
-	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
-		changed.forEach((element) => {
-			const cell = mediaRefs.current[element.key]
-			if (cell) {
-				if (element.isViewable) {
-					console.log(`Playing: ${element.key}`)
-					setCategory(cell.getItem().category)
-					cell.play()
-				} else {
-					cell.pause()
-				}
-			}
-		})
-	})
-
-	// Read more about FlashList here: https://shopify.github.io/flash-list/docs/usage/
 	return (
-		<>
-			<FeedTopOverlay category={category} />
-			<View className="bg-[#000A14] h-full w-full">
-				<FlashList
-					data={feedVideos}
-					renderItem={({ item }) => (
-						<FeedVideo
-							height={videoHeight}
-							item={item}
-							ref={(videoRef) => {
-								if (videoRef != null) {
-									mediaRefs.current[item.id] = videoRef
-									if (currentVideoId === item.id) {
-										videoRef.play()
-									}
-								}
-							}}
-						/>
-					)}
-					ListEmptyComponent={
-						<View
-							className="flex items-center justify-center"
-							style={{
-								height: videoHeight,
-							}}
-						>
-							<Text className="font-ns-bold text-base color-white">
-								{videos?.isLoading ? "Loading..." : "No videos found."}
-							</Text>
-						</View>
-					}
-					refreshControl={
-						<RefreshControl
-							titleColor={"transparent"}
-							tintColor={"#fff"}
-							progressViewOffset={30}
-							refreshing={isLoading}
-							onRefresh={() => {
-								setIsLoading(true)
-								videos.refetch()
-							}}
-						/>
-					}
-					pagingEnabled
-					decelerationRate={"normal"}
-					keyExtractor={(item) => item.id}
-					estimatedItemSize={videoHeight}
-					removeClippedSubviews
-					showsVerticalScrollIndicator={false}
-					showsHorizontalScrollIndicator={false}
-					alwaysBounceVertical={false}
-					viewabilityConfig={{
-						itemVisiblePercentThreshold: 50,
+		<ScrollView
+			className="bg-[#F7F7F7] h-full w-full px-8 pt-20"
+			contentContainerStyle={{
+				flex: 1,
+				justifyContent: "flex-start",
+				alignItems: "center",
+			}}
+		>
+			<Image
+				style={{
+					width: "100%",
+					height: "40%",
+				}}
+				source={images.auth}
+				contentFit="contain"
+			/>
+			<Text className="font-ns-extra text-4xl color-black">Let me in!</Text>
+			<Text className="font-ns-body text-base text-center color-black">
+				Create a profile, follow other accounts, post your own videos, and more.
+			</Text>
+			<View className="my-4">
+				<AppleAuthenticationButton
+					style={{
+						height: 45,
+						borderColor: "#DEDFE0",
 					}}
-					onViewableItemsChanged={onViewableItemsChanged.current}
+					buttonType={AppleAuthenticationButtonType.CONTINUE}
+					buttonStyle={AppleAuthenticationButtonStyle.BLACK}
+					cornerRadius={50}
+					onPress={async () => {
+						try {
+							const credential = await signInAsync({
+								requestedScopes: [
+									AppleAuthenticationScope.FULL_NAME,
+									AppleAuthenticationScope.EMAIL,
+								],
+							})
+							console.log(`credential: ${JSON.stringify(credential)}`)
+							// TODO: Call server to finish login with apple
+							router.replace("(app)/feed")
+							// signed in
+						} catch (e) {
+							if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
+								// handle that the user canceled the sign-in flow
+							} else {
+								// handle other errors
+							}
+						}
+					}}
 				/>
+				{/* <GoogleSigninButton
+					style={{
+						marginTop: 16,
+						borderRadius: 50,
+					}}
+					size={GoogleSigninButton.Size.Wide}
+					color={GoogleSigninButton.Color.Light}
+					onPress={signInWithGoogle}
+					// disabled={this.state.isSigninInProgress}
+				/> */}
+				<Button
+					className="mt-4"
+					variant="facebook"
+					icon="facebook"
+					onPress={signInWithFacebook}
+				>
+					Continue with Facebook
+				</Button>
+				<Button
+					className="mt-4"
+					variant="gradient"
+					onPress={() => {
+						// TODO: Go to email auth page
+						router.replace("(app)/feed")
+					}}
+				>
+					Continue with Email
+				</Button>
 			</View>
-		</>
+			<View className="flex flex-row gap-1">
+				<Text className="font-ns-body text-base color-black">Already have an account?</Text>
+				<TouchableOpacity>
+					<Text className="font-ns-body text-base color-[#007EE5]">Sign in</Text>
+				</TouchableOpacity>
+			</View>
+		</ScrollView>
 	)
 }

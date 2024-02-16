@@ -3,6 +3,7 @@ import React, { useRef } from "react"
 import { cn } from "~/utils/style"
 import { Pressable, Text, View, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
+import { Icon } from "./Icon"
 
 const buttonVariants = cva(
 	["flex-row items-center w-full justify-center rounded-[36px] overflow-hidden"],
@@ -11,6 +12,7 @@ const buttonVariants = cva(
 			variant: {
 				default: "bg-[#007EE5]",
 				gradient: "",
+				facebook: "bg-[#3975EA]",
 			},
 			size: {
 				default: "h-11",
@@ -28,6 +30,7 @@ const buttonTextVariants = cva("text-base px-2", {
 		variant: {
 			default: "text-white",
 			gradient: "text-white",
+			facebook: "text-white",
 		},
 		size: {
 			default: "font-ns-bold",
@@ -45,8 +48,10 @@ const Button = React.forwardRef<
 	React.ComponentPropsWithoutRef<typeof Pressable> &
 		VariantProps<typeof buttonVariants> & {
 			textClass?: string
+			icon?: string
 		}
->(({ className, textClass, variant = "default", size, children, disabled, ...props }, ref) => {
+>((props, ref) => {
+	const { className, textClass, icon, variant = "default", size, children, disabled } = props
 	const fadeAnim = useRef(new Animated.Value(0)).current
 
 	const animateGradient = () => {
@@ -104,31 +109,52 @@ const Button = React.forwardRef<
 								className="absolute w-full h-full"
 								style={{ opacity: fadeAnim }}
 							/>
+							<View className="flex flex-row items-center">
+								{icon && (
+									<Icon
+										style={{ marginRight: -3 }}
+										name={icon}
+										size={16}
+										color="white"
+									/>
+								)}
+								<Text
+									className={cn(
+										pressed && "opacity-70",
+										buttonTextVariants({ variant, size, className: textClass }),
+									)}
+								>
+									{children as string | string[]}
+								</Text>
+							</View>
+						</View>
+					) : (
+						<View className="flex flex-row items-center">
+							{icon && (
+								<Icon
+									style={{ marginRight: -3 }}
+									name={icon}
+									size={16}
+									color="white"
+								/>
+							)}
 							<Text
 								className={cn(
 									pressed && "opacity-70",
 									buttonTextVariants({ variant, size, className: textClass }),
+									disabled && variant === "default" && "text-[#9A9BA2]",
 								)}
 							>
 								{children as string | string[]}
 							</Text>
 						</View>
-					) : (
-						<Text
-							className={cn(
-								pressed && "opacity-70",
-								buttonTextVariants({ variant, size, className: textClass }),
-								disabled && variant === "default" && "text-[#9A9BA2]",
-							)}
-						>
-							{children as string | string[]}
-						</Text>
 					)
 				}
 			</Pressable>
 		</View>
 	)
 })
+
 Button.displayName = "Button"
 
 export { Button, buttonTextVariants, buttonVariants }

@@ -96,8 +96,8 @@ export default function Upload() {
 		FFmpegKitConfig.init()
 	}, [])
 
-	const getUploadVideoURL = api.getUploadVideoURL.useMutation()
-	const updateVideo = api.updateVideo.useMutation()
+	const getUploadVideoURL = api.video.getUploadVideoURL.useMutation()
+	const updateVideo = api.video.updateVideo.useMutation()
 
 	const onClick = async () => {
 		if (status.btn === "Select video" || status.btn === "Try select again") {

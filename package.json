@@ -8,7 +8,7 @@
 	"author": "Elrax Corp.",
 	"repository": "https://github.com/elrax/elrax",
 	"private": true,
-	"packageManager": "bun@1.0.25",
+	"packageManager": "bun@1.0.26",
 	"scripts": {
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
