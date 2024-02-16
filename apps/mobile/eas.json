@@ -4,7 +4,7 @@
 	},
 	"build": {
 		"base": {
-			"bun": "1.0.25",
+			"bun": "1.0.26",
 			"android": {
 				"resourceClass": "medium"
 			},

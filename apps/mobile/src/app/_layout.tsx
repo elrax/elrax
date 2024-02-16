@@ -16,6 +16,9 @@ onlineManager.setEventListener((setOnline) => {
 
 export const unstable_settings = {
 	initialRouteName: "auth",
+	app: {
+		initialRouteName: "index",
+	},
 }
 
 export default function RootLayout() {

@@ -2,10 +2,6 @@ import React from "react"
 import { Tabs } from "expo-router"
 import { Icon } from "~/components/Icon"
 
-export const unstable_settings = {
-	initialRouteName: "index",
-}
-
 export default function RootLayout() {
 	const defaultTabOptions = (
 		href: string,

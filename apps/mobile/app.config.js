@@ -32,6 +32,7 @@ const defineConfig = {
 		splash: {
 			backgroundColor: "#000A14",
 		},
+		usesAppleSignIn: true,
 	},
 	android: {
 		package: "com.elrax.elrax",
@@ -76,6 +77,7 @@ const defineConfig = {
 				],
 			},
 		],
+		"expo-apple-authentication",
 	],
 }
 
