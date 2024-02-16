@@ -6,6 +6,7 @@ import { onlineManager } from "@tanstack/react-query"
 import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
 import { TRPCProvider } from "~/utils/api"
 import { useIconFont } from "~/components/Icon"
+import { useNunitoSans } from "~/components/Fonts"
 
 SplashScreen.preventAutoHideAsync()
 onlineManager.setEventListener((setOnline) => {
@@ -15,9 +16,9 @@ onlineManager.setEventListener((setOnline) => {
 })
 
 export const unstable_settings = {
-	initialRouteName: "auth",
+	initialRouteName: "index",
 	app: {
-		initialRouteName: "index",
+		initialRouteName: "feed",
 	},
 }
 
@@ -25,13 +26,14 @@ export default function RootLayout() {
 	const lfuPolicyRef = React.useRef(new LFUPolicy(5))
 
 	const [iconsLoaded] = useIconFont()
+	const [fontsLoaded] = useNunitoSans()
 	useEffect(() => {
-		console.debug(`Icons: ${iconsLoaded}`)
-		if (iconsLoaded) {
+		console.debug(`Fonts: ${fontsLoaded}, icons: ${iconsLoaded}`)
+		if (iconsLoaded && fontsLoaded) {
 			SplashScreen.hideAsync()
 		}
-	}, [iconsLoaded])
-	if (!iconsLoaded) {
+	}, [iconsLoaded, fontsLoaded])
+	if (!iconsLoaded && !fontsLoaded) {
 		return null
 	}
 

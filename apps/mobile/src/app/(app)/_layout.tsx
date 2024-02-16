@@ -29,8 +29,8 @@ export default function RootLayout() {
 	return (
 		<Tabs>
 			<Tabs.Screen
-				name="index"
-				options={defaultTabOptions("/", "Feed", "home-close", "home-open")}
+				name="feed"
+				options={defaultTabOptions("/feed", "Feed", "home-close", "home-open")}
 			/>
 			<Tabs.Screen
 				name="search"

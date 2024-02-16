@@ -33,6 +33,15 @@ const defineConfig = {
 			backgroundColor: "#000A14",
 		},
 		usesAppleSignIn: true,
+		infoPlist: {
+			CFBundleURLTypes: [
+				{
+					CFBundleURLSchemes: [
+						"com.googleusercontent.apps.987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9",
+					],
+				},
+			],
+		},
 	},
 	android: {
 		package: "com.elrax.elrax",
@@ -77,7 +86,25 @@ const defineConfig = {
 				],
 			},
 		],
+		// Learn more: https://docs.expo.dev/versions/latest/sdk/apple-authentication
 		"expo-apple-authentication",
+		// Learn more: https://github.com/react-native-google-signin/google-signin
+		"@react-native-google-signin/google-signin",
+		[
+			// Learn more: https://github.com/thebergamo/react-native-fbsdk-next
+			"react-native-fbsdk-next",
+			{
+				appID: "667538938706539",
+				clientToken: "cd37ab027cedb481d2c8e42633ead849",
+				displayName: "Elrax",
+				scheme: "fb667538938706539",
+				advertiserIDCollectionEnabled: false,
+				autoLogAppEventsEnabled: false,
+				isAutoInitEnabled: true,
+				iosUserTrackingPermission:
+					"This identifier will be used to deliver personalized ads to you.",
+			},
+		],
 	],
 }
 
