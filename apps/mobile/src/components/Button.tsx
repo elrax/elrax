@@ -97,7 +97,7 @@ const Button = React.forwardRef<
 							style={{ position: "relative" }}
 						>
 							<LinearGradient
-								colors={["#9747FF", "#007EE5"]}
+								colors={!disabled ? ["#9747FF", "#007EE5"] : ["#CFA7FB", "#B4CBFC"]}
 								start={{ x: 0, y: 0 }}
 								end={{ x: 1, y: 0 }}
 								className="absolute w-full h-full"
