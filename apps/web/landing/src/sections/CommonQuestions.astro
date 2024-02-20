@@ -1,0 +1,81 @@
+---
+import Accordion from "../components/Accordion.astro"
+
+const faq = [
+	{
+		title: "What is Elrax?",
+		content: `
+Elrax is an open-source video platform for crowdfunding, progress tracking, and feedback collection.
+Our mission is to make crowdfunding easy and enjoyable for everyone.
+		`,
+	},
+	{
+		title: "Where can I download Elrax?",
+		content: `
+At the moment, Elrax platform is still under development, so unfortunately it cannot be downloaded yet. But in the future it will be available in the Play Market and App Store, so follow our social media so you will not miss the launch of the first version of the platform!
+		`,
+	},
+	{
+		title: "Why another crowdfunding platform?",
+		content: `
+Crowdfunding as a concept has already become an integral part of the modern Internet. Many innovative and creative projects have become a reality, many people have been able to receive financial support in difficult times, and all this is due to the common efforts of hundreds of thousands of people. This is truly beautiful and inspiring.
+<br><br>
+We also believe that this is not the limit, and crowdfunding space today still have room for innovation and improvement. Therefore, we would like to list some of the vectors in which we see possible improvements:
+<br><br>
+<ul>
+<li><b>Modernity:</b> Crowdfunding platforms only partially use the video and mobile trends that dominate popular social networks, remaining more text-based and web-oriented. And this makes it difficult to attract more backers;</li>
+<li><b>Transparency:</b> Often backers do not understand how to monitor the progress of project development and the use of raised funds;</li>
+<li><b>Communication:</b> On many crowdfunding platforms, direct communication between backers and project creators is limited, making it difficult to ask questions or provide feedback;</li>
+<li><b>Innovation:</b> New features and bold solutions are rare in crowdfunding platforms today. Which in turn prevents the crowdfunding concept from reaching its global potential.</li>
+</ul>
+		`,
+	},
+	{
+		title: "Why is Elrax open-source platform?",
+		content: `
+Elrax is committed to being an open-source platform for several key reasons:
+<br><br>
+<ul>
+<li><b>Transparency:</b> By being open-source, Elrax ensures complete transparency. Users can see exactly how the platform operates, which builds trust. This is particularly important for a crowdfunding platform, where the flow of funds must be transparent to maintain user confidence.</li>
+<li><b>Community-driven Development:</b> Crowdfunding is all about community support and engagement. Similarly, Elrax benefits from the collective expertise of the developer community. By allowing developers to contribute to the codebase, we can incorporate a diverse range of ideas and improvements, ensuring that Elrax evolves to meet the needs of its users.</li>
+<li><b>Security and Reliability:</b> Open-source software can be more secure and reliable due to the many eyes principle. With more people reviewing and improving the code, vulnerabilities can be identified and resolved quickly. This collective vigilance helps create a robust platform where users can contribute without worrying about the integrity of the system.</li>
+</ul>
+		`,
+	},
+	{
+		title: "Where can I find out more about the cat?",
+		content: `
+We are very glad that you liked our cat, we tried to make him cute and funny. If you want to see more of him, just subscribe to our social media, from time to time we will post different content with him, like memes, comics, stickers and much more!
+		`,
+	},
+	{
+		title: "How can I contact the Elrax team?",
+		content: `
+The easiest way to contact with us is by social media, we try to always respond to public comments. But if you have private question or request - write us on our email: <a href="mailto:support@elrax.com">support@elrax.com</a>.
+		`,
+	},
+]
+---
+
+<section
+	class="px-4 py-12 flex flex-col gap-4 md:p-16 md:gap-9 lg:px-0 lg:py-[100px] 2xl:py-[120px] 2xl:gap-12"
+>
+	<h2 class="text-center">Common questions</h2>
+	<div class="flex relative flex-col gap-4 md:gap-5 2xl:gap-6">
+		<div
+			class="circle-gradient opacity-30 absolute -top-[100px] lg:-top-[250px] left-1/2 translate-x-[-50%] rounded-full w-full aspect-square"
+		>
+		</div>
+		{faq.map((e) => <Accordion title={e.title} content={e.content} />)}
+	</div>
+</section>
+
+<style is:global>
+	.row ul {
+		list-style-type: disc;
+		padding-left: 1em;
+	}
+	.row li {
+		padding-bottom: 10px;
+	}
+</style>

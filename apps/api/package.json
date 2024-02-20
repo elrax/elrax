@@ -38,6 +38,6 @@
 		"wrangler": "3.23.0"
 	},
 	"peerDependencies": {
-		"typescript": "5.2.2"
+		"typescript": "5.3.3"
 	}
 }

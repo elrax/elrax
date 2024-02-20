@@ -23,7 +23,7 @@
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
 		"@typescript-eslint/eslint-plugin": "6.19.0",
-		"@typescript-eslint/parser": "6.19.0",
+		"@typescript-eslint/parser": "7.0.2",
 		"eslint": "8.56.0",
 		"eslint-config-prettier": "9.1.0",
 		"nx": "17.2.8",
@@ -33,13 +33,14 @@
 		"syncpack": "12.3.0"
 	},
 	"peerDependencies": {
-		"typescript": "5.2.2"
+		"typescript": "5.3.3"
 	},
 	"resolutions": {
 		"semver": "7.5.4"
 	},
 	"workspaces": [
 		"apps/*",
+		"apps/web/*",
 		"packages/*"
 	],
 	"eslintConfig": {
@@ -49,10 +50,27 @@
 			"project": true
 		},
 		"extends": [
+			"plugin:astro/recommended",
 			"plugin:@typescript-eslint/recommended",
 			"prettier"
 		],
+		"overrides": [
+			{
+				"files": [
+					"*.astro"
+				],
+				"parser": "astro-eslint-parser",
+				"parserOptions": {
+					"parser": "@typescript-eslint/parser",
+					"extraFileExtensions": [
+						".astro"
+					]
+				},
+				"rules": {}
+			}
+		],
 		"rules": {
+			"@typescript-eslint/triple-slash-reference": "off",
 			"@typescript-eslint/restrict-template-expressions": "off",
 			"@typescript-eslint/no-unused-vars": "error",
 			"@typescript-eslint/consistent-type-imports": [

@@ -1,0 +1,86 @@
+---
+import { Image } from "astro:assets"
+import TabsComponent from "../components/TabsComponent.astro"
+import phoneImg from "../assets/images/how-it-work/phone.png"
+import phoneImg2 from "../assets/images/how-it-work/phone2.png"
+import phoneImg3 from "../assets/images/how-it-work/phone3.png"
+
+const title = "How it works"
+const tabs = [
+	{
+		btnText: "Explore",
+		title,
+		content:
+			"On the main screen you can scroll through crowdfunding campaigns, development series and user participation videos.",
+	},
+	{
+		btnText: "Discuss",
+		title,
+		content:
+			"If you like the video, you can always leave a comment and express your opinion about the project or just react with emoji.",
+	},
+	{
+		btnText: "Follow",
+		title,
+		content:
+			"Also, you can look at the user profile, his past awards for participation in crowdfunding and other useful information.",
+	},
+]
+---
+
+<section
+	class="flex flex-col gap-4 md:gap-8 p-4 py-12 md:p-16 lg:px-0 lg:py-[100px] lg:flex-row-reverse lg:items-center lg:gap-[100px] 2xl:gap-[126px] 2xl:pt-[140px] 2xl:pb-[160px]"
+>
+	<TabsComponent tabs={tabs} activeTab={0} />
+	<div class="tab-1 tab-content">
+		<div class="video-wrapper border-gradient">
+			<video autoplay loop muted playsinline class="background-video">
+				<source src="/videos/bg1.mp4" type="video/mp4" />
+				 Your browser does not support the video tag.
+			</video>
+		</div>
+		<Image class:list="phone" loading="eager" src={phoneImg} alt="phone" />
+	</div>
+	<div class="tab-2 tab-content hidden">
+		<div class="video-wrapper border-gradient">
+			<div class="video-inner-wrapper relative overflow-hidden rounded-[16px]">
+				<video autoplay loop muted playsinline class="background-video relative video-blur">
+					<source src="/videos/bg1.mp4" type="video/mp4" />
+					 Your browser does not support the video tag.
+				</video>
+			</div>
+		</div>
+		<Image class:list="phone z-20" loading="eager" src={phoneImg2} alt="phone" />
+	</div>
+	<div class="tab-3 tab-content hidden">
+		<div class="video-wrapper border-gradient">
+			<video autoplay loop muted playsinline class="background-video">
+				<source src="/videos/bg3.mp4" type="video/mp4" />
+				 Your browser does not support the video tag.
+			</video>
+		</div>
+		<Image class:list="phone" loading="eager" src={phoneImg3} alt="phone" />
+	</div>
+</section>
+
+<style>
+	.tab-content {
+		@apply relative flex-shrink-0;
+	}
+	.video-wrapper {
+		@apply rounded-2xl p-[0.5px] mb-[52px] md:mb-[72px] lg:mb-0;
+	}
+	.background-video {
+		@apply h-[580px] md:h-[740px] lg:w-[436px] lg:h-[436px] 2xl:w-[588px] 2xl:h-[580px] rounded-[16px] object-cover w-full;
+	}
+	.phone {
+		@apply absolute w-[280px] md:w-[360px] lg:w-[226px] 2xl:w-[302px] left-1/2 translate-x-[-50%] bottom-[-14px] lg:bottom-[-54px] 2xl:bottom-[-78px];
+	}
+	.video-blur {
+		@apply blur-[9px];
+	}
+	.video-inner-wrapper::before {
+		content: "";
+		@apply block rounded-[16px] z-10 absolute w-full h-full bg-black opacity-40;
+	}
+</style>

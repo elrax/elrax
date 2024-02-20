@@ -1,0 +1,113 @@
+---
+import Layout from "../layouts/Layout.astro"
+import PrivacyMd from "../content/legal/privacy.md"
+---
+
+<Layout title="Elrax: Privacy Policy" description="Official Elrax privacy policy.">
+	<section
+		class="content privacy px-4 py-20 md:px-16 md:py-[100px] lg:px-0 lg:py-[150px] 2xl:py-[200px]"
+	>
+		<div class="container md">
+			<PrivacyMd />
+		</div>
+	</section>
+</Layout>
+
+<style is:global>
+	.md > * {
+		margin-bottom: 15px;
+	}
+	.md img {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		border-radius: 16px;
+	}
+	.md ul {
+		list-style: disc;
+	}
+	.md ol {
+		list-style: auto;
+	}
+	.md ul,
+	.md ol {
+		padding-left: 1rem;
+		margin-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+	.md h1 {
+		font-size: 32px;
+		font-style: normal;
+		font-weight: 900;
+		line-height: 42px;
+	}
+	@media (min-width: 768px) {
+		.md h1 {
+			font-size: 36px;
+			line-height: 42px;
+		}
+	}
+	@media (min-width: 1536px) {
+		.md h1 {
+			font-size: 48px;
+			line-height: 58px;
+		}
+	}
+	.md h2,
+	.md h3,
+	.md h4,
+	.md h5 {
+		font-size: 24px;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 32px;
+	}
+	@media (min-width: 768px) {
+		.md h2,
+		.md h3,
+		.md h4,
+		.md h5 {
+			font-size: 32px;
+			line-height: 120%;
+		}
+	}
+	@media (min-width: 1536px) {
+		.md h2,
+		.md h3,
+		.md h4,
+		.md h5 {
+			font-size: 36px;
+			line-height: 42px;
+		}
+	}
+	.md a {
+		text-decoration: underline;
+	}
+	.md p,
+	.md li {
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 300;
+		line-height: 20px;
+	}
+	.md b,
+	.md strong {
+		font-weight: 700;
+	}
+	@media (min-width: 768px) {
+		.md p,
+		.md li {
+			font-size: 16px;
+			line-height: 24px;
+		}
+	}
+	@media (min-width: 1536px) {
+		.md p,
+		.md li {
+			font-size: 20px;
+			line-height: 30px;
+		}
+	}
+</style>

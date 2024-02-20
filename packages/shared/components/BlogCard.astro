@@ -1,0 +1,103 @@
+---
+import FormattedDate from "./FormattedDate.astro"
+import Tag from "./Tag.astro"
+
+type BlogPost = {
+	slug: string
+	data: {
+		title: string
+		description: string
+		heroImage?: string
+		pubDate: Date
+		tag?: string
+		author: { name: string; img: string }[]
+	}
+}
+export type Props = {
+	post: BlogPost
+	index: number
+	landing?: boolean
+}
+
+const { post, index, landing = false } = Astro.props
+let authorText = ""
+if (post.data.author.length === 1) {
+	authorText = post.data.author[0].name
+} else if (post.data.author.length === 2) {
+	authorText = `${post.data.author[0].name} and ${post.data.author[1].name}`
+} else if (post.data.author.length > 2) {
+	authorText = `${post.data.author[0].name} and ${post.data.author.length - 1} more authors`
+}
+---
+
+<li
+	class=`w-full ${!landing && "md:first:w-full"} md:w-[calc(50%-10px)] lg:w-[calc(33.3%-16px)] md:flex-shrink`
+>
+	<a
+		class="card-bg md:h-full overflow-hidden border-gradient block rounded-2xl"
+		href={!landing ? `/${post.slug}/` : `https://elrax.blog/${post.slug}`}
+	>
+		<div class={`flex h-full flex-col ${index === 0 && !landing ? "lg:flex-row" : ""}`}>
+			<img
+				class={`h-auto w-[calc(100%-2px)] mx-auto mt-[1px] ${
+					index === 0 && !landing
+						? "lg:w-1/2 h-[calc(100%-2px)] mb-[1px] ml-[1px] lg:object-cover rounded-t-2xl md:rounded-none md:rounded-l-2xl"
+						: "rounded-t-2xl"
+				}`}
+				src={post.data.heroImage}
+				alt="hero image"
+			/>
+			<div class="text flex flex-col h-full p-4 md:p-6 2xl:p-8">
+				<div class="info flex items-center mb-[18px] gap-2.5">
+					<p class="date text-xs md:text-sm 2xl:text-lg text-[#9A9BA2]">
+						<FormattedDate date={post.data.pubDate} />
+					</p>
+					<Tag tag={post.data.tag} />
+				</div>
+				<div
+					class="content overflow-hidden h-[132px] md:h-[168px] 2xl:h-[178px] 2xl:mb-8 flex flex-col gap-4"
+				>
+					<h4 class="title text-base md:text-lg 2xl:text-2xl font-bold">
+						{post.data.title}
+					</h4>
+					<p
+						class="parapgraph-t overflow-hidden text-sm md:text-base 2xl:text-xl 2xl:leading-[30px] text-[#9A9BA2] text-ellipsis"
+					>
+						{post.data.description}
+					</p>
+				</div>
+				<div class="flex flex-1 items-center gap-2.5">
+					<div class="images flex flex-shrink-0">
+						{
+							post.data.author.map((author, i) => (
+								<img
+									style={`margin-left: ${i !== 0 ? "-8.5px" : ""}`}
+									class="w-6 md:w-8 2xl:w-9 h-6 md:h-8 2xl:h-9 rounded-full"
+									src={author.img}
+									alt="author"
+								/>
+							))
+						}
+					</div>
+					<div>
+						<p class="text-xs md:text-sm 2xl:text-lg text-[#9A9BA2]">
+							{authorText}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</a>
+</li>
+
+<style>
+	.card-bg {
+		background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 0.4) 100%);
+		backdrop-filter: blur(40px);
+	}
+	.parapgraph-t {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+</style>

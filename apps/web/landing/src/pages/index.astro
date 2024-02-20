@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Hero from "../sections/Hero.astro"
+import CoreFeatures from "../sections/CoreFeatures.astro"
+import HowItWorks from "../sections/HowItWorks.astro"
+import YourSupport from "../sections/YourSupport.astro"
+import OurTeam from "../sections/OurTeam.astro"
+import FeaturedNews from "../sections/FeaturedNews.astro"
+import CommonQuestions from "../sections/CommonQuestions.astro"
+
+export const prerender = true
+---
+
+<Layout>
+	<main class="overflow-hidden">
+		<Hero />
+		<CoreFeatures />
+		<HowItWorks />
+		<YourSupport />
+		<OurTeam />
+		<FeaturedNews />
+		<CommonQuestions />
+	</main>
+</Layout>

@@ -1,0 +1,45 @@
+---
+import { Image } from "astro:assets"
+import CheckboxList from "../components/CheckboxList.astro"
+import cat0 from "../assets/images/cat0.png"
+import cat1 from "../assets/images/cat1.png"
+import cat2 from "../assets/images/cat2.png"
+import cat3 from "../assets/images/cat3.png"
+import cat4 from "../assets/images/cat4.png"
+import cat5 from "../assets/images/cat5.png"
+
+let checkboxes = [
+	{ title: "Visit our website", img: "cat1" },
+	{ title: "Subscribe to our social media", img: "cat2" },
+	{ title: "Repost or write about us", img: "cat3" },
+	{ title: "Contribute to our github", img: "cat4" },
+	{ title: "Donate for development", img: "cat5" },
+]
+---
+
+<section
+	class="p-4 py-12 flex flex-col items-center gap-4 md:px-16 md:py-12 lg:px-0 lg:pt-20 lg:pb-[60px] lg:flex-row-reverse lg:gap-[102px] 2xl:gap-[126px]"
+>
+	<div class="cats relative px-12 lg:px-0 lg:w-[400px] 2xl:w-[518px] flex-shrink-0">
+		<Image loading="eager" class:list="w-full z-10 relative cat0 hidden" src={cat0} alt="cat" />
+		<Image loading="eager" class:list="w-full z-10 relative cat1" src={cat1} alt="cat" />
+		<Image loading="eager" class:list="w-full z-10 relative cat2 hidden" src={cat2} alt="cat" />
+		<Image loading="eager" class:list="w-full z-10 relative cat3 hidden" src={cat3} alt="cat" />
+		<Image loading="eager" class:list="w-full z-10 relative cat4 hidden" src={cat4} alt="cat" />
+		<Image loading="eager" class:list="w-full z-10 relative cat5 hidden" src={cat5} alt="cat" />
+		<div
+			class="circle-gradient opacity-30 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full w-full aspect-square"
+		>
+		</div>
+	</div>
+	<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-1.5">
+			<h2>Elrax needs you</h2>
+			<p class="text-gradient-p text-center md:text-left">
+				Our platform is in early stage of development. If you like our ideas - here's how you can
+				help us raise this adorable cat:
+			</p>
+		</div>
+		<CheckboxList {checkboxes} activeBox={0} />
+	</div>
+</section>

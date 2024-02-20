@@ -1,0 +1,99 @@
+---
+import "@fontsource/nunito-sans/400.css"
+import "@fontsource/nunito-sans/700.css"
+import "@fontsource/nunito-sans/900.css"
+
+export type Props = {
+	title: string
+	description?: string
+	pageUrl?: string
+	coverUrl?: string
+}
+
+const { title, description = "", pageUrl, coverUrl = "https://elrax.com/preview.png" } = Astro.props
+const url = pageUrl ?? Astro.site?.href ?? Astro.url.href
+const schema = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	url: "https://elrax.com/",
+	name: title,
+	contactPoint: {
+		"@type": "ContactPoint",
+		email: "support@elrax.com",
+		availableLanguage: {
+			"@type": "Language",
+			name: "English",
+			alternateName: "en",
+		},
+		contactType: "Customer Support",
+	},
+}
+---
+
+<!-- Content Security Policy -->
+<meta
+	http-equiv="Content-Security-Policy"
+	content="script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none';"
+/>
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+{description && <meta name="description" content={description} />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:image" content={coverUrl} />
+<meta property="og:site_name" content={title} />
+
+<!-- Twitter Tags -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={url} />
+<meta property="twitter:title" content={title} />
+{description && <meta property="twitter:description" content={description} />}
+<meta property="twitter:image" content={coverUrl} />
+<meta name="twitter:site" content="@elraxcom" />
+<meta name="twitter:creator" content="@elraxcom" />
+
+<!-- Favicon -->
+<!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" id="light-scheme-icon" />
+<link rel="icon" type="image/x-icon" href="/favicon_light.ico" id="dark-scheme-icon" />
+<script>
+	const lightSchemeIcon = document.querySelector("link#light-scheme-icon")
+	const darkSchemeIcon = document.querySelector("link#dark-scheme-icon")
+
+	const matcher = window.matchMedia("(prefers-color-scheme: dark)")
+	matcher.addEventListener("change", onUpdate)
+	onUpdate()
+
+	function onUpdate() {
+		if (matcher.matches) {
+			lightSchemeIcon && lightSchemeIcon.remove()
+			darkSchemeIcon && document.head.append(darkSchemeIcon)
+		} else {
+			lightSchemeIcon && document.head.append(lightSchemeIcon)
+			darkSchemeIcon && darkSchemeIcon.remove()
+		}
+	}
+</script>
+
+<!-- AlpineJS -->
+<style is:global>
+	[x-cloak] {
+		display: none !important;
+	}
+</style>
+
+<!-- Astro Generator -->
+<meta name="generator" content={Astro.generator} />
+
+<!-- Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

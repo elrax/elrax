@@ -1,0 +1,31 @@
+---
+import Socials from "./Socials.astro"
+import logo from "../assets/icons/logo.svg"
+
+const today = new Date()
+---
+
+<footer
+	class="bg-[#131923] relative z-10 flex flex-col items-center gap-4 md:gap-9 px-4 py-9 md:py-[74px]"
+>
+	<img src={logo.src} class="w-[150px] 2xl:w-[200px] h-[36px] 2xl:h-[48px]" alt="logo" />
+	<p class="text-sm md:text-base text-center text-[#9A9BA2] 2xl:text-xl 2xl:leading-[30px]">
+		&copy; {today.getFullYear()} DodoRare, Inc. ALL RIGHTS RESERVED. <br class="hidden md:block" />
+		 All trademarks referenced herein are the properties of their respective owners.
+	</p>
+	<Socials />
+	<div class="flex gap-2 md:gap-8">
+		<a
+			href="https://elrax.com/privacy"
+			class="py-2.5 px-3 flex items-center transition-all md:px-5 md:h-10 rounded-xl hover:bg-white/10 text-sm 2xl:text-lg font-bold leading-[100%]"
+		>
+			Privacy policy
+		</a>
+		<a
+			href="https://elrax.com/privacy"
+			class="py-2.5 px-3 flex items-center transition-all md:px-5 md:h-10 rounded-xl hover:bg-white/10 text-sm 2xl:text-lg font-bold leading-[100%]"
+		>
+			Terms of use
+		</a>
+	</div>
+</footer>

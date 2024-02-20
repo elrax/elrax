@@ -1,0 +1,72 @@
+---
+type Tab = {
+	btnText: string
+	title: string
+	content: string
+}
+export type Props = {
+	tabs: Tab[]
+	activeTab: number
+}
+const { tabs, activeTab } = Astro.props
+---
+
+<div class="flex flex-col gap-6 lg:gap-4 2xl:gap-8">
+	{
+		tabs.map((tab, index) => (
+			<div class={`${activeTab === index ? "" : "hidden"} tab-text flex flex-col gap-2`}>
+				<h2>{tab.title}</h2>
+				<p class="text-gradient-p text-center md:text-left">{tab.content}</p>
+			</div>
+		))
+	}
+	<div
+		class="no-scrollbar font-semibold flex w-full flex-shrink-0 gap-1.5 p-1.5 rounded-[14px] bg-[#FFFFFF0F]"
+	>
+		{
+			tabs.map((tab, index) => (
+				<button
+					class={`${
+						activeTab === index ? "bg-white/10 border-gradient" : ""
+					} tab-button w-full py-2 rounded-lg px-6 lg:px-[18px] lg:py-1.5 md:w-full`}
+				>
+					<span class="text-sm 2xl:text-lg">{tab.btnText}</span>
+				</button>
+			))
+		}
+	</div>
+</div>
+
+<script>
+	const buttons = document.querySelectorAll(".tab-button")
+	const tabContents = document.querySelectorAll(".tab-content")
+	const tabTexts = document.querySelectorAll(".tab-text")
+	buttons.forEach((button, index) => {
+		button.addEventListener("click", () => {
+			const clickedTabIndex = index
+			tabTexts.forEach((content, i) => {
+				content.classList.toggle("hidden", i !== clickedTabIndex)
+			})
+			buttons.forEach((content, i) => {
+				content.classList.toggle("bg-white/10", i === clickedTabIndex)
+				content.classList.toggle("border-gradient", i === clickedTabIndex)
+			})
+			tabContents.forEach((content, i) => {
+				content.classList.toggle("hidden", i !== clickedTabIndex)
+			})
+		})
+	})
+</script>
+
+<style is:global>
+	.tab-content.hidden .tab-text {
+		display: none;
+	}
+	.no-scrollbar::-webkit-scrollbar {
+		display: none; /* Chrome, Safari and Opera */
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+</style>

@@ -1,0 +1,37 @@
+{
+	"name": "@elrax/blog",
+	"version": "0.0.1",
+	"description": "Blog website for Elrax Platform",
+	"homepage": "https://elrax.blog",
+	"bugs": "https://github.com/elrax/elrax/issues",
+	"license": "AGPL-3.0-only",
+	"author": "Elrax Corp.",
+	"repository": "https://github.com/elrax/elrax",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"clean": "rm -rf node_modules dist .astro",
+		"dev": "astro dev",
+		"format": "prettier --write --ignore-path=../../.gitignore .",
+		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
+		"preview": "astro preview",
+		"start": "astro dev"
+	},
+	"dependencies": {
+		"@astrojs/alpinejs": "0.4.0",
+		"@astrojs/cloudflare": "9.0.1",
+		"@astrojs/mdx": "2.1.1",
+		"@astrojs/rss": "4.0.5",
+		"@astrojs/sitemap": "3.0.5",
+		"@astrojs/tailwind": "5.1.0",
+		"@elrax/shared": "workspace:*",
+		"alpinejs": "3.13.5",
+		"astro": "4.4.0",
+		"tailwindcss": "3.4.1"
+	},
+	"devDependencies": {
+		"@types/alpinejs": "3.13.6"
+	}
+}

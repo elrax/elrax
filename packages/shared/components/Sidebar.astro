@@ -1,0 +1,79 @@
+---
+import closeIcon from "../assets/icons/close.svg"
+import Dropdown from "./Dropdown.astro"
+
+export interface Props {
+	subdomain?: string
+}
+const { subdomain } = Astro.props
+---
+
+<div
+	x-cloak
+	x-data="{ sidebar: false }"
+	@opensidebar.window="sidebar = true"
+	x-show="sidebar"
+	x-transition.opacity.duration.300ms
+	class="sidebar top-0 md:hidden left-0 fixed flex justify-end w-full h-full z-30 bg-black/40"
+>
+	<div
+		@click.outside="sidebar = false"
+		x-show="sidebar"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0 translate-x-1/2"
+		x-transition:enter-end="opacity-100 translate-x-0"
+		x-transition:leave="transition ease-in duration-300"
+		x-transition:leave-start="opacity-100 translate-x-0"
+		x-transition:leave-end="opacity-0 translate-x-1/2"
+		class="bg-gradient p-4 w-2/3 max-w-[400px] h-full flex flex-col"
+	>
+		<div class="top mb-4 flex justify-end">
+			<img
+				@click="sidebar = false"
+				class="cursor-pointer w-7 h-7"
+				src={closeIcon.src}
+				alt="close menu"
+			/>
+		</div>
+		<div class="flex flex-col">
+			{
+				(!subdomain || subdomain === "comics") && (
+					<>
+						<a
+							href="https://elrax.blog"
+							class="flex items-center rounded-xl hover:bg-white/10 transition-all p-4"
+						>
+							<p class="text-lg leading-[100%] text-white font-semibold">Blog</p>
+						</a>
+					</>
+				)
+			}
+			{
+				(!subdomain || subdomain === "blog") && (
+					<>
+						<a
+							href="https://comics.elrax.com"
+							class="flex items-center rounded-xl hover:bg-white/10 transition-all p-4"
+						>
+							<p class="text-lg leading-[100%] text-white font-semibold">Comics</p>
+						</a>
+					</>
+				)
+			}
+			<a
+				href="https://github.com/elrax/elrax"
+				target="_blank"
+				class="flex items-center rounded-xl hover:bg-white/10 transition-all p-4"
+			>
+				<p class="text-lg leading-[100%] text-white font-semibold">Github</p>
+			</a>
+			<Dropdown />
+		</div>
+	</div>
+</div>
+
+<style>
+	.bg-gradient {
+		background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 1) 100%);
+	}
+</style>

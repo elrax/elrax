@@ -1,0 +1,6 @@
+---
+title: "The best time for zoomies"
+pubDate: "Jun 10 2024"
+heroImage: "/comics-7-the-best-time-for-zoomies.jpg"
+tag: "Cat"
+---

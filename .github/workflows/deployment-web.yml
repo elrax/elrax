@@ -1,0 +1,56 @@
+name: Deployment
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/deployment-web.yml"
+      - "apps/web/**"
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: Build apps
+        run: bun run build
+
+      - name: Deploy landing
+        uses: cloudflare/pages-action@v1
+        with:
+          wranglerVersion: "3"
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: ./apps/web/landing/
+          directory: ./dist/
+          projectName: elrax
+
+      - name: Deploy blog
+        uses: cloudflare/pages-action@v1
+        with:
+          wranglerVersion: "3"
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: ./apps/web/blog/
+          directory: ./dist/
+          projectName: elrax-blog
+
+      - name: Deploy comics
+        uses: cloudflare/pages-action@v1
+        with:
+          wranglerVersion: "3"
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          workingDirectory: ./apps/web/comics/
+          directory: ./dist/
+          projectName: elrax-comics

@@ -1,0 +1,68 @@
+---
+import BlogCard from "@elrax/shared/components/BlogCard.astro"
+import oleskiiAvatar from "../assets/images/avatars/oleksii.png"
+import davidAvatar from "../assets/images/avatars/david.png"
+
+const post1 = {
+	slug: "intro-to-elrax",
+	data: {
+		title: "Intro to Elrax",
+		description:
+			"Crowdfunding as a concept has already become an integral part of the modern Internet. Many innovative and creative projects have become a reality, many people have been able to receive financial support in difficult times, and all this is due to the common efforts of thousands of people. This is truly beautiful and inspiring.",
+		pubDate: new Date("2023-11-09T00:00:00.000Z"),
+		tag: "News",
+		updatedDate: new Date("2023-11-09T00:00:00.000Z"),
+		heroImage: "https://elrax.blog/post-1.png",
+		author: [
+			{ name: "Oleksii Knyshenko", role: "Co-founder CEO", img: oleskiiAvatar.src },
+			{ name: "David Knyshenko", role: "Co-founder CTO", img: davidAvatar.src },
+		],
+	},
+}
+const post2 = {
+	slug: "development-plans",
+	data: {
+		title: "Development plans",
+		description:
+			"It's time to share with you our plans for developing the Elrax mobile application. The development is planned in five key versions, each adding significant features and enhancements: **vAlpha, vBeta, v1.0, v1.1, v1.2**. Now let's take a closer look at each version.",
+		pubDate: new Date("2023-11-20T17:00:00.000Z"),
+		tag: "News",
+		updatedDate: new Date("2023-11-20T17:00:00.000Z"),
+		heroImage: "https://elrax.blog/post-2.png",
+		author: [{ name: "Oleksii Knyshenko", role: "Co-founder CEO", img: oleskiiAvatar.src }],
+	},
+}
+const post3 = {
+	slug: "feed-page-and-video-upload",
+	data: {
+		title: "Feed page and video upload",
+		description:
+			"This is the first post in Changelog series, where we will cover all recent changes to the Elrax app (every week or few weeks). Also, we will keep you in touch what we currently working on and our plans on next weeks.",
+		pubDate: new Date("2024-01-29T17:00:00.000Z"),
+		tag: "Changelog",
+		updatedDate: new Date("2024-01-29T17:00:00.000Z"),
+		heroImage: "https://elrax.blog/post-3.png",
+		author: [{ name: "David Knyshenko", role: "Co-founder CTO", img: davidAvatar.src }],
+	},
+}
+const posts = [post1, post2, post3]
+---
+
+<section
+	class="flex relative flex-col px-4 py-12 gap-4 md:gap-9 md:p-16 lg:px-0 lg:py-20 2xl:py-[120px] 2xl:gap-12"
+>
+	<div
+		class="circle-gradient opacity-30 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full w-[70%] aspect-square"
+	>
+	</div>
+	<h2 class="text-center">Featured news</h2>
+	<ul class="flex flex-wrap md:justify-stretch gap-4 md:gap-5 lg:gap-6">
+		{posts.map((post, i) => <BlogCard post={post} index={i} landing={true} />)}
+	</ul>
+	<a
+		href="https://elrax.blog"
+		class="btn-gradient w-fit mx-auto font-bold px-8 py-3 text-xs md:text-sm 2xl:text-lg rounded-[32px]"
+	>
+		Read more
+	</a>
+</section>

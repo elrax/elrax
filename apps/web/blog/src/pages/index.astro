@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content"
+import BlogCard from "@elrax/shared/components/BlogCard.astro"
+import Layout from "../layouts/Layout.astro"
+import chevron from "../assets/icons/chevron.svg"
+
+export const prerender = true
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+)
+---
+
+<Layout>
+	<main
+		class="md:max-w-[644px] relative lg:max-w-[900px] 2xl:max-w-[1200px] flex flex-col gap-4 md:gap-12 2xl:gap-[54px] mx-auto px-4 md:px-0 py-4 md:py-6 lg:py-9 2xl:py-10 2xl:pb-20 md:pb-16 lg:pb-20"
+	>
+		<div class="text flex items-center flex-col gap-2">
+			<h1
+				class="font-black text-gradient text-4xl md:text-5xl md:leading-[58px] leading-[42px] 2xl:text-[60px] 2xl:leading-[72px] text-center"
+			>
+				Elrax Blog
+			</h1>
+			<p
+				class="text-sm md:text-base 2xl:text-xl 2xl:leading-[30px] text-center max-w-[474px] 2xl:max-w-[588px] text-gradient-secondary"
+			>
+				Follow the Elrax blog for announcements, feature updates, user stories, and technical posts
+				about our product.
+			</p>
+		</div>
+		<section class="flex relative z-10 flex-col gap-6 md:gap-12">
+			<ul class="flex flex-wrap md:justify-stretch gap-6 md:gap-y-[54px] md:gap-x-5 lg:gap-x-6">
+				{posts.map((post, i) => <BlogCard post={post} index={i} />)}
+			</ul>
+			<div class="flex justify-center gap-6">
+				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
+					<img class="w-5 h-5 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
+					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Prev</p>
+				</button>
+				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
+					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Next</p>
+					<img class="w-5 h-5 rotate-180 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
+				</button>
+			</div>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.text-gradient {
+		background: linear-gradient(92deg, #efadff 18.46%, #b6ceff 60.37%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	.text-gradient-secondary {
+		background: var(--gradient-blue-3, linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%));
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>
