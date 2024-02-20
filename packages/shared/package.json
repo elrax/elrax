@@ -1,0 +1,20 @@
+{
+	"name": "@elrax/shared",
+	"version": "0.0.1",
+	"description": "Shared configs and UI elements for Elrax Websites",
+	"homepage": "https://elrax.com",
+	"bugs": "https://github.com/elrax/elrax/issues",
+	"author": "Elrax Corp.",
+	"repository": "https://github.com/elrax/elrax",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"clean": "rm -rf node_modules dist .astro",
+		"format": "prettier --write --ignore-path=../../.gitignore .",
+		"lint": "eslint \"./\" && prettier --check --ignore-path=../../.gitignore ."
+	},
+	"dependencies": {
+		"@fontsource/nunito-sans": "5.0.8",
+		"astro": "4.4.0"
+	}
+}

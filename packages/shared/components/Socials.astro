@@ -1,0 +1,25 @@
+---
+import mastodonLogo from "../assets/icons/socials/mastodon.svg"
+import githubLogo from "../assets/icons/socials/github.svg"
+import instagramLogo from "../assets/icons/socials/instagram.svg"
+import twitterLogo from "../assets/icons/socials/twitter.svg"
+import tiktokLogo from "../assets/icons/socials/tiktok.svg"
+
+const logos = [
+	{ img: mastodonLogo, link: "https://mastodon.social/@elrax" },
+	{ img: githubLogo, link: "https://github.com/elrax" },
+	{ img: instagramLogo, link: "https://instagram.com/elraxcom" },
+	{ img: twitterLogo, link: "https://x.com/elraxcom" },
+	{ img: tiktokLogo, link: "https://www.tiktok.com/@elraxcom" },
+]
+---
+
+<div class="flex gap-4 md:gap-6 lg:gap-8">
+	{
+		logos.map((logo) => (
+			<a href={logo.link} class="rounded-full flex bg-[#9A9BA2] p-1.5">
+				<img class="w-6 h-6 2xl:w-8 2xl:h-8" src={logo.img.src} alt="logo icon" />
+			</a>
+		))
+	}
+</div>

@@ -1,0 +1,21 @@
+---
+export type Props = {
+	tag?: string
+}
+
+const { tag } = Astro.props
+---
+
+{
+	tag && (
+		<p class="tag-bg text-black font-bold text-xs md:text-sm px-3 py-0.5 rounded-[30px] 2xl:text-lg">
+			{tag}
+		</p>
+	)
+}
+
+<style>
+	.tag-bg {
+		background: var(--app-gradient-4-day, linear-gradient(270deg, #cfa7fb 0%, #b4cbfc 100%));
+	}
+</style>

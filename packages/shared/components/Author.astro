@@ -1,0 +1,20 @@
+---
+export type Props = {
+	name: string
+	role: string
+	img: string
+}
+
+const { name, role, img } = Astro.props
+---
+
+<div class="flex gap-2 md:gap-4 items-center">
+	<img
+		class="w-6 md:w-8 md:h-8 2xl:w-9 2xl:h-9 h-6 rounded-full md:-ml-12"
+		src={img}
+		alt="Author avatar"
+	/>
+	<div class="info flex text-xs md:text-sm 2xl:text-lg">
+		<div>{name}, <span class="text-[#9A9BA2]">{role}</span></div>
+	</div>
+</div>

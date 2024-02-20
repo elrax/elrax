@@ -1,0 +1,172 @@
+---
+import { Image } from "astro:assets"
+import oleksiiPfp from "../assets/images/avatars/oleksii.png"
+import davidPfp from "../assets/images/avatars/david.png"
+import dinaPfp from "../assets/images/avatars/dina.png"
+import dashaPfp from "../assets/images/avatars/dasha.png"
+import andrewPfp from "../assets/images/avatars/andrew.png"
+import oleksandrPfp from "../assets/images/avatars/oleksandr.png"
+import mastodonLogo from "@elrax/shared/assets/icons/socials/mastodon.svg"
+import discordLogo from "@elrax/shared/assets/icons/socials/discord.svg"
+import githubLogo from "@elrax/shared/assets/icons/socials/github.svg"
+import instagramLogo from "@elrax/shared/assets/icons/socials/instagram.svg"
+import twitterLogo from "@elrax/shared/assets/icons/socials/twitter.svg"
+import behanceLogo from "@elrax/shared/assets/icons/socials/behance.svg"
+import dribbbleLogo from "@elrax/shared/assets/icons/socials/dribbble.svg"
+import artstationLogo from "@elrax/shared/assets/icons/socials/artstation.svg"
+
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+type SocialLogos = Record<string, any>
+const socialLogos: SocialLogos = {
+	mastodon: mastodonLogo,
+	discord: discordLogo,
+	github: githubLogo,
+	instagram: instagramLogo,
+	twitter: twitterLogo,
+	behance: behanceLogo,
+	dribbble: dribbbleLogo,
+	artstation: artstationLogo,
+}
+const team = [
+	{
+		name: "Oleksii",
+		role: "Co-founder CEO",
+		img: oleksiiPfp,
+		desc: "Responsible for operational planning, task management, and product design.",
+		socials: [
+			{ name: "mastodon", url: "https://mastodon.social/@olknyshenko" },
+			{ name: "twitter", url: "https://twitter.com/olknyshenko" },
+			{ name: "instagram", url: "https://www.instagram.com/olknyshenko/" },
+			{ name: "github", url: "https://github.com/olvyko" },
+		],
+	},
+	{
+		name: "David",
+		role: "Co-founder CTO",
+		img: davidPfp,
+		desc: "Responsible for all codebase, tech stack, and sometimes takes part in product design.",
+		socials: [
+			{ name: "mastodon", url: "https://mastodon.social/@enfipy" },
+			{ name: "twitter", url: "https://twitter.com/enfipy" },
+			{ name: "instagram", url: "https://instagram.com/enfipy" },
+			{ name: "github", url: "https://github.com/enfipy" },
+		],
+	},
+	{
+		name: "Dariya",
+		role: "Concept Artist",
+		img: dashaPfp,
+		desc: "Responsible for all the art of our project, creation of comics, and art animation.",
+		socials: [
+			{ name: "instagram", url: "https://www.instagram.com/keunhwajae_art" },
+			{ name: "twitter", url: "https://twitter.com/KeunHwaJae" },
+			{ name: "artstation", url: "https://www.artstation.com/keunhwajae" },
+		],
+	},
+	{
+		name: "Andrew",
+		role: "UI Designer",
+		img: andrewPfp,
+		desc: "Responsible for designs of mobile app, websites, and graphic elements.",
+		socials: [
+			{ name: "instagram", url: "https://www.instagram.com/andrewspodarenko/" },
+			{ name: "twitter", url: "https://twitter.com/aspodarenko_" },
+			{ name: "behance", url: "https://www.behance.net/andrewspodarenko" },
+			{ name: "dribbble", url: "https://dribbble.com/andrewspodarenko" },
+		],
+	},
+	{
+		name: "Dina",
+		role: "Marketing",
+		img: dinaPfp,
+		desc: "Responsible for marketing, social media content and the story of our comics.",
+		socials: [
+			{ name: "instagram", url: "https://www.instagram.com/murlotka/" },
+			{ name: "twitter", url: "https://twitter.com/murlotka" },
+			{ name: "mastodon", url: "https://mastodon.social/@murlotka" },
+		],
+	},
+	{
+		name: "Oleksandr",
+		role: "Web Developer",
+		img: oleksandrPfp,
+		desc: "Responsible for website front-end, mobile views development and support.",
+		socials: [
+			{ name: "github", url: "https://github.com/salikovskiy" },
+			{ name: "twitter", url: "https://twitter.com/salikovskiy" },
+		],
+	},
+]
+---
+
+<section
+	class="p-4 py-12 flex flex-col gap-4 md:p-16 md:gap-8 lg:px-0 lg:py-[100px] lg:gap-9 2xl:py-[140px]"
+>
+	<h2 class="text-center">Our team</h2>
+	<div class="flex relative flex-wrap gap-4 md:gap-5 lg:gap-6">
+		{
+			team.map((member) => (
+				<div class="member relative z-10">
+					<div class="border-gradient rounded-2xl flex flex-col gap-4 p-6 md:p-8 2xl:gap-6">
+						<div class="flex gap-[18px] lg:gap-2 2xl:gap-[18px]">
+							<Image
+								class:list="w-20 h-20 md:w-[100px] md:h-[100px] lg:w-[92px] lg:h-[92px] 2xl:w-[130px] 2xl:h-[130px]"
+								src={member.img}
+								alt="team member avatar"
+							/>
+							<div class="text flex flex-col gap-[3px] pt-4">
+								<p class="pr-[150px] font-bold">{member.name}</p>
+								<p class="text-[#9A9BA2]">{member.role}</p>
+							</div>
+						</div>
+						<div>
+							<p class="text-[#9A9BA2]">{member.desc}</p>
+						</div>
+						<div class="flex gap-[9px] 2xl:gap-3">
+							{member.socials.map((social) => {
+								const logo = socialLogos[social.name]
+								if (logo) {
+									return (
+										<a
+											href={social.url}
+											target="_blank"
+											class="rounded-full flex socials-bg p-[3px] md:p-1"
+											rel={social.name === "Mastodon" ? "me" : ""}
+										>
+											<Image
+												class="w-5 h-5 2xl:w-6 2xl:h-6"
+												src={logo}
+												alt={`${social.name} icon`}
+											/>
+										</a>
+									)
+								}
+							})}
+						</div>
+					</div>
+				</div>
+			))
+		}
+		<div
+			class="circle-gradient opacity-30 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full w-[70%] aspect-square"
+		>
+		</div>
+	</div>
+</section>
+
+<style>
+	.member {
+		@apply w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-10px)] lg:w-[calc(33.3%-16px)];
+		border-radius: 16px;
+		background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 0.4) 100%);
+		box-shadow:
+			0px 6.32716px 63.27161px 0px rgba(0, 0, 0, 0.4),
+			0px 2.53086px 2.53086px 0.63272px rgba(0, 0, 0, 0.2);
+		backdrop-filter: blur(30px);
+	}
+	.socials-bg {
+		background: var(--app-gradient-4-day, linear-gradient(270deg, #cfa7fb 0%, #b4cbfc 100%));
+		box-shadow: 0px 0px 33.75px 0px rgba(131, 40, 246, 0.6);
+		backdrop-filter: blur(1.9421052932739258px);
+	}
+</style>

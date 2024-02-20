@@ -1,0 +1,164 @@
+---
+import { Image } from "astro:assets"
+import featPic1 from "../assets/images/features/feat-1.png"
+import featPic2 from "../assets/images/features/feat-2.png"
+import featPic3 from "../assets/images/features/feat-3.png"
+import featPic4 from "../assets/images/features/feat-4.png"
+import featPic5 from "../assets/images/features/feat-5.png"
+import featPic6 from "../assets/images/features/feat-6.png"
+import featIcon1 from "../assets/icons/features/feat-1.svg"
+import featIcon2 from "../assets/icons/features/feat-2.svg"
+import featIcon3 from "../assets/icons/features/feat-3.svg"
+import featIcon4 from "../assets/icons/features/feat-4.svg"
+import featIcon5 from "../assets/icons/features/feat-5.svg"
+import featIcon6 from "../assets/icons/features/feat-6.svg"
+
+const features = [
+	{
+		title: "Video crowdfunding",
+		img: featPic1,
+		icon: featIcon1,
+		description:
+			"Video content is the core of our platform. Users can quickly find interesting projects and have fun at the same time. We make crowdfunding easy and enjoyable for everyone!",
+	},
+	{
+		title: "User profile",
+		img: featPic2,
+		icon: featIcon2,
+		description:
+			"We value backers just as much as project creators. That's why every user of our platform has a public profile, with statistics, donation history and a gallery of earned rewards.",
+	},
+	{
+		title: "Open-source",
+		img: featPic3,
+		icon: featIcon3,
+		description:
+			"Together, we can transform the world for the better! We believe that ultimate crowdfunding platform should be open-source in order to be fully consistent with its core altruistic nature.",
+	},
+	{
+		title: "Development series",
+		img: featPic4,
+		icon: featIcon4,
+		description:
+			"Creators can publish videos of project development long before the start of crowdfunding campaign, thereby showing potential backers that the project is trustworthy.",
+	},
+	{
+		title: "User participation",
+		img: featPic5,
+		icon: featIcon5,
+		description:
+			"Not only project creators, but all users can publish videos on the platform to express their opinion, give useful advice, or participate in competitions and events.",
+	},
+	{
+		title: "Voting",
+		img: featPic6,
+		icon: featIcon6,
+		description:
+			"Users can influence projects by participating in key decisions while contributing funds. This helps project creators to be on the same page with their backers.",
+	},
+]
+---
+
+<section
+	class="px-4 flex flex-col gap-4 py-12 md:p-12 md:gap-6 lg:px-0 lg:py-20 lg:gap-9 2xl:py-[140px] 2xl:gap-12"
+>
+	<h2 class="text-center">Core features</h2>
+	<div class="relative flex flex-wrap gap-4 md:gap-5 lg:gap-6">
+		{
+			features.map((feature) => (
+				<div class="feature relative z-10">
+					<div class="feature-inner relative flex items-center">
+						<div class="feature-front border-gradient feature-bg">
+							<h4>{feature.title}</h4>
+							<div class="w-full 2xl:mb-3">
+								<Image
+									class:list="w-full max-w-[300px] mx-auto"
+									src={feature.img}
+									alt="feature-image"
+								/>
+							</div>
+						</div>
+						<div class="feature-back border-gradient feature-bg absolute">
+							{feature.icon && <Image class="feature-icon" src={feature.icon} alt="icon" />}
+							<h4>{feature.title}</h4>
+							<p class="text-center">{feature.description}</p>
+						</div>
+					</div>
+				</div>
+			))
+		}
+		<div
+			class="circle-gradient opacity-30 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full w-full aspect-square"
+		>
+		</div>
+	</div>
+</section>
+
+<script>
+	const features = document.getElementsByClassName("feature")
+	let scrollPosition = window.scrollY
+	let screenWidth = window.innerWidth
+
+	const onScroll = (index: number, m: number, t: number, d: number, w: number) => {
+		let gap = d
+		if (screenWidth > 1500) {
+			gap = w
+		} else if (screenWidth > 1020) {
+			gap = d
+		} else if (screenWidth > 640) {
+			gap = t
+		} else if (screenWidth > 200) {
+			gap = m
+		}
+		const sh = features[index].scrollHeight + gap
+		if (scrollPosition >= sh) {
+			features[index].classList.add("active")
+		} else {
+			features[index].classList.remove("active")
+		}
+	}
+
+	window.addEventListener("scroll", function () {
+		scrollPosition = window.scrollY
+		screenWidth = window.innerWidth
+
+		onScroll(0, 250, 400, 400, 500)
+		onScroll(1, 650, 400, 400, 500)
+		onScroll(2, 1050, 800, 400, 500)
+		onScroll(3, 1450, 800, 650, 850)
+		onScroll(4, 1850, 1200, 650, 850)
+		onScroll(5, 2250, 1200, 650, 850)
+	})
+</script>
+
+<style>
+	.feature {
+		@apply w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-10px)] lg:w-[calc(33.3%-16px)];
+		perspective: 1000px;
+	}
+	.feature-inner {
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+	}
+	.active .feature-inner {
+		transform: rotateY(180deg);
+	}
+	.feature-front,
+	.feature-back {
+		@apply w-full h-full flex flex-col gap-3 items-center;
+		-webkit-backface-visibility: hidden; /* Safari */
+		backface-visibility: hidden;
+	}
+	.feature-back {
+		@apply gap-6 md:gap-3 2xl:gap-6;
+		transform: rotateY(180deg);
+	}
+	.feature-icon {
+		@apply w-10 h-10;
+		filter: drop-shadow(0 0 15px #8328f6);
+	}
+	.feature-bg {
+		@apply p-8 lg:p-6 2xl:p-8 rounded-2xl;
+		background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 1) 100%);
+	}
+</style>

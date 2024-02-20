@@ -1,0 +1,43 @@
+---
+title: "Feed page and video upload"
+description: "This is the first post in Changelog series, where we will cover all recent changes to the Elrax app (every week or few weeks). Also, we will keep you in touch what we currently working on and our plans on next weeks."
+pubDate: "Jan 29 2024"
+heroImage: "/post-3.png"
+updatedDate: "Jan 29 2024"
+tag: "Changelog"
+author: [{ name: "David Knyshenko", role: "Co-founder CTO", img: "/david.png" }]
+---
+
+import Author from "@elrax/shared/components/Author.astro"
+
+<Author name="David Knyshenko" role="Co-founder CTO" img="/david.png" />
+
+**Intro: This is the first post in Changelog series, where we will cover all recent changes to the Elrax app (every week or few weeks). Also, we will keep you in touch what we currently working on and our plans on next weeks.**
+
+Last several weeks we were working on the Feed page and video upload. We have added a lot of primary features to the app, configured CI/CD, preview release process, and much more. Let's dive into the details.
+
+## Visual changes
+
+-   **Navigation**: Added bottom tabs navigation with sleek icons, making app navigation more intuitive.
+-   **Video feed list**: Created it's possible to watch uploaded videos from main page.
+-   **Video loading**: Implemented video streaming feature, enhancing the loading speed of videos in the app.
+-   **Video overlay**: Added video overlay and category label UI, providing more info about video for user experience.
+-   **Touch interaction**: Enabled pausing videos through touch and muting video through click.
+-   **UI components:** Added first UI components and set of icon buttons.
+
+## Technical changes
+
+-   **Dev video upload:** Implemented technical video upload logic, allowing developers to upload videos directly to the server.
+-   **EAS configuration**: Set up Expo Application Services configuration for development deployments.
+-   **Dev configuration**: Added `expo-dev-client`, `expo-updates`, and `expo-insights` packages to enhance development and monitoring capabilities.
+-   **Release automation**: Integrated automated release processes to streamline app updates and deployment.
+-   **Staging deployment**: Established `deployment.yml` workflow to simplify staging updates.
+-   **App preview:** Added `preview-pr.yml` workflow to simply test Pull Request updates in Elrax Dev App.
+
+## Summary
+
+In summary, this is the first step to `vAlpha` version of our Elrax app and we already working on next primary features.
+
+Currently we are focusing on authorization/registration feature, but also planing to finish `CONTRIBUTING.md` file to make future contributions simpler.
+
+Stay tuned for more updates in our next Changelog post!

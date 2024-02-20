@@ -1,0 +1,187 @@
+---
+import { getCollection } from "astro:content"
+import ComicsImage from "../components/ComicsImage.astro"
+import Layout from "../layouts/Layout.astro"
+// import chevron from "../assets/icons/chevron.svg"
+
+export const prerender = true
+
+const comics = (await getCollection("comics")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+)
+---
+
+<Layout>
+	<main
+		class="md:max-w-[644px] relative lg:max-w-[900px] 2xl:max-w-[1200px] flex flex-col gap-4 md:gap-12 2xl:gap-[54px] mx-auto px-4 md:px-0 py-4 md:py-6 lg:py-9 2xl:py-10 2xl:pb-20 md:pb-16 lg:pb-20"
+	>
+		<div class="text flex items-center flex-col gap-2">
+			<h1
+				class="font-black text-gradient text-4xl md:text-5xl md:leading-[58px] leading-[42px] 2xl:text-[60px] 2xl:leading-[72px] text-center"
+			>
+				Elrax Comics
+			</h1>
+			<p
+				class="text-sm md:text-base 2xl:text-xl 2xl:leading-[30px] text-center max-w-[474px] 2xl:max-w-[588px] text-gradient-secondary"
+			>
+				Follow the Elrax our social media for more comics, announcements, and feature updates about
+				our product.
+			</p>
+		</div>
+		<section class="flex relative z-10 flex-col gap-6 md:gap-12 pb-10">
+			<ul class="flex flex-wrap md:justify-stretch gap-6 md:gap-y-[54px] md:gap-x-5 lg:gap-x-6">
+				{comics.map((c, i) => <ComicsImage comics={c} index={i} />)}
+			</ul>
+			<!-- <div class="flex justify-center gap-6">
+				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
+					<img class="w-5 h-5 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
+					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Prev</p>
+				</button>
+				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
+					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Next</p>
+					<img class="w-5 h-5 rotate-180 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
+				</button>
+			</div> -->
+		</section>
+	</main>
+</Layout>
+
+<script lang="js">
+	class Zoomable {
+		constructor(selector) {
+			const images = document.querySelectorAll(selector)
+			let touchStartTimer
+
+			images.forEach((image) => {
+				image.style.cursor = "pointer"
+				image.addEventListener("click", () => {
+					this.makeFullscreen(image)
+				})
+
+				image.addEventListener(
+					"touchstart",
+					() => {
+						// Start a timer to detect long press
+						touchStartTimer = setTimeout(() => {
+							this.makeFullscreen(image)
+						}, 500) // 500ms for long press
+					},
+					{ passive: true },
+				)
+
+				image.addEventListener("touchend", () => {
+					// Clear the timer if touch ends before 500ms
+					clearTimeout(touchStartTimer)
+				})
+
+				image.addEventListener("touchmove", () => {
+					// Clear the timer if the user moves their finger (scrolling)
+					clearTimeout(touchStartTimer)
+				})
+			})
+		}
+
+		makeFullscreen(image) {
+			const fullscreen = document.createElement("div")
+			fullscreen.classList.add("fullscreen-image")
+
+			const fullImage = document.createElement("img")
+
+			// If the image is too large for the screen, scale it to fit
+			const viewportWidth = Math.max(
+				document.documentElement.clientWidth || 0,
+				window.innerWidth || 0,
+			)
+			const viewportHeight = Math.max(
+				document.documentElement.clientHeight || 0,
+				window.innerHeight || 0,
+			)
+
+			let dragStartX, dragStartY, dragged
+
+			fullImage.classList.add("no-selector", "sm:w-full", "md:h-full", "md:w-auto")
+			fullImage.style.maxWidth = "90%"
+			fullImage.style.maxHeight = "90%"
+			fullImage.src = image.src
+
+			// Set the position of the image to absolute
+			fullImage.style.position = "fixed"
+			fullImage.style.left = viewportWidth / 2
+			fullImage.style.top = viewportHeight / 2
+			fullImage.style.cursor = "move"
+
+			fullscreen.appendChild(fullImage)
+			document.body.appendChild(fullscreen)
+
+			fullscreen.addEventListener("click", (event) => {
+				if (event.target === fullscreen) {
+					fullscreen.remove()
+				}
+			})
+
+			fullImage.addEventListener("mousedown", (event) => {
+				dragStartX = event.pageX - fullImage.offsetLeft
+				dragStartY = event.pageY - fullImage.offsetTop
+				dragged = true
+			})
+
+			fullImage.addEventListener("mousemove", (event) => {
+				if (dragged) {
+					// Calculate the new position of the element
+					const x = event.pageX - dragStartX
+					const y = event.pageY - dragStartY
+
+					// Set the position of the element
+					fullImage.style.left = `${x}px`
+					fullImage.style.top = `${y}px`
+				}
+			})
+
+			fullImage.addEventListener("mouseup", () => {
+				dragged = false
+			})
+		}
+	}
+
+	// Use the library
+	window.addEventListener("load", () => {
+		new Zoomable(".zoomable")
+	})
+</script>
+
+<style is:global>
+	.no-selector {
+		object-fit: contain;
+		user-drag: none;
+		-webkit-user-drag: none;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	.fullscreen-image {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 999;
+		backdrop-filter: blur(5px);
+	}
+	.text-gradient {
+		background: linear-gradient(92deg, #efadff 18.46%, #b6ceff 60.37%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	.text-gradient-secondary {
+		background: var(--gradient-blue-3, linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%));
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>

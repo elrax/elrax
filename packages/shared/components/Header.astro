@@ -1,0 +1,84 @@
+---
+import Dropdown from "./Dropdown.astro"
+import logo from "../assets/icons/logo.svg"
+import burgerIcon from "../assets/icons/burger.svg"
+import githubIcon from "../assets/icons/github.svg"
+
+export interface Props {
+	subdomain?: string
+}
+const { subdomain } = Astro.props
+---
+
+<header
+	class={`p-4 z-30 ${
+		!subdomain && "absolute top-0"
+	}  w-full md:px-[32px] lg:px-[60px] 2xl:px-[80px]`}
+>
+	<nav class="flex items-center justify-between">
+		<div class="flex items-center gap-2 md:gap-6">
+			<div class="flex items-center gap-1.5">
+				<a class="flex justify-center" href="https://elrax.com/">
+					<img src={logo.src} alt="logo" class="h-[24px] 2xl:h-[28px]" />
+				</a>
+				<div
+					class="bg-white/10 py-1 font-semibold px-2 rounded-md text-xs leading-[16px] md:leading-[16px] md:text-[12px]"
+				>
+					v0.1
+				</div>
+			</div>
+			{
+				subdomain && (
+					<>
+						<div class="h-4 md:h-5 w-[1px] bg-white/40" />
+						<a
+							href={subdomain === "comics" ? "https://comics.elrax.com" : "https://elrax.blog"}
+							class="flex items-center py-1.5 px-3 rounded-xl hover:bg-white/10 transition-all md:px-4"
+						>
+							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-[#9A9BA2] font-semibold">
+								{subdomain.charAt(0).toUpperCase() + subdomain.slice(1)}
+							</p>
+						</a>
+					</>
+				)
+			}
+		</div>
+		<div class="hidden md:flex gap-6 rounded-xl">
+			{
+				(!subdomain || subdomain === "comics") && (
+					<>
+						<a
+							href="https://elrax.blog"
+							class="flex items-center py-1.5 px-3 rounded-xl hover:bg-white/10 transition-all md:px-4"
+						>
+							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">
+								Blog
+							</p>
+						</a>
+					</>
+				)
+			}
+			{
+				(!subdomain || subdomain === "blog") && (
+					<>
+						<a
+							href="https://comics.elrax.com"
+							class="flex items-center py-1.5 px-3 rounded-xl hover:bg-white/10 transition-all md:px-4"
+						>
+							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">
+								Comics
+							</p>
+						</a>
+					</>
+				)
+			}
+			<Dropdown />
+			<a href="https://github.com/elrax/elrax" target="_blank">
+				<img class="w-[40px] h-[40px]" src={githubIcon.src} alt="github icon" />
+			</a>
+		</div>
+		<div x-data @click="$dispatch('opensidebar')" class="burger cursor-pointer md:hidden">
+			<img class="w-7 h-7" src={burgerIcon.src} alt="burger menu" />
+		</div>
+	</nav>
+</header>

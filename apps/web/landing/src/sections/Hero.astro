@@ -1,0 +1,177 @@
+---
+import { Image } from "astro:assets"
+import catImg from "../assets/images/cat.png"
+import heroImage from "../assets/images/hero.png"
+import phoneOneImage from "../assets/images/hero_phone1.png"
+import phoneTwoImage from "../assets/images/hero_phone2.png"
+import phoneOnePlaceholder from "../assets/images/phone-placeholder-1.png"
+import phoneTwoPlaceholder from "../assets/images/phone-placeholder-2.png"
+---
+
+<section
+	class="flex flex-col px-4 py-12 pt-[58px] md:p-16 lg:px-0 gap-4 md:gap-9 lg:flex-row-reverse lg:gap-[100px] lg:items-center lg:py-[100px] 2xl:py-[60px]"
+>
+	<div
+		class="relative flex-shrink-0 w-[68%] max-w-[400px] lg:max-w-none lg:w-[438px] 2xl:w-[588px] lg:mb-0 mx-auto"
+	>
+		<div class="video-phone-1-wrapper">
+			<Image
+				fetchpriority="high"
+				class="video-phone-1"
+				src={phoneOnePlaceholder}
+				alt="placeholder"
+			/>
+			<video autoplay loop muted playsinline class="video-phone-1">
+				<source src="/videos/phone1.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+			<Image
+				fetchpriority="high"
+				class="phone-1 z-10 absolute"
+				src={phoneOneImage}
+				alt="Elrax phone mockup"
+			/>
+		</div>
+		<div class="video-phone-2-wrapper">
+			<Image
+				fetchpriority="high"
+				class="video-phone-2"
+				src={phoneTwoPlaceholder}
+				alt="placeholder"
+			/>
+			<video autoplay loop muted playsinline class="video-phone-2 pointer-events-none">
+				<source src="/videos/phone2.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+			<Image
+				fetchpriority="high"
+				class="phone-2 z-10 absolute pointer-events-none"
+				src={phoneTwoImage}
+				alt="Elrax phone mockup"
+			/>
+			<Image
+				fetchpriority="low"
+				class="w-full pointer-events-none opacity-0 z-10 relative"
+				src={heroImage}
+				alt="Elrax phone mockup"
+			/>
+		</div>
+		<div
+			class="cat-wrapper box-content md:py-8 md:pr-8 absolute w-[65%] right-[-30%] bottom-[10%] md:w-[250px] md:bottom-[7%] md:right-[-148px] 2xl:w-[302px] 2xl:right-[-170px]"
+		>
+			<Image class="cat" src={catImg} alt="Elrax cat" />
+		</div>
+		<div
+			class="circle-gradient pointer-events-none opacity-50 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full w-[140%] aspect-square"
+		>
+		</div>
+	</div>
+	<div class="flex flex-col gap-4 md:gap-6 2xl:gap-8 lg:mt-10">
+		<div class="flex flex-col gap-2">
+			<h1 class="text-gradient-h1">
+				Elrax is a video crowdfunding<br />
+				<span id="typer">platform</span><span id="blink" class="font-normal">|</span>
+			</h1>
+			<p class="text-gradient-p text-center md:text-left">
+				Create, discover and support wide variety of projects with Elrax! Be a part of something
+				<b>bigger</b> and <b>important</b> for you, society, or nature.
+			</p>
+		</div>
+		<a
+			href="https://x.com/elraxcom"
+			class="btn-gradient w-full md:w-fit text-center font-bold px-8 py-3 text-base 2xl:text-lg rounded-[32px]"
+		>
+			Join community
+		</a>
+	</div>
+</section>
+
+<script defer>
+	const CHAR_DELAY = 60
+	const WORD_DELAY = 2500
+	const options = ["community", "service", "network", "platform"]
+
+	let handle
+	function startBlink() {
+		handle = setInterval(() => {
+			const blink = document.getElementById("blink")
+			if (!blink) {
+				console.log("Blink not found, ignoring")
+				return
+			}
+			blink.style.visibility = blink.style.visibility === "hidden" ? "visible" : "hidden"
+		}, 500)
+	}
+	function stopBlink() {
+		const blink = document.getElementById("blink")
+		if (!blink) {
+			console.log("Blink not found, ignoring")
+			return
+		}
+		blink.style.visibility = "visible"
+		clearInterval(handle)
+	}
+	async function replaceTyper() {
+		const typer = document.getElementById("typer")
+		if (!typer) {
+			console.log("Typer not found, ignoring")
+			return
+		}
+		const current = typer.innerText
+		const next = options[(options.indexOf(current) + 1) % options.length]
+		stopBlink()
+		while (typer.innerText.length > 0) {
+			typer.innerText = typer.innerText.slice(0, -1)
+			await new Promise((resolve) => setTimeout(resolve, CHAR_DELAY))
+		}
+		for (let i = 0; i < next.length; i++) {
+			typer.innerText += next[i]
+			await new Promise((resolve) => setTimeout(resolve, CHAR_DELAY))
+		}
+		startBlink()
+		await new Promise((resolve) => setTimeout(resolve, WORD_DELAY))
+		replaceTyper()
+	}
+
+	startBlink()
+	setTimeout(() => {
+		replaceTyper()
+	}, 2000)
+</script>
+
+<style>
+	.cat-wrapper:hover .cat {
+		transform: translateX(-50%) rotate(-20deg);
+	}
+	.cat {
+		transition: transform 0.1s ease-in-out;
+	}
+	.phone-1 {
+		@apply w-[55%] top-[7%] z-20 left-0 rounded-[10%];
+	}
+	.video-phone-1 {
+		@apply w-[52%] absolute z-20 rounded-t-[10%] top-[7%] left-1;
+	}
+	.video-phone-1-wrapper {
+		box-shadow:
+			0px 7.81069px 7.81069px 0px rgba(0, 0, 0, 0.25),
+			0px 17.31018px 26.38748px 0px rgba(0, 0, 0, 0.15),
+			0px -2.7443px 12.03268px 0px rgba(0, 0, 0, 0.1),
+			21.03117px 0px 16.82494px 0px rgba(0, 0, 0, 0.7);
+	}
+	@media (min-width: 1024px) {
+		.video-phone-1-wrapper {
+			box-shadow:
+				0px 16.657px 16.657px 0px rgba(0, 0, 0, 0.25),
+				0px 36.9155px 56.27363px 0px rgba(0, 0, 0, 0.15),
+				0px -5.85246px 25.66076px 0px rgba(0, 0, 0, 0.1),
+				44.85083px 0px 35.88065px 0px rgba(0, 0, 0, 0.7);
+		}
+	}
+	.phone-2 {
+		@apply w-[57%] bottom-0 right-0;
+	}
+	.video-phone-2 {
+		@apply w-[52%] absolute z-10 rounded-t-[10%] bottom-[9%] right-1;
+	}
+</style>

@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content"
+import FormattedDate from "@elrax/shared/components/FormattedDate.astro"
+import Tag from "@elrax/shared/components/Tag.astro"
+
+type ComicsImage = CollectionEntry<"comics">
+
+export type Props = {
+	comics: ComicsImage
+	index: number
+}
+
+const { comics } = Astro.props
+---
+
+<li class="w-full md:w-[calc(50%-10px)] lg:w-[calc(33.3%-16px)] md:flex-shrink">
+	<div class="card-bg md:h-full overflow-hidden border-gradient block rounded-2xl">
+		<div class="flex h-full flex-col">
+			<img
+				class="zoomable h-auto w-[calc(100%-2px)] mx-auto mt-[1px] rounded-t-2xl"
+				src={comics.data.heroImage}
+				alt="hero image"
+			/>
+			<div class="text flex flex-col h-full p-4 md:p-4 2xl:p-4">
+				<div class="info flex-col flex items-start mb-[4px] gap-2.5">
+					<div class="flex items-center gap-2.5">
+						<p class="date text-xs md:text-sm 2xl:text-lg text-[#9A9BA2]">
+							<FormattedDate date={comics.data.pubDate} />
+						</p>
+						<Tag tag={comics.data.tag} />
+					</div>
+					<h4 class="title text-base md:text-lg 2xl:text-2xl font-bold">
+						{comics.data.title}
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>
+
+<style>
+	.card-bg {
+		background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 0.4) 100%);
+		backdrop-filter: blur(40px);
+	}
+</style>

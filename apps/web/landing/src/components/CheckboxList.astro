@@ -1,0 +1,84 @@
+---
+type Checkbox = {
+	title: string
+	img: string
+}
+export type Props = {
+	checkboxes: Checkbox[]
+	activeBox: number
+}
+const { checkboxes, activeBox } = Astro.props
+---
+
+<div class="flex flex-col pl-4 md:pl-0">
+	{
+		checkboxes.map((checkbox, index) => (
+			<div class="checkbox py-3 cursor-pointer flex items-center gap-6">
+				<button class="relative w-6 h-6 2xl:w-8 2xl:h-8 flex">
+					<svg
+						class="w-6 h-6 2xl:w-8 2xl:h-8"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 32 32"
+						fill="none"
+					>
+						<g opacity="0.5">
+							<circle cx="16" cy="16" r="12" stroke="white" stroke-opacity="0.4" stroke-width="2" />
+						</g>
+					</svg>
+					<svg
+						class={`${
+							index === activeBox ? "" : "hidden"
+						} box-active absolute 2xl:w-8 2xl:h-8 left-0 top-0`}
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+					>
+						<circle cx="12" cy="12" r="10" fill="url(#a)" />
+						<circle
+							cx="12"
+							cy="12"
+							r="9.676"
+							stroke="#fff"
+							stroke-opacity=".4"
+							stroke-width=".647"
+						/>
+						<path
+							fill="#000A14"
+							fill-rule="evenodd"
+							d="M15.377 8.293a.917.917 0 0 1 1.345 0c.37.39.37 1.024 0 1.414l-5.703 6a.918.918 0 0 1-1.344 0l-2.397-2.521a1.037 1.037 0 0 1 0-1.414.918.918 0 0 1 1.345 0l1.724 1.814 5.03-5.293Z"
+							clip-rule="evenodd"
+						/>
+						<defs>
+							<linearGradient id="a" x1="22" x2="2" y1="12" y2="12" gradientUnits="userSpaceOnUse">
+								<stop stop-color="#CFA7FB" />
+								<stop offset="1" stop-color="#B4CBFC" />
+							</linearGradient>
+						</defs>
+					</svg>
+				</button>
+				<p>{checkbox.title}</p>
+			</div>
+		))
+	}
+</div>
+
+<script>
+	const allCats = document.querySelectorAll(".cats > img")
+	const checkboxes = document.querySelectorAll(".checkbox")
+	let checkedBoxIndex = 0
+	checkboxes.forEach((checkbox, index) => {
+		checkbox.addEventListener("click", () => {
+			if (index !== checkedBoxIndex) {
+				checkedBoxIndex = index
+			} else {
+				checkedBoxIndex -= 1
+			}
+			allCats.forEach((cat, i) => {
+				cat.classList.toggle("hidden", i !== checkedBoxIndex + 1)
+			})
+			checkboxes.forEach((box, i) => {
+				box.getElementsByClassName("box-active")[0].classList.toggle("hidden", i > checkedBoxIndex)
+			})
+		})
+	})
+</script>
