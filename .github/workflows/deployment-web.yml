@@ -1,4 +1,4 @@
-name: Deployment
+name: Deployment Web
 
 concurrency:
   group: production
@@ -12,7 +12,7 @@ on:
       - "apps/web/**"
 
 jobs:
-  deploy-production:
+  deploy-web-production:
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -20,7 +20,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Build apps
-        run: bun run build
+        run: pnpm build
 
       - name: Deploy landing
         uses: cloudflare/pages-action@v1

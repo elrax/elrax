@@ -19,23 +19,23 @@
 		"dev": "NO_D1_WARNING=true wrangler dev --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
-		"prepare": "yes 2>/dev/null | bun db:apply"
+		"prepare": "yes 2>/dev/null | pnpm db:apply"
 	},
 	"dependencies": {
 		"@paralleldrive/cuid2": "2.2.2",
-		"@trpc/server": "10.45.0",
+		"@trpc/server": "10.45.1",
 		"aws4fetch": "1.0.17",
 		"drizzle-orm": "0.29.3",
 		"drizzle-zod": "0.5.1",
-		"hono": "3.12.6",
+		"hono": "4.0.5",
 		"superjson": "2.2.1",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20240117.0",
-		"better-sqlite3": "9.3.0",
-		"drizzle-kit": "0.20.13",
-		"wrangler": "3.23.0"
+		"@cloudflare/workers-types": "4.20240208.0",
+		"better-sqlite3": "9.4.1",
+		"drizzle-kit": "0.20.14",
+		"wrangler": "3.28.4"
 	},
 	"peerDependencies": {
 		"typescript": "5.3.3"

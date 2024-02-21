@@ -33,7 +33,7 @@ export default function RootLayout() {
 			SplashScreen.hideAsync()
 		}
 	}, [iconsLoaded, fontsLoaded])
-	if (!iconsLoaded && !fontsLoaded) {
+	if (!iconsLoaded || !fontsLoaded) {
 		return null
 	}
 
