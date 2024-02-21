@@ -1,11 +1,22 @@
 {
-	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"incremental": true,
+		"noUncheckedIndexedAccess": true,
 		"target": "esnext",
 		"module": "esnext",
 		"lib": ["esnext"],
-		"types": ["@cloudflare/workers-types"],
+		"types": ["@cloudflare/workers-types"]
 	},
 	"include": ["**/*.ts"],
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules"]
 }

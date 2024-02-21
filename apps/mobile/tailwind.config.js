@@ -1,8 +1,15 @@
-// @ts-ignore
-const baseConfig = require("@elrax/tailwind-config")
-
 /** @type {import("tailwindcss").Config} */
 module.exports = {
-	presets: [baseConfig],
 	content: ["./src/**/*.{ts,tsx}"],
+	theme: {
+		extend: {
+			fontFamily: {
+				"ns-body": ["NunitoSans_400Regular"],
+				"ns-bold": ["NunitoSans_700Bold"],
+				"ns-extra": ["NunitoSans_800ExtraBold"],
+				"ns-black": ["NunitoSans_900Black"],
+			},
+		},
+	},
+	plugins: [],
 }

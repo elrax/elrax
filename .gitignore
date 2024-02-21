@@ -29,11 +29,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# Ignore lock files for NPM, YARN, and PNPM, except BUN
-pnpm-lock.yaml
+# Ignore lock files for NPM, YARN, and BUN, except PNPM
+# pnpm-lock.yaml
 package-lock.json
 yarn.lock
-# bun.lockb
+bun.lockb
 
 # Ignore exported Partytown files
 ~partytown

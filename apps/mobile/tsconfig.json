@@ -1,13 +1,28 @@
 {
-	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"target": "es2017",
+		"lib": ["esnext"],
+		"allowJs": true,
+		"checkJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"incremental": true,
+		"noUncheckedIndexedAccess": true,
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./src/*"],
+			"~/*": ["./src/*"]
 		},
 		"jsx": "react-native",
-		"types": ["nativewind/types", "webpack-env"],
+		"types": ["nativewind/types", "webpack-env"]
 	},
 	"include": ["expo-plugins", "src", "*.config.*"],
 	"exclude": ["node_modules"],
+	"extends": "expo/tsconfig.base"
 }
