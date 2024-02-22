@@ -1,6 +1,6 @@
 {
 	"name": "@elrax/blog",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Blog website for Elrax Platform",
 	"homepage": "https://elrax.blog",
 	"bugs": "https://github.com/elrax/elrax/issues",

@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.1.0](https://github.com/elrax/elrax/compare/v0.0.1...v0.1.0) (2024-02-22)
+
+
+### Features
+
+* add authorization, expo-image, update pkgs ([#94](https://github.com/elrax/elrax/issues/94)) ([7833c6f](https://github.com/elrax/elrax/commit/7833c6f5c0d9b5a9a60bbfa0bd0453a9bc3dfc29))
+* add button and input components ([#88](https://github.com/elrax/elrax/issues/88)) ([1fe53ba](https://github.com/elrax/elrax/commit/1fe53bad3161e331348e52c9455cc343e87de487))
+* add websites and workflow ([#99](https://github.com/elrax/elrax/issues/99)) ([fb88b9d](https://github.com/elrax/elrax/commit/fb88b9d7734af856f9335a9303c3e000ecf4aad6))
+
+
+### Bug Fixes
+
+* keyboard dismiss on outside click and disabled button gradient ([#100](https://github.com/elrax/elrax/issues/100)) ([dafcf3a](https://github.com/elrax/elrax/commit/dafcf3a0dc2b748cfffca70878d28fda6f8c08f4))
+* move back to pnpm, move tsconfig ([#101](https://github.com/elrax/elrax/issues/101)) ([7815ff3](https://github.com/elrax/elrax/commit/7815ff3f3fb94afcf7e48982824a858b7747eb3e))
+* temporarily load fonts at runtime ([61766c7](https://github.com/elrax/elrax/commit/61766c711ee54ba1e57240f0c2213cb8d281c428))
+
 ## 0.0.1 (2024-01-29)
 
 
