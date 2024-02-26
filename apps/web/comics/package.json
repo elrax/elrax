@@ -21,17 +21,17 @@
 	},
 	"dependencies": {
 		"@astrojs/alpinejs": "0.4.0",
-		"@astrojs/check": "0.5.5",
+		"@astrojs/check": "0.5.6",
 		"@astrojs/cloudflare": "9.0.1",
 		"@astrojs/tailwind": "5.1.0",
 		"@elrax/shared": "workspace:*",
 		"alpinejs": "3.13.5",
-		"astro": "4.4.1",
+		"astro": "4.4.5",
 		"tailwindcss": "3.4.1"
 	},
 	"devDependencies": {
 		"@types/alpinejs": "3.13.6",
-		"@typescript-eslint/parser": "7.0.2",
+		"@typescript-eslint/parser": "7.1.0",
 		"eslint-plugin-astro": "0.31.4",
 		"typescript": "5.3.3"
 	}
