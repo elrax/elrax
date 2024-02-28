@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm"
+import { z } from "zod"
 import { procedure, router } from "../trpc"
 import { users } from "../db/schema"
 
@@ -10,5 +11,9 @@ export const videoRouter = router({
 			.orderBy(sql`RANDOM()`)
 			.limit(10)
 		return foundUsers
+	}),
+	continueWithOAuth: procedure.input(z.object({})).mutation(async ({ ctx, input }) => {
+		console.log(ctx.env.ENVIRONMENT, input)
+		return []
 	}),
 })

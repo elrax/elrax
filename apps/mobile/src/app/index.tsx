@@ -9,7 +9,7 @@ import {
 	signInAsync,
 } from "expo-apple-authentication"
 import { AccessToken, LoginManager } from "react-native-fbsdk-next"
-// import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
 import { Button } from "~/components/Button"
 import { router } from "expo-router"
@@ -21,23 +21,44 @@ const images = {
 export default function Index() {
 	setStatusBarStyle("dark")
 
-	// React.useEffect(() => {
-	// 	GoogleSignin.configure({
-	// 		iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
-	// 	})
-	// }, [])
+	React.useEffect(() => {
+		GoogleSignin.configure({
+			iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
+		})
+	}, [])
 
-	// const signInWithGoogle = async () => {
-	// 	try {
-	// 		await GoogleSignin.hasPlayServices()
-	// 		const userInfo = await GoogleSignin.signIn()
-	// 		console.log(`google user info: ${JSON.stringify(userInfo)}`)
-	// 	} catch (error) {
-	// 		if (error) {
-	// 			console.log(`error: ${JSON.stringify(error)}`)
-	// 		}
-	// 	}
-	// }
+	const signInWithGoogle = async () => {
+		try {
+			await GoogleSignin.hasPlayServices()
+			const userInfo = await GoogleSignin.signIn()
+			console.log(`google user info: ${JSON.stringify(userInfo)}`)
+		} catch (error) {
+			if (error) {
+				console.log(`error: ${JSON.stringify(error)}`)
+			}
+		}
+	}
+
+	const signInWithApple = async () => {
+		try {
+			const credential = await signInAsync({
+				requestedScopes: [
+					AppleAuthenticationScope.FULL_NAME,
+					AppleAuthenticationScope.EMAIL,
+				],
+			})
+			console.log(`credential: ${JSON.stringify(credential)}`)
+			// TODO: Call server to finish login with apple
+			router.replace("(app)/feed")
+			// signed in
+		} catch (e) {
+			if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
+				// handle that the user canceled the sign-in flow
+			} else {
+				// handle other errors
+			}
+		}
+	}
 
 	const signInWithFacebook = async () => {
 		try {
@@ -88,37 +109,11 @@ export default function Index() {
 					buttonType={AppleAuthenticationButtonType.CONTINUE}
 					buttonStyle={AppleAuthenticationButtonStyle.BLACK}
 					cornerRadius={50}
-					onPress={async () => {
-						try {
-							const credential = await signInAsync({
-								requestedScopes: [
-									AppleAuthenticationScope.FULL_NAME,
-									AppleAuthenticationScope.EMAIL,
-								],
-							})
-							console.log(`credential: ${JSON.stringify(credential)}`)
-							// TODO: Call server to finish login with apple
-							router.replace("(app)/feed")
-							// signed in
-						} catch (e) {
-							if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
-								// handle that the user canceled the sign-in flow
-							} else {
-								// handle other errors
-							}
-						}
-					}}
+					onPress={signInWithApple}
 				/>
-				{/* <GoogleSigninButton
-					style={{
-						marginTop: 16,
-						borderRadius: 50,
-					}}
-					size={GoogleSigninButton.Size.Wide}
-					color={GoogleSigninButton.Color.Light}
-					onPress={signInWithGoogle}
-					// disabled={this.state.isSigninInProgress}
-				/> */}
+				<Button className="mt-4" variant="google" icon="google" onPress={signInWithGoogle}>
+					Continue with Google
+				</Button>
 				<Button
 					className="mt-4"
 					variant="facebook"
@@ -131,8 +126,7 @@ export default function Index() {
 					className="mt-4"
 					variant="gradient"
 					onPress={() => {
-						// TODO: Go to email auth page
-						router.replace("(app)/feed")
+						router.push("(sign-up)/email")
 					}}
 				>
 					Continue with Email
@@ -140,7 +134,11 @@ export default function Index() {
 			</View>
 			<View className="flex flex-row gap-1">
 				<Text className="font-ns-body text-base color-black">Already have an account?</Text>
-				<TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						router.push("sign-in")
+					}}
+				>
 					<Text className="font-ns-body text-base color-[#007EE5]">Sign in</Text>
 				</TouchableOpacity>
 			</View>
