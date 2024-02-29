@@ -58,7 +58,7 @@ importers:
         specifier: 10.45.1
         version: 10.45.1
       '@tsndr/cloudflare-worker-jwt':
-        specifier: ^2.5.1
+        specifier: 2.5.1
         version: 2.5.1
       aws4fetch:
         specifier: 1.0.17
