@@ -57,6 +57,9 @@ importers:
       '@trpc/server':
         specifier: 10.45.1
         version: 10.45.1
+      '@tsndr/cloudflare-worker-jwt':
+        specifier: ^2.5.1
+        version: 2.5.1
       aws4fetch:
         specifier: 1.0.17
         version: 1.0.17
@@ -4474,6 +4477,10 @@ packages:
 
   /@trpc/server@10.45.1:
     resolution: {integrity: sha512-KOzBEVaHW9IxEedUP9E50y0tYxAuvlzyjn80Bpemw4rcNbT4WtJnhkFPUY+qDJl7Crt3B/oY2qMgSxVWi9toLg==}
+    dev: false
+
+  /@tsndr/cloudflare-worker-jwt@2.5.1:
+    resolution: {integrity: sha512-MKB8jOdMcZZTeAovOBbAl2Z1PPmPiyceZUmCM0hlgHapQqOT1riQlvIFX6jOmfEpAhFGp0VaGAq995kr4mNMMg==}
     dev: false
 
   /@types/acorn@4.0.6:

@@ -14,7 +14,7 @@ const buttonVariants = cva(
 				default: "bg-[#007EE5]",
 				gradient: "",
 				facebook: "bg-[#3975EA]",
-				google: "bg-[#ffffff]",
+				google: "bg-[#292a2e]",
 			},
 			size: {
 				default: "h-11",
@@ -33,7 +33,7 @@ const buttonTextVariants = cva("text-base px-2", {
 			default: "text-white",
 			gradient: "text-white",
 			facebook: "text-white",
-			google: "text-black",
+			google: "text-white",
 		},
 		size: {
 			default: "font-ns-bold",

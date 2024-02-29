@@ -13,6 +13,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
 import { Button } from "~/components/Button"
 import { router } from "expo-router"
+import { api } from "~/utils/api"
 
 const images = {
 	auth: require("../assets/auth.png"),
@@ -20,6 +21,8 @@ const images = {
 
 export default function Index() {
 	setStatusBarStyle("dark")
+
+	const continueWithOAuth = api.auth.continueWithOAuth.useMutation()
 
 	React.useEffect(() => {
 		GoogleSignin.configure({
@@ -30,8 +33,18 @@ export default function Index() {
 	const signInWithGoogle = async () => {
 		try {
 			await GoogleSignin.hasPlayServices()
-			const userInfo = await GoogleSignin.signIn()
-			console.log(`google user info: ${JSON.stringify(userInfo)}`)
+			const credential = await GoogleSignin.signIn()
+
+			console.log(`credential: ${JSON.stringify(credential)}`)
+			if (!credential.idToken) {
+				console.log("credential.idToken is null")
+				return
+			}
+			await continueWithOAuth.mutateAsync({
+				provider: "google",
+				token: credential.idToken,
+			})
+			router.replace("(app)/feed")
 		} catch (error) {
 			if (error) {
 				console.log(`error: ${JSON.stringify(error)}`)
@@ -47,11 +60,19 @@ export default function Index() {
 					AppleAuthenticationScope.EMAIL,
 				],
 			})
+
 			console.log(`credential: ${JSON.stringify(credential)}`)
-			// TODO: Call server to finish login with apple
+			if (!credential.identityToken) {
+				console.log("credential.identityToken is null")
+				return
+			}
+			await continueWithOAuth.mutateAsync({
+				provider: "apple",
+				token: credential.identityToken,
+			})
 			router.replace("(app)/feed")
-			// signed in
 		} catch (e) {
+			console.log(e)
 			if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
 				// handle that the user canceled the sign-in flow
 			} else {
@@ -62,13 +83,21 @@ export default function Index() {
 
 	const signInWithFacebook = async () => {
 		try {
-			const result = await LoginManager.logInWithPermissions(["public_profile", "email"])
+			const result = await LoginManager.logInWithPermissions(["email", "public_profile"])
 			if (result.isCancelled) {
 				console.log("login is cancelled.")
 			} else {
-				AccessToken.getCurrentAccessToken().then((data) => {
-					console.log(data?.accessToken.toString())
-					// TODO: Call server to finish login with facebook
+				AccessToken.getCurrentAccessToken().then(async (credential) => {
+					if (!credential) {
+						console.log("Something went wrong obtaining the users access token")
+						return
+					}
+
+					console.log(`credential: ${JSON.stringify(credential)}`)
+					await continueWithOAuth.mutateAsync({
+						provider: "facebook",
+						token: credential.accessToken,
+					})
 					router.replace("(app)/feed")
 				})
 			}
@@ -81,7 +110,7 @@ export default function Index() {
 
 	return (
 		<ScrollView
-			className="bg-[#F7F7F7] h-full w-full px-8 pt-20"
+			className="bg-[#F7F7F7] h-full w-full px-8 pt-12"
 			contentContainerStyle={{
 				flex: 1,
 				justifyContent: "flex-start",
@@ -111,9 +140,6 @@ export default function Index() {
 					cornerRadius={50}
 					onPress={signInWithApple}
 				/>
-				<Button className="mt-4" variant="google" icon="google" onPress={signInWithGoogle}>
-					Continue with Google
-				</Button>
 				<Button
 					className="mt-4"
 					variant="facebook"
@@ -121,6 +147,9 @@ export default function Index() {
 					onPress={signInWithFacebook}
 				>
 					Continue with Facebook
+				</Button>
+				<Button className="mt-4" variant="google" icon="google" onPress={signInWithGoogle}>
+					Continue with Google
 				</Button>
 				<Button
 					className="mt-4"

@@ -24,6 +24,7 @@
 	"dependencies": {
 		"@paralleldrive/cuid2": "2.2.2",
 		"@trpc/server": "10.45.1",
+		"@tsndr/cloudflare-worker-jwt": "^2.5.1",
 		"aws4fetch": "1.0.17",
 		"drizzle-orm": "0.29.4",
 		"drizzle-zod": "0.5.1",

@@ -2,7 +2,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 import type { InferSelectModel } from "drizzle-orm"
 import { createSelectSchema } from "drizzle-zod"
 import { createId } from "@paralleldrive/cuid2"
-import { Storage, VideoUploadStatus } from "./types"
+import { type EmailOrigin, Storage, VideoUploadStatus } from "./types"
 import { dateNow } from "../utils/date"
 
 // Users
@@ -12,9 +12,12 @@ export const users = sqliteTable("users", {
 	updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull().$default(dateNow),
 	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
 	// Properties
-	email: text("email").notNull(),
+	email: text("email"),
+	emailOrigin: integer("emailOrigin").$type<EmailOrigin>(),
+	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull().default(false),
 	username: text("username").notNull(),
-	displayName: text("displayName"),
+	firstName: text("firstName"),
+	lastName: text("lastName"),
 	avatarIndex: integer("avatarIndex").notNull().default(0),
 	storage: integer("storage").$type<Storage>().notNull().default(Storage.PRIME_R2_BUCKET),
 })

@@ -15,6 +15,9 @@ export type Env = {
 	CF_ACCOUNT_ID: string
 	CF_ACCESS_KEY_ID: string
 	CF_SECRET_ACCESS_KEY: string
+
+	FACEBOOK_APP_ID: string
+	FACEBOOK_APP_SECRET: string
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {

@@ -1,3 +1,15 @@
+/** From what source we retrieved the user's email address */
+export enum EmailOrigin {
+	/** From user input */
+	User = 0,
+	/** From AppleID authorization */
+	Apple = 1,
+	/** From Google OAuth */
+	Google = 2,
+	/** From Facebook OAuth */
+	Facebook = 3,
+}
+
 /** Status of the video upload */
 export enum VideoUploadStatus {
 	/** Nothing uploaded yet, just called the API for Presigned URL */
