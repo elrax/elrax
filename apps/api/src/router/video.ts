@@ -7,7 +7,7 @@ import { Storage, VideoUploadStatus } from "../db/types"
 import { getVideoUrl } from "../utils/storage"
 import { type Env, procedure, router } from "../trpc"
 import { dateNow } from "../utils/date"
-import { users, videos } from "../db/schema"
+import { videos } from "../db/schema"
 import { type VideoProps, Environment } from "../types"
 
 const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => {
@@ -66,16 +66,6 @@ export const videoRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			const videoId = createId()
 			const uploadUrls = await getUploadUrls(ctx.env, videoId, input.partNames)
-
-			// TODO: Remove this
-			await ctx.db
-				.insert(users)
-				.values({
-					id: "user12",
-					email: "user12",
-					username: "user12",
-				})
-				.onConflictDoNothing()
 
 			// TODO: Check if user already has an untitled and unuploaded video and update it
 			await ctx.db.insert(videos).values({

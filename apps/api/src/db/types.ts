@@ -1,7 +1,19 @@
-/** From what source we retrieved the user's email address */
-export enum EmailOrigin {
-	/** From user input */
-	User = 0,
+/** Status of the user on onboarding process */
+export enum UserOnboardingStatus {
+	/** User finished only first step: email or oauth2 (some doesn't include email) */
+	FinishedFirstStep = 0,
+	/** User specified basic info about himself */
+	SpecifiedInfo = 1,
+	/** User selected his interests and ready to enjoy the content */
+	Ready = 2,
+	/** User passed the vibe check */
+	PassedVibeCheck = 3,
+}
+
+/** From what source the user signed up/in */
+export enum SignedWith {
+	/** From email input */
+	Email = 0,
 	/** From AppleID authorization */
 	Apple = 1,
 	/** From Google OAuth */

@@ -8,7 +8,7 @@ import {
 	AppleAuthenticationScope,
 	signInAsync,
 } from "expo-apple-authentication"
-import { AccessToken, LoginManager } from "react-native-fbsdk-next"
+import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
 import { Button } from "~/components/Button"
@@ -43,12 +43,16 @@ export default function Index() {
 			await continueWithOAuth.mutateAsync({
 				provider: "google",
 				token: credential.idToken,
+				user: {
+					id: credential.user.id,
+					firstName: credential.user.givenName || undefined,
+					lastName: credential.user.familyName || undefined,
+					email: credential.user.email,
+				},
 			})
 			router.replace("(app)/feed")
 		} catch (error) {
-			if (error) {
-				console.log(`error: ${JSON.stringify(error)}`)
-			}
+			console.log(`error: ${error}`)
 		}
 	}
 
@@ -69,6 +73,12 @@ export default function Index() {
 			await continueWithOAuth.mutateAsync({
 				provider: "apple",
 				token: credential.identityToken,
+				user: {
+					id: credential.user,
+					firstName: credential.fullName?.givenName || undefined,
+					lastName: credential.fullName?.familyName || undefined,
+					email: credential.email || undefined,
+				},
 			})
 			router.replace("(app)/feed")
 		} catch (e) {
@@ -85,26 +95,35 @@ export default function Index() {
 		try {
 			const result = await LoginManager.logInWithPermissions(["email", "public_profile"])
 			if (result.isCancelled) {
-				console.log("login is cancelled.")
+				console.log("login is cancelled")
 			} else {
-				AccessToken.getCurrentAccessToken().then(async (credential) => {
-					if (!credential) {
-						console.log("Something went wrong obtaining the users access token")
-						return
-					}
+				const credential = await AccessToken.getCurrentAccessToken()
+				if (!credential) {
+					console.log("Something went wrong obtaining the users access token")
+					return
+				}
+				const currentProfile = await Profile.getCurrentProfile()
+				if (!currentProfile) {
+					console.log("Something went wrong obtaining the users access token")
+					return
+				}
 
-					console.log(`credential: ${JSON.stringify(credential)}`)
-					await continueWithOAuth.mutateAsync({
-						provider: "facebook",
-						token: credential.accessToken,
-					})
-					router.replace("(app)/feed")
+				console.log(`credential: ${JSON.stringify(credential)}`)
+				console.log(`currentProfile: ${JSON.stringify(currentProfile)}`)
+				await continueWithOAuth.mutateAsync({
+					provider: "facebook",
+					token: credential.accessToken,
+					user: {
+						id: credential.userID,
+						firstName: currentProfile.firstName || undefined,
+						lastName: currentProfile.lastName || undefined,
+						email: currentProfile.email || undefined,
+					},
 				})
+				router.replace("(app)/feed")
 			}
 		} catch (error) {
-			if (error) {
-				console.log("login has error: " + error)
-			}
+			console.log("login has error: " + error)
 		}
 	}
 
