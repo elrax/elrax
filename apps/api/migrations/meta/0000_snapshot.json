@@ -1,9 +1,84 @@
 {
 	"version": "5",
 	"dialect": "sqlite",
-	"id": "45d107c0-dd44-4e88-9980-5c7295289847",
+	"id": "a518a3d1-9ce3-45d2-af57-385ece4d3558",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
+		"authSessions": {
+			"name": "authSessions",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"signedInWith": {
+					"name": "signedInWith",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"device": {
+					"name": "device",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"ipLocation": {
+					"name": "ipLocation",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"emailAuthOTP": {
+					"name": "emailAuthOTP",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"isActive": {
+					"name": "isActive",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"authSessions_userId_users_id_fk": {
+					"name": "authSessions_userId_users_id_fk",
+					"tableFrom": "authSessions",
+					"tableTo": "users",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
 		"categories": {
 			"name": "categories",
 			"columns": {
@@ -18,7 +93,7 @@
 					"name": "updatedAt",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
 				},
 				"createdAt": {
@@ -69,7 +144,7 @@
 					"name": "updatedAt",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
 				},
 				"createdAt": {
@@ -79,22 +154,80 @@
 					"notNull": true,
 					"autoincrement": false
 				},
+				"onboardingStatus": {
+					"name": "onboardingStatus",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"signedUpWith": {
+					"name": "signedUpWith",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
 				"email": {
 					"name": "email",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
+				},
+				"emailVerificationOTP": {
+					"name": "emailVerificationOTP",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"emailVerified": {
+					"name": "emailVerified",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
 				},
 				"username": {
 					"name": "username",
 					"type": "text",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
 				},
-				"displayName": {
-					"name": "displayName",
+				"firstName": {
+					"name": "firstName",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"lastName": {
+					"name": "lastName",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"appleId": {
+					"name": "appleId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"googleId": {
+					"name": "googleId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"facebookId": {
+					"name": "facebookId",
 					"type": "text",
 					"primaryKey": false,
 					"notNull": false,
@@ -117,7 +250,33 @@
 					"default": 0
 				}
 			},
-			"indexes": {},
+			"indexes": {
+				"users_email_unique": {
+					"name": "users_email_unique",
+					"columns": ["email"],
+					"isUnique": true
+				},
+				"users_username_unique": {
+					"name": "users_username_unique",
+					"columns": ["username"],
+					"isUnique": true
+				},
+				"users_appleId_unique": {
+					"name": "users_appleId_unique",
+					"columns": ["appleId"],
+					"isUnique": true
+				},
+				"users_googleId_unique": {
+					"name": "users_googleId_unique",
+					"columns": ["googleId"],
+					"isUnique": true
+				},
+				"users_facebookId_unique": {
+					"name": "users_facebookId_unique",
+					"columns": ["facebookId"],
+					"isUnique": true
+				}
+			},
 			"foreignKeys": {},
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
@@ -136,7 +295,7 @@
 					"name": "updatedAt",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
 					"autoincrement": false
 				},
 				"createdAt": {

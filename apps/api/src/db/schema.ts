@@ -23,7 +23,7 @@ export const users = sqliteTable("users", {
 	emailVerificationOTP: text("emailVerificationOTP"),
 	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull().default(false),
 	// Profile
-	username: text("username").notNull().unique(),
+	username: text("username").unique(),
 	firstName: text("firstName"),
 	lastName: text("lastName"),
 	// Socials and integrations

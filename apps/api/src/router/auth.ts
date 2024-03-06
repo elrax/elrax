@@ -1,19 +1,60 @@
-import { eq, sql } from "drizzle-orm"
 import { z } from "zod"
-import { procedure, router } from "../trpc"
-import { users } from "../db/schema"
+import { type Env, procedure, router } from "../trpc"
 import { verifyAppleToken, verifyFacebookToken, verifyGoogleToken } from "../utils/oauth"
-// import { SignedWith } from "../db/types"
+import { type Database, getUserOrNull, users, authSessions } from "../db"
+import { SignedWith } from "../db/types"
+import jwt from "@tsndr/cloudflare-worker-jwt"
+
+const signInUserOrCreate = async (
+	db: Database,
+	env: Env,
+	signedWith: SignedWith,
+	user: {
+		email?: string
+		firstName?: string
+		lastName?: string
+		appleId?: string
+		facebookId?: string
+		googleId?: string
+	},
+) => {
+	let foundUser = await getUserOrNull(db, { appleId: user.appleId })
+	if (!foundUser) {
+		const returnedUsers = await db
+			.insert(users)
+			.values({
+				signedUpWith: signedWith,
+				email: user.email,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				appleId: user.appleId,
+				facebookId: user.facebookId,
+				googleId: user.googleId,
+			})
+			.returning()
+		foundUser = returnedUsers[0]!
+	}
+	const returnedSessions = await db
+		.insert(authSessions)
+		.values({
+			signedInWith: signedWith,
+			device: "", // TODO
+			ipLocation: "", // TODO
+			isActive: true,
+			userId: foundUser.id,
+		})
+		.returning()
+	const token = await jwt.sign(
+		{
+			userId: foundUser.id,
+			sessionId: returnedSessions[0]!.id,
+		},
+		env.JWT_SECRET,
+	)
+	return token
+}
 
 export const authRouter = router({
-	getUsers: procedure.query(async ({ ctx }) => {
-		const foundUsers = await ctx.db
-			.select()
-			.from(users)
-			.orderBy(sql`RANDOM()`)
-			.limit(10)
-		return foundUsers
-	}),
 	continueWithOAuth: procedure
 		.input(
 			z.object({
@@ -21,36 +62,28 @@ export const authRouter = router({
 				token: z.string().min(1),
 				user: z.object({
 					id: z.string().trim().min(1),
-					firstName: z.string().trim().optional(),
-					lastName: z.string().trim().optional(),
+					firstName: z.string().trim().min(1).max(20).optional(),
+					lastName: z.string().trim().min(1).max(20).optional(),
 					email: z.string().email().optional(),
 				}),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			console.log(input.token)
 			if (input.provider === "apple") {
 				const res = await verifyAppleToken(input.token)
-				console.log(res, input.user)
-
-				// TODO: Move to helper file
-				const foundUsers = await ctx.db
-					.select()
-					.from(users)
-					.where(eq(users.appleId, input.user.id))
-				if (foundUsers.length === 0) {
-					// await ctx.db
-					// 	.insert(users)
-					// 	.values({
-					// 		signedUpWith: SignedWith.Apple,
-					// 		email: input.user.email,
-					// 		username: "apple-" + input.user.id,
-					// 		firstName: input.user.firstName,
-					// 		lastName: input.user.lastName,
-					// 		appleId: input.user.id,
-					// 	})
+				const jwt = await signInUserOrCreate(ctx.db, ctx.env, SignedWith.Apple, {
+					appleId: input.user.id,
+					email: res.email,
+					...input.user,
+				})
+				return {
+					jwt,
+					receivedProps: {
+						email: res.email,
+						firstName: input.user.firstName,
+						lastName: input.user.lastName,
+					},
 				}
-				// 2. create session and return JWT auth token
 			} else if (input.provider === "facebook") {
 				const res = await verifyFacebookToken(
 					input.token,
@@ -62,6 +95,5 @@ export const authRouter = router({
 				const res = await verifyGoogleToken(input.token)
 				console.log(res)
 			}
-			return
 		}),
 })

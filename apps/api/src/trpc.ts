@@ -4,6 +4,7 @@ import type { inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { drizzle } from "drizzle-orm/d1"
 import type { Environment } from "./types"
+import type * as schema from "./db/schema"
 
 /** Server environment variables */
 export type Env = {
@@ -18,12 +19,14 @@ export type Env = {
 
 	FACEBOOK_APP_ID: string
 	FACEBOOK_APP_SECRET: string
+
+	JWT_SECRET: string
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {
 	return {
 		env: opts.env,
-		db: drizzle(opts.env.DB),
+		db: drizzle<typeof schema>(opts.env.DB),
 		req: opts.req,
 	}
 }
