@@ -11,6 +11,7 @@ import {
 import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
+// import * as Device from "expo-device"
 import { Button } from "~/components/Button"
 import { router } from "expo-router"
 import { api } from "~/utils/api"
@@ -21,6 +22,9 @@ const images = {
 
 export default function Index() {
 	setStatusBarStyle("dark")
+
+	// const device = `${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}, ${Device.modelName}`
+	const device = "-"
 
 	const continueWithOAuth = api.auth.continueWithOAuth.useMutation()
 
@@ -49,6 +53,7 @@ export default function Index() {
 					lastName: credential.user.familyName || undefined,
 					email: credential.user.email,
 				},
+				device,
 			})
 			router.replace("(app)/feed")
 		} catch (error) {
@@ -79,6 +84,7 @@ export default function Index() {
 					lastName: credential.fullName?.familyName || undefined,
 					email: credential.email || undefined,
 				},
+				device,
 			})
 			router.replace("(app)/feed")
 		} catch (e) {
@@ -119,6 +125,7 @@ export default function Index() {
 						lastName: currentProfile.lastName || undefined,
 						email: currentProfile.email || undefined,
 					},
+					device,
 				})
 				router.replace("(app)/feed")
 			}

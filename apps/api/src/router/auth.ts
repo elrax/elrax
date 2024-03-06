@@ -17,8 +17,14 @@ const signInUserOrCreate = async (
 		facebookId?: string
 		googleId?: string
 	},
+	ipLocation: string,
+	device: string,
 ) => {
-	let foundUser = await getUserOrNull(db, { appleId: user.appleId })
+	let foundUser = await getUserOrNull(db, {
+		appleId: user.appleId,
+		facebookId: user.facebookId,
+		googleId: user.googleId,
+	})
 	if (!foundUser) {
 		const returnedUsers = await db
 			.insert(users)
@@ -38,8 +44,8 @@ const signInUserOrCreate = async (
 		.insert(authSessions)
 		.values({
 			signedInWith: signedWith,
-			device: "", // TODO
-			ipLocation: "", // TODO
+			device,
+			ipLocation,
 			isActive: true,
 			userId: foundUser.id,
 		})
@@ -66,16 +72,26 @@ export const authRouter = router({
 					lastName: z.string().trim().min(1).max(20).optional(),
 					email: z.string().email().optional(),
 				}),
+				device: z.string().min(1).max(150),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			const ipLocation = ctx.req.headers.get("CF-IPCountry") ?? "-"
+			const device = input.device
 			if (input.provider === "apple") {
 				const res = await verifyAppleToken(input.token)
-				const jwt = await signInUserOrCreate(ctx.db, ctx.env, SignedWith.Apple, {
-					appleId: input.user.id,
-					email: res.email,
-					...input.user,
-				})
+				const jwt = await signInUserOrCreate(
+					ctx.db,
+					ctx.env,
+					SignedWith.Apple,
+					{
+						appleId: input.user.id,
+						email: res.email,
+						...input.user,
+					},
+					ipLocation,
+					device,
+				)
 				return {
 					jwt,
 					receivedProps: {
@@ -90,10 +106,48 @@ export const authRouter = router({
 					ctx.env.FACEBOOK_APP_ID,
 					ctx.env.FACEBOOK_APP_SECRET,
 				)
-				console.log(res)
+				const jwt = await signInUserOrCreate(
+					ctx.db,
+					ctx.env,
+					SignedWith.Apple,
+					{
+						appleId: input.user.id,
+						email: res.email,
+						...input.user,
+					},
+					ipLocation,
+					device,
+				)
+				return {
+					jwt,
+					receivedProps: {
+						email: res.email,
+						firstName: input.user.firstName,
+						lastName: input.user.lastName,
+					},
+				}
 			} else if (input.provider === "google") {
 				const res = await verifyGoogleToken(input.token)
-				console.log(res)
+				const jwt = await signInUserOrCreate(
+					ctx.db,
+					ctx.env,
+					SignedWith.Apple,
+					{
+						appleId: input.user.id,
+						email: res.email,
+						...input.user,
+					},
+					ipLocation,
+					device,
+				)
+				return {
+					jwt,
+					receivedProps: {
+						email: res.email,
+						firstName: input.user.firstName,
+						lastName: input.user.lastName,
+					},
+				}
 			}
 		}),
 })

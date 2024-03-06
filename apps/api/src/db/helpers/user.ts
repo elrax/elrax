@@ -11,11 +11,10 @@ type FindUserType = {
 }
 
 export const getUserOrNull = async (db: Database, val: FindUserType) => {
-	const v = Object.entries(val)[0]
+	const v = Object.entries(val).find(([, v]) => v !== undefined)
 	if (!v) {
 		throw new Error("SYSTEM: Invalid value provided")
 	}
-	console.log(v)
 	const foundUsers = await db
 		.select()
 		.from(users)

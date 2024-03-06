@@ -151,6 +151,9 @@ importers:
       expo-dev-client:
         specifier: 3.3.8
         version: 3.3.8(expo@50.0.7)
+      expo-device:
+        specifier: 5.9.3
+        version: 5.9.3(expo@50.0.7)
       expo-file-system:
         specifier: 16.0.6
         version: 16.0.6(expo@50.0.7)
@@ -7733,6 +7736,15 @@ packages:
       semver: 7.5.4
     dev: false
 
+  /expo-device@5.9.3(expo@50.0.7):
+    resolution: {integrity: sha512-azH5rz8krDZUJb/arqkcA6oZGaX2T5s4aaXIMFsDDzvq8TW0CttZZy2HFp6itmFdiKGdRpFX3/Gj0n6ZmPoJ/w==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.7(@babel/core@7.23.9)(@react-native/babel-preset@0.73.21)
+      ua-parser-js: 0.7.37
+    dev: false
+
   /expo-eas-client@0.11.2:
     resolution: {integrity: sha512-SY7rVFxb4ut/OMTgR7A39Jg+8+hXwQNRpZd+RBpB+B5XV2STj/pWXHnGFhBayEF4umI4SxrOvisY90rlPWVO9Q==}
     dev: false
@@ -14496,6 +14508,10 @@ packages:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /ua-parser-js@0.7.37:
+    resolution: {integrity: sha512-xV8kqRKM+jhMvcHWUKthV9fNebIzrNy//2O9ZwWcfiBFR5f25XVZPLlEajk/sf3Ra15V92isyQqnIEXRDaZWEA==}
+    dev: false
 
   /ua-parser-js@1.0.37:
     resolution: {integrity: sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==}
