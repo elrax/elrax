@@ -16,7 +16,7 @@ onlineManager.setEventListener((setOnline) => {
 })
 
 export const unstable_settings = {
-	initialRouteName: "index",
+	initialRouteName: "sign-up",
 	app: {
 		initialRouteName: "feed",
 	},

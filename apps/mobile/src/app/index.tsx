@@ -11,10 +11,12 @@ import {
 import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
 import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
-// import * as Device from "expo-device"
+import * as Device from "expo-device"
 import { Button } from "~/components/Button"
 import { router } from "expo-router"
 import { api } from "~/utils/api"
+import { setUserJWT } from "~/stores/userJWT"
+import { useSignUpState } from "~/stores/signupState"
 
 const images = {
 	auth: require("../assets/auth.png"),
@@ -23,16 +25,39 @@ const images = {
 export default function Index() {
 	setStatusBarStyle("dark")
 
-	// const device = `${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}, ${Device.modelName}`
-	const device = "-"
+	const device = `${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}, ${Device.modelName}`
 
 	const continueWithOAuth = api.auth.continueWithOAuth.useMutation()
+	const [setUserData] = useSignUpState((state) => [state.setUserData])
 
 	React.useEffect(() => {
 		GoogleSignin.configure({
 			iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
 		})
 	}, [])
+
+	const proceedWithOAuth = async (
+		res: Awaited<ReturnType<typeof continueWithOAuth.mutateAsync>>,
+	) => {
+		console.log(`res: ${JSON.stringify(res)}`)
+		await setUserJWT(res.user.token)
+		if (!res.user.newUser) {
+			router.replace("(app)/feed")
+			return
+		} else {
+			setUserData({
+				oauthProvider: res.signedWith,
+				email: res.receivedProps.email,
+				firstName: res.receivedProps.firstName,
+				lastName: res.receivedProps.lastName,
+			})
+		}
+		if (!res.receivedProps.email) {
+			router.push("(sign-up)/username")
+		} else {
+			router.push("(sign-up)/email")
+		}
+	}
 
 	const signInWithGoogle = async () => {
 		try {
@@ -44,7 +69,7 @@ export default function Index() {
 				console.log("credential.idToken is null")
 				return
 			}
-			await continueWithOAuth.mutateAsync({
+			const res = await continueWithOAuth.mutateAsync({
 				provider: "google",
 				token: credential.idToken,
 				user: {
@@ -55,7 +80,7 @@ export default function Index() {
 				},
 				device,
 			})
-			router.replace("(app)/feed")
+			await proceedWithOAuth(res)
 		} catch (error) {
 			console.log(`error: ${error}`)
 		}
@@ -75,7 +100,7 @@ export default function Index() {
 				console.log("credential.identityToken is null")
 				return
 			}
-			await continueWithOAuth.mutateAsync({
+			const res = await continueWithOAuth.mutateAsync({
 				provider: "apple",
 				token: credential.identityToken,
 				user: {
@@ -86,7 +111,7 @@ export default function Index() {
 				},
 				device,
 			})
-			router.replace("(app)/feed")
+			await proceedWithOAuth(res)
 		} catch (e) {
 			console.log(e)
 			if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
@@ -116,7 +141,7 @@ export default function Index() {
 
 				console.log(`credential: ${JSON.stringify(credential)}`)
 				console.log(`currentProfile: ${JSON.stringify(currentProfile)}`)
-				await continueWithOAuth.mutateAsync({
+				const res = await continueWithOAuth.mutateAsync({
 					provider: "facebook",
 					token: credential.accessToken,
 					user: {
@@ -127,7 +152,7 @@ export default function Index() {
 					},
 					device,
 				})
-				router.replace("(app)/feed")
+				await proceedWithOAuth(res)
 			}
 		} catch (error) {
 			console.log("login has error: " + error)

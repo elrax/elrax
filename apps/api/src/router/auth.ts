@@ -4,6 +4,7 @@ import { verifyAppleToken, verifyFacebookToken, verifyGoogleToken } from "../uti
 import { type Database, getUserOrNull, users, authSessions } from "../db"
 import { SignedWith } from "../db/types"
 import jwt from "@tsndr/cloudflare-worker-jwt"
+import { TRPCError } from "@trpc/server"
 
 const signInUserOrCreate = async (
 	db: Database,
@@ -20,6 +21,7 @@ const signInUserOrCreate = async (
 	ipLocation: string,
 	device: string,
 ) => {
+	let newUser = false
 	let foundUser = await getUserOrNull(db, {
 		appleId: user.appleId,
 		facebookId: user.facebookId,
@@ -39,6 +41,7 @@ const signInUserOrCreate = async (
 			})
 			.returning()
 		foundUser = returnedUsers[0]!
+		newUser = true
 	}
 	const returnedSessions = await db
 		.insert(authSessions)
@@ -57,7 +60,10 @@ const signInUserOrCreate = async (
 		},
 		env.JWT_SECRET,
 	)
-	return token
+	return {
+		newUser,
+		token,
+	}
 }
 
 export const authRouter = router({
@@ -80,7 +86,7 @@ export const authRouter = router({
 			const device = input.device
 			if (input.provider === "apple") {
 				const res = await verifyAppleToken(input.token)
-				const jwt = await signInUserOrCreate(
+				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
 					SignedWith.Apple,
@@ -93,7 +99,8 @@ export const authRouter = router({
 					device,
 				)
 				return {
-					jwt,
+					user,
+					signedWith: SignedWith.Apple,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,
@@ -106,7 +113,7 @@ export const authRouter = router({
 					ctx.env.FACEBOOK_APP_ID,
 					ctx.env.FACEBOOK_APP_SECRET,
 				)
-				const jwt = await signInUserOrCreate(
+				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
 					SignedWith.Apple,
@@ -119,7 +126,8 @@ export const authRouter = router({
 					device,
 				)
 				return {
-					jwt,
+					user,
+					signedWith: SignedWith.Facebook,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,
@@ -128,7 +136,7 @@ export const authRouter = router({
 				}
 			} else if (input.provider === "google") {
 				const res = await verifyGoogleToken(input.token)
-				const jwt = await signInUserOrCreate(
+				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
 					SignedWith.Apple,
@@ -141,7 +149,8 @@ export const authRouter = router({
 					device,
 				)
 				return {
-					jwt,
+					user,
+					signedWith: SignedWith.Google,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,
@@ -149,5 +158,9 @@ export const authRouter = router({
 					},
 				}
 			}
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "Invalid provider",
+			})
 		}),
 })

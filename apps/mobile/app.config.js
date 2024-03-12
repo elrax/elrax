@@ -33,6 +33,9 @@ const defineConfig = {
 			backgroundColor: "#000A14",
 		},
 		usesAppleSignIn: true,
+		config: {
+			usesNonExemptEncryption: false,
+		},
 		infoPlist: {
 			CFBundleURLTypes: [
 				{
@@ -86,6 +89,7 @@ const defineConfig = {
 				],
 			},
 		],
+		"expo-secure-store",
 		// Learn more: https://docs.expo.dev/versions/latest/sdk/apple-authentication
 		"expo-apple-authentication",
 		// Learn more: https://github.com/react-native-google-signin/google-signin
