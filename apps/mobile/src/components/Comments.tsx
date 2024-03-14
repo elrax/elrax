@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react"
 import { StyleSheet, View, Text, Pressable } from "react-native"
-import BottomSheet from "@gorhom/bottom-sheet"
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet"
 import { Image } from "expo-image"
 import { Icon } from "~/components/Icon"
 
@@ -9,6 +9,11 @@ interface CustomBottomSheetProps {
 	onClose?: () => void
 	onOpen?: () => void
 	snapPoints?: (string | number)[]
+}
+interface CommentItem {
+	username: string
+	time: string
+	text: string
 }
 
 const images = {
@@ -30,6 +35,62 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 		},
 		[onClose],
 	)
+	const comments: CommentItem[] = [
+		{
+			username: "Jane Doe",
+			time: "2 hours ago",
+			text: "Absolutely, Elon! World Central Kitchen shows that technology can be a powerful tool to solve real-world problems. Their work highlights the importance of leveraging resources for positive change. ",
+		},
+		{
+			username: "John Smith",
+			time: "3 hours ago",
+			text: "WCK is an example of how compassion can make a significant impact.  ",
+		},
+		{
+			username: "Orlando Diggs",
+			time: "11 days ago",
+			text: "World Central Kitchen's commitment to providing food during crises and their impact on affected communities is truly invaluable.",
+		},
+		{
+			username: "Lori Bryson",
+			time: "7 days ago",
+			text: "I've been inspired by World Central Kitchen's ability to adapt and respond swiftly to emergencies. They bring hope and sustenance to people when they need it the most.",
+		},
+		{
+			username: "John Smith",
+			time: "3 hours ago",
+			text: "WCK is an example of how compassion can make a significant impact.  ",
+		},
+		{
+			username: "Orlando Diggs",
+			time: "11 days ago",
+			text: "World Central Kitchen's commitment to providing food during crises and their impact on affected communities is truly invaluable.",
+		},
+	]
+	const renderItem = useCallback(
+		({ item }: { item: CommentItem }) => (
+			<View className="flex gap-2.5 flex-row px-5 py-2.5">
+				<View className="w-[40px] h-[40px] rounded-full bg-slate-500">
+					<Image
+						style={{
+							width: "100%",
+							height: "100%",
+						}}
+						source={images.pfp}
+						contentFit="cover"
+					/>
+				</View>
+				<View className="flex flex-1">
+					<View className="flex gap-1 flex-row">
+						<Text className="text-base text-white font-ns-bold">{item.username}</Text>
+						<Text className="text-base text-[#9A9BA2] font-ns-body">· {item.time}</Text>
+					</View>
+					<Text className="text-base text-white font-ns-body">{item.text}</Text>
+				</View>
+			</View>
+		),
+		[],
+	)
 
 	return (
 		<BottomSheet
@@ -41,83 +102,20 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 			handleIndicatorStyle={styles.indicator}
 			index={isVisible ? 0 : -1}
 		>
-			<View>
-				<View className="flex">
-					<View className="flex justify-between items-center px-5 py-3 flex-row">
-						<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
-						<Pressable className="flex flex-row gap-1 items-center">
-							<Text className="text-[#9A9BA2] font-ns-body text-base">
-								All (default)
-							</Text>
-							<Icon name="chevron-down" size={20} color="#9A9BA2" />
-						</Pressable>
-					</View>
-					<View className="flex w-full">
-						<View className="flex gap-2.5 flex-row px-5 py-2.5">
-							<View className="w-[40px] h-[40px] rounded-full bg-slate-500">
-								<Image
-									style={{
-										width: "100%",
-										height: "100%",
-									}}
-									source={images.pfp}
-									contentFit="cover"
-								/>
-							</View>
-							<View className="flex flex-1">
-								<View className="flex gap-1 flex-row">
-									<Text className="text-base text-white font-ns-bold">
-										Orlando Diggs
-									</Text>
-									<Text className="text-base text-[#9A9BA2] font-ns-body">
-										· 11d ago
-									</Text>
-								</View>
-								<Text className="text-base text-white font-ns-body">
-									World Central Kitchen's commitment to providing food during
-									crises and their impact on affected communities is truly
-									invaluable.
-								</Text>
-							</View>
-						</View>
-						<View className="flex gap-2.5 flex-row px-5 py-2.5">
-							<View className="w-[40px] h-[40px] rounded-full bg-slate-500">
-								<Image
-									style={{
-										width: "100%",
-										height: "100%",
-									}}
-									source={images.pfp}
-									contentFit="cover"
-								/>
-							</View>
-							<View className="flex flex-1">
-								<View className="flex items-center gap-x-1 flex-row">
-									<View className="flex items-center flex-row">
-										<Text className="text-base text-white font-ns-bold">
-											Lori Bryson
-										</Text>
-										<Icon
-											className="ml-1"
-											name="verify"
-											size={16}
-											color="#007EE5"
-										/>
-									</View>
-									<Text className="text-base text-[#9A9BA2] font-ns-body">
-										· 7d ago
-									</Text>
-								</View>
-								<Text className="text-base text-white font-ns-body">
-									I've been inspired by World Central Kitchen's ability to adapt
-									and respond swiftly to emergencies. They bring hope and
-									sustenance to people when they need it the most.
-								</Text>
-							</View>
-						</View>
-					</View>
+			<View className="flex">
+				<View className="flex justify-between items-center px-5 py-3 flex-row">
+					<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
+					<Pressable className="flex flex-row gap-1 items-center">
+						<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
+						<Icon name="chevron-down" size={20} color="#9A9BA2" />
+					</Pressable>
 				</View>
 			</View>
+			<BottomSheetFlatList
+				data={comments}
+				keyExtractor={(item, index) => index.toString()}
+				renderItem={renderItem}
+			/>
 		</BottomSheet>
 	)
 }

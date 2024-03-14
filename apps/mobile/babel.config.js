@@ -11,6 +11,7 @@ module.exports = (api) => {
 		plugins: [
 			"nativewind/babel",
 			["module-resolver", { alias: { "~": "./src" } }],
+			"@babel/plugin-transform-flow-strip-types",
 			["@babel/plugin-transform-private-methods", { loose: true }],
 			"react-native-reanimated/plugin",
 		],

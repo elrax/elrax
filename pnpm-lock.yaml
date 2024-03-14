@@ -106,7 +106,7 @@ importers:
         specifier: 14.0.0
         version: 14.0.0
       '@gorhom/bottom-sheet':
-        specifier: ^4
+        specifier: '4'
         version: 4.6.1(@types/react@18.2.65)(react-native-gesture-handler@2.14.1)(react-native-reanimated@3.6.3)(react-native@0.73.4)(react@18.2.0)
       '@react-native-community/netinfo':
         specifier: 11.1.0
@@ -241,6 +241,9 @@ importers:
       '@babel/core':
         specifier: 7.24.0
         version: 7.24.0
+      '@babel/plugin-transform-flow-strip-types':
+        specifier: ^7.23.3
+        version: 7.23.3(@babel/core@7.24.0)
       '@babel/plugin-transform-private-methods':
         specifier: 7.23.3
         version: 7.23.3(@babel/core@7.24.0)
