@@ -8,11 +8,15 @@ import {
 	AppleAuthenticationScope,
 	signInAsync,
 } from "expo-apple-authentication"
-import { AccessToken, LoginManager } from "react-native-fbsdk-next"
-// import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin"
+import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { Image } from "expo-image"
+import * as Device from "expo-device"
 import { Button } from "~/components/Button"
 import { router } from "expo-router"
+import { api } from "~/utils/api"
+import { setUserJWT } from "~/stores/userJWT"
+import { useSignUpState } from "~/stores/signUpState"
 
 const images = {
 	auth: require("../assets/auth.png"),
@@ -21,46 +25,143 @@ const images = {
 export default function Index() {
 	setStatusBarStyle("dark")
 
-	// React.useEffect(() => {
-	// 	GoogleSignin.configure({
-	// 		iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
-	// 	})
-	// }, [])
+	const device = `${Device.modelName}, ${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}`
 
-	// const signInWithGoogle = async () => {
-	// 	try {
-	// 		await GoogleSignin.hasPlayServices()
-	// 		const userInfo = await GoogleSignin.signIn()
-	// 		console.log(`google user info: ${JSON.stringify(userInfo)}`)
-	// 	} catch (error) {
-	// 		if (error) {
-	// 			console.log(`error: ${JSON.stringify(error)}`)
-	// 		}
-	// 	}
-	// }
+	const continueWithOAuth = api.auth.continueWithOAuth.useMutation()
+	const [setUserData] = useSignUpState((state) => [state.setUserData])
+
+	React.useEffect(() => {
+		GoogleSignin.configure({
+			iosClientId: "987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9.apps.googleusercontent.com",
+		})
+	}, [])
+
+	const proceedWithOAuth = async (
+		res: Awaited<ReturnType<typeof continueWithOAuth.mutateAsync>>,
+	) => {
+		console.log(`res: ${JSON.stringify(res)}`)
+		await setUserJWT(res.user.token)
+		if (!res.user.newUser) {
+			router.replace("(app)/feed")
+			return
+		} else {
+			setUserData({
+				oauthProvider: res.signedWith,
+				email: res.receivedProps.email,
+				firstName: res.receivedProps.firstName,
+				lastName: res.receivedProps.lastName,
+			})
+		}
+		if (!res.receivedProps.email) {
+			router.push("(sign-up)/email")
+		} else {
+			router.push("(sign-up)/username")
+		}
+	}
+
+	const signInWithGoogle = async () => {
+		try {
+			await GoogleSignin.hasPlayServices()
+			const credential = await GoogleSignin.signIn()
+
+			console.log(`credential: ${JSON.stringify(credential)}`)
+			if (!credential.idToken) {
+				console.log("credential.idToken is null")
+				return
+			}
+			const res = await continueWithOAuth.mutateAsync({
+				provider: "google",
+				token: credential.idToken,
+				user: {
+					id: credential.user.id,
+					firstName: credential.user.givenName || undefined,
+					lastName: credential.user.familyName || undefined,
+					email: credential.user.email,
+				},
+				device,
+			})
+			await proceedWithOAuth(res)
+		} catch (error) {
+			console.log(`error: ${error}`)
+		}
+	}
+
+	const signInWithApple = async () => {
+		try {
+			const credential = await signInAsync({
+				requestedScopes: [
+					AppleAuthenticationScope.FULL_NAME,
+					AppleAuthenticationScope.EMAIL,
+				],
+			})
+
+			console.log(`credential: ${JSON.stringify(credential)}`)
+			if (!credential.identityToken) {
+				console.log("credential.identityToken is null")
+				return
+			}
+			const res = await continueWithOAuth.mutateAsync({
+				provider: "apple",
+				token: credential.identityToken,
+				user: {
+					id: credential.user,
+					firstName: credential.fullName?.givenName || undefined,
+					lastName: credential.fullName?.familyName || undefined,
+					email: credential.email || undefined,
+				},
+				device,
+			})
+			await proceedWithOAuth(res)
+		} catch (e) {
+			console.log(e)
+			if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
+				// handle that the user canceled the sign-in flow
+			} else {
+				// handle other errors
+			}
+		}
+	}
 
 	const signInWithFacebook = async () => {
 		try {
-			const result = await LoginManager.logInWithPermissions(["public_profile", "email"])
+			const result = await LoginManager.logInWithPermissions(["email", "public_profile"])
 			if (result.isCancelled) {
-				console.log("login is cancelled.")
+				console.log("login is cancelled")
 			} else {
-				AccessToken.getCurrentAccessToken().then((data) => {
-					console.log(data?.accessToken.toString())
-					// TODO: Call server to finish login with facebook
-					router.replace("(app)/feed")
+				const credential = await AccessToken.getCurrentAccessToken()
+				if (!credential) {
+					console.log("Something went wrong obtaining the users access token")
+					return
+				}
+				const currentProfile = await Profile.getCurrentProfile()
+				if (!currentProfile) {
+					console.log("Something went wrong obtaining the users access token")
+					return
+				}
+
+				console.log(`credential: ${JSON.stringify(credential)}`)
+				console.log(`currentProfile: ${JSON.stringify(currentProfile)}`)
+				const res = await continueWithOAuth.mutateAsync({
+					provider: "facebook",
+					token: credential.accessToken,
+					user: {
+						id: credential.userID,
+						firstName: currentProfile.firstName || undefined,
+						lastName: currentProfile.lastName || undefined,
+						email: currentProfile.email || undefined,
+					},
+					device,
 				})
+				await proceedWithOAuth(res)
 			}
 		} catch (error) {
-			if (error) {
-				console.log("login has error: " + error)
-			}
+			console.log("login has error: " + error)
 		}
 	}
 
 	return (
 		<ScrollView
-			className="bg-[#F7F7F7] h-full w-full px-8 pt-20"
+			className="bg-[#F7F7F7] h-full w-full px-8 pt-12"
 			contentContainerStyle={{
 				flex: 1,
 				justifyContent: "flex-start",
@@ -88,37 +189,8 @@ export default function Index() {
 					buttonType={AppleAuthenticationButtonType.CONTINUE}
 					buttonStyle={AppleAuthenticationButtonStyle.BLACK}
 					cornerRadius={50}
-					onPress={async () => {
-						try {
-							const credential = await signInAsync({
-								requestedScopes: [
-									AppleAuthenticationScope.FULL_NAME,
-									AppleAuthenticationScope.EMAIL,
-								],
-							})
-							console.log(`credential: ${JSON.stringify(credential)}`)
-							// TODO: Call server to finish login with apple
-							router.replace("(app)/feed")
-							// signed in
-						} catch (e) {
-							if ((e as { code: string }).code === "ERR_REQUEST_CANCELED") {
-								// handle that the user canceled the sign-in flow
-							} else {
-								// handle other errors
-							}
-						}
-					}}
+					onPress={signInWithApple}
 				/>
-				{/* <GoogleSigninButton
-					style={{
-						marginTop: 16,
-						borderRadius: 50,
-					}}
-					size={GoogleSigninButton.Size.Wide}
-					color={GoogleSigninButton.Color.Light}
-					onPress={signInWithGoogle}
-					// disabled={this.state.isSigninInProgress}
-				/> */}
 				<Button
 					className="mt-4"
 					variant="facebook"
@@ -127,12 +199,14 @@ export default function Index() {
 				>
 					Continue with Facebook
 				</Button>
+				<Button className="mt-4" variant="google" icon="google" onPress={signInWithGoogle}>
+					Continue with Google
+				</Button>
 				<Button
 					className="mt-4"
 					variant="gradient"
 					onPress={() => {
-						// TODO: Go to email auth page
-						router.replace("(app)/feed")
+						router.push("(sign-up)/email")
 					}}
 				>
 					Continue with Email
@@ -140,7 +214,11 @@ export default function Index() {
 			</View>
 			<View className="flex flex-row gap-1">
 				<Text className="font-ns-body text-base color-black">Already have an account?</Text>
-				<TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						router.push("sign-in")
+					}}
+				>
 					<Text className="font-ns-body text-base color-[#007EE5]">Sign in</Text>
 				</TouchableOpacity>
 			</View>

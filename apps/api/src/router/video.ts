@@ -3,12 +3,14 @@ import z from "zod"
 import { createId } from "@paralleldrive/cuid2"
 import { TRPCError } from "@trpc/server"
 import { eq, sql } from "drizzle-orm"
+
 import { Storage, VideoUploadStatus } from "../db/types"
 import { getVideoUrl } from "../utils/storage"
 import { type Env, procedure, router } from "../trpc"
 import { dateNow } from "../utils/date"
 import { users, videos } from "../db/schema"
 import { type VideoProps, Environment } from "../types"
+import { auth } from "./middleware"
 
 const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => {
 	const m3u8File = partNames.find((v) => v.includes(".m3u8"))
@@ -58,6 +60,7 @@ const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => 
 
 export const videoRouter = router({
 	getUploadVideoURL: procedure
+		.use(auth)
 		.input(
 			z.object({
 				partNames: z.array(z.string()),
@@ -67,17 +70,7 @@ export const videoRouter = router({
 			const videoId = createId()
 			const uploadUrls = await getUploadUrls(ctx.env, videoId, input.partNames)
 
-			// TODO: Remove this
-			await ctx.db
-				.insert(users)
-				.values({
-					id: "user12",
-					email: "user12",
-					username: "user12",
-				})
-				.onConflictDoNothing()
-
-			// TODO: Check if user already has an untitled and unuploaded video and update it
+			// TODO: Check if user already has an untitled/unuploaded video and update it
 			await ctx.db.insert(videos).values({
 				id: videoId,
 				title: "untitled video",
@@ -86,7 +79,7 @@ export const videoRouter = router({
 				segmentsNumber: input.partNames.filter((v) => v.includes(".ts")).length,
 				uploadStatus: VideoUploadStatus.Uploading,
 				// References
-				authorId: "user12",
+				authorId: ctx.userId,
 			})
 
 			return {
@@ -95,6 +88,7 @@ export const videoRouter = router({
 			}
 		}),
 	updateVideo: procedure
+		.use(auth)
 		.input(
 			z.object({
 				videoId: z.string(),
@@ -112,28 +106,29 @@ export const videoRouter = router({
 					message: "Video not found",
 				})
 			}
-
 			await ctx.db
 				.update(videos)
 				.set({
+					// TODO: Should be Checking first, and Ready after author/bot checks the video
 					uploadStatus: VideoUploadStatus.Ready,
 					updatedAt: dateNow(),
 				})
 				.where(eq(videos.id, foundVideo.id))
-			console.log(foundVideos)
-
 			return getVideoUrl(foundVideo.id, foundVideo.storage, ctx.env, ctx.req.url)
 		}),
-	getVideos: procedure.query(async ({ ctx }) => {
+	getVideos: procedure.use(auth).query(async ({ ctx }) => {
+		// TODO: Add recommendation system
 		const foundVideos = await ctx.db
 			.select()
 			.from(videos)
+			.innerJoin(users, eq(videos.authorId, users.id))
 			.orderBy(sql`RANDOM()`)
 			.limit(10)
 
-		const recommendedVideos: VideoProps[] = foundVideos.map((v) => {
+		const recommendedVideos: VideoProps[] = foundVideos.map(({ users: author, videos: v }) => {
 			const urlVideo = getVideoUrl(v.id, v.storage, ctx.env, ctx.req.url)
 			const urlPoster = urlVideo.replace("video.m3u8", `thumbnail${v.thumbnailIndex}.png`)
+			console.log(author)
 			return {
 				id: v.id,
 				createdAt: v.createdAt,
@@ -146,9 +141,11 @@ export const videoRouter = router({
 					type: "Series",
 				},
 				author: {
-					id: "user12",
-					username: "user12",
-					displayName: "user12",
+					id: author.id,
+					username: author.username,
+					displayName: author.firstName
+						? `${author.firstName} ${author.lastName}`
+						: author.username,
 					uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
 				},
 			} as VideoProps

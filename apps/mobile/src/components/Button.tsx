@@ -1,9 +1,10 @@
 import { cva, type VariantProps } from "class-variance-authority"
 import React, { useRef } from "react"
-import { cn } from "~/utils/style"
 import { Pressable, Text, View, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
+import { Image } from "expo-image"
 import { Icon } from "./Icon"
+import { cn } from "~/utils/style"
 
 const buttonVariants = cva(
 	["flex-row items-center w-full justify-center rounded-[36px] overflow-hidden"],
@@ -13,6 +14,7 @@ const buttonVariants = cva(
 				default: "bg-[#007EE5]",
 				gradient: "",
 				facebook: "bg-[#3975EA]",
+				google: "bg-[#292a2e]",
 			},
 			size: {
 				default: "h-11",
@@ -31,6 +33,7 @@ const buttonTextVariants = cva("text-base px-2", {
 			default: "text-white",
 			gradient: "text-white",
 			facebook: "text-white",
+			google: "text-white",
 		},
 		size: {
 			default: "font-ns-bold",
@@ -130,14 +133,20 @@ const Button = React.forwardRef<
 						</View>
 					) : (
 						<View className="flex flex-row items-center">
-							{icon && (
-								<Icon
-									style={{ marginRight: -3 }}
-									name={icon}
-									size={16}
-									color="white"
-								/>
-							)}
+							{icon &&
+								(icon === "google" ? (
+									<Image
+										source={require("../assets/google-logo.png")}
+										style={{ width: 16, height: 16, marginRight: -2 }}
+									/>
+								) : (
+									<Icon
+										style={{ marginRight: -3 }}
+										name={icon}
+										size={16}
+										color="white"
+									/>
+								))}
 							<Text
 								className={cn(
 									pressed && "opacity-70",

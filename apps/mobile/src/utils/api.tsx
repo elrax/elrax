@@ -7,6 +7,7 @@ import superjson from "superjson"
 
 import type { AppRouter } from "@elrax/api"
 import Config from "../config"
+import { getUserJWT } from "~/stores/userJWT"
 
 /**
  * A set of typesafe hooks for consuming the API.
@@ -42,9 +43,13 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
 			links: [
 				httpBatchLink({
 					url: `${getBaseUrl()}/v1`,
-					headers() {
+					async headers() {
 						const headers = new Map<string, string>()
 						headers.set("x-trpc-source", "elrax-app")
+						const jwt = await getUserJWT()
+						if (jwt) {
+							headers.set("authorization", jwt)
+						}
 						return Object.fromEntries(headers)
 					},
 				}),

@@ -1,3 +1,4 @@
+import { router } from "expo-router"
 import React from "react"
 import { View, TouchableWithoutFeedback, Keyboard } from "react-native"
 import { Button } from "~/components/Button"
@@ -7,7 +8,13 @@ export default function Profile() {
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<View className="bg-[#000A14] px-4 flex justify-center items-center h-full w-full">
-				<Button className="mb-5" variant="gradient">
+				<Button
+					className="mb-5"
+					variant="gradient"
+					onPress={() => {
+						router.replace("/")
+					}}
+				>
 					Gradient
 				</Button>
 				<Button className="mb-5" disabled variant="gradient">

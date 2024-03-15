@@ -22,3 +22,4 @@ updates:
       - dependency-name: "*react*"
       - dependency-name: "@shopify*"
       - dependency-name: "tailwindcss"
+      - dependency-name: "@tanstack/react-query"
