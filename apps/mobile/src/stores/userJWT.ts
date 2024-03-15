@@ -7,3 +7,7 @@ export const setUserJWT = async (jwt: string) => {
 export const getUserJWT = () => {
 	return SecureStore.getItemAsync("userJWT")
 }
+
+export const deleteUserJWT = async () => {
+	await SecureStore.deleteItemAsync("userJWT")
+}

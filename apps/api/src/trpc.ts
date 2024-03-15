@@ -8,19 +8,23 @@ import type * as schema from "./db/schema"
 
 /** Server environment variables */
 export type Env = {
+	// Cloudflare integrations
 	DB: D1Database
 	BUCKET: R2Bucket
-
+	// System settings
 	ENVIRONMENT: Environment
+	// Cloudflare R2 storage secrets
 	CF_BUCKET_NAME: string
 	CF_ACCOUNT_ID: string
 	CF_ACCESS_KEY_ID: string
 	CF_SECRET_ACCESS_KEY: string
-
+	// OAuth secrets
 	FACEBOOK_APP_ID: string
 	FACEBOOK_APP_SECRET: string
-
+	// Crypto secrets
 	JWT_SECRET: string
+	// Providers
+	RESEND_API_KEY: string
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {

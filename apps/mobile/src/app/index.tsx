@@ -16,7 +16,7 @@ import { Button } from "~/components/Button"
 import { router } from "expo-router"
 import { api } from "~/utils/api"
 import { setUserJWT } from "~/stores/userJWT"
-import { useSignUpState } from "~/stores/signupState"
+import { useSignUpState } from "~/stores/signUpState"
 
 const images = {
 	auth: require("../assets/auth.png"),
@@ -25,7 +25,7 @@ const images = {
 export default function Index() {
 	setStatusBarStyle("dark")
 
-	const device = `${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}, ${Device.modelName}`
+	const device = `${Device.modelName}, ${Device.osName}, ${Device.osVersion}, ${Device.manufacturer}`
 
 	const continueWithOAuth = api.auth.continueWithOAuth.useMutation()
 	const [setUserData] = useSignUpState((state) => [state.setUserData])
@@ -53,9 +53,9 @@ export default function Index() {
 			})
 		}
 		if (!res.receivedProps.email) {
-			router.push("(sign-up)/username")
-		} else {
 			router.push("(sign-up)/email")
+		} else {
+			router.push("(sign-up)/username")
 		}
 	}
 
