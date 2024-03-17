@@ -12,8 +12,6 @@ const images = {
 
 export default function Profile() {
 	const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false)
-	const openBottomSheet = () => setIsBottomSheetVisible(true)
-	const closeBottomSheet = () => setIsBottomSheetVisible(false)
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
@@ -51,7 +49,7 @@ export default function Profile() {
 							<Button
 								className="w-[163px]"
 								variant="gradient"
-								onPress={openBottomSheet}
+								onPress={() => setIsBottomSheetVisible(true)}
 							>
 								Follow
 							</Button>
@@ -90,7 +88,10 @@ export default function Profile() {
 						</View>
 					</View>
 					<View className="flex w-full flex-1 h-full bg-[#FFFFFF0F]"></View>
-					<Comments isVisible={isBottomSheetVisible} onClose={closeBottomSheet} />
+					<Comments
+						isVisible={isBottomSheetVisible}
+						onClose={() => setIsBottomSheetVisible(false)}
+					/>
 				</View>
 			</TouchableWithoutFeedback>
 		</GestureHandlerRootView>

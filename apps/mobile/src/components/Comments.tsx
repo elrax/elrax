@@ -10,6 +10,7 @@ interface CustomBottomSheetProps {
 	onOpen?: () => void
 	snapPoints?: (string | number)[]
 }
+
 interface CommentItem {
 	username: string
 	time: string
@@ -19,10 +20,11 @@ interface CommentItem {
 const images = {
 	pfp: require("../assets/pfp.png"),
 }
+
 export const Comments: React.FC<CustomBottomSheetProps> = ({
 	isVisible,
 	onClose,
-	snapPoints = ["50%", "80%"],
+	snapPoints = ["65%", "90%"],
 }) => {
 	const bottomSheetRef = useRef<BottomSheet>(null)
 
@@ -69,8 +71,8 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 	]
 	const renderItem = useCallback(
 		({ item }: { item: CommentItem }) => (
-			<View className="flex gap-2.5 flex-row px-5 py-2.5">
-				<View className="w-[40px] h-[40px] rounded-full bg-slate-500">
+			<View className="flex gap-2.5 flex-row px-4 py-2.5">
+				<View className="w-[40px] h-[40px] rounded-full bg-slate-300">
 					<Image
 						style={{
 							width: "100%",
@@ -82,10 +84,10 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 				</View>
 				<View className="flex flex-1">
 					<View className="flex gap-1 flex-row">
-						<Text className="text-base text-white font-ns-bold">{item.username}</Text>
-						<Text className="text-base text-[#9A9BA2] font-ns-body">· {item.time}</Text>
+						<Text className="text-sm text-white font-ns-bold">{item.username}</Text>
+						<Text className="text-sm text-[#9A9BA2] font-ns-body">· {item.time}</Text>
 					</View>
-					<Text className="text-base text-white font-ns-body">{item.text}</Text>
+					<Text className="text-sm text-white font-ns-body">{item.text}</Text>
 				</View>
 			</View>
 		),
@@ -103,7 +105,7 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 			index={isVisible ? 0 : -1}
 		>
 			<View className="flex">
-				<View className="flex justify-between items-center px-5 py-3 flex-row">
+				<View className="flex justify-between items-center px-4 py-3 flex-row">
 					<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
 					<Pressable className="flex flex-row gap-1 items-center">
 						<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
@@ -112,7 +114,7 @@ export const Comments: React.FC<CustomBottomSheetProps> = ({
 				</View>
 			</View>
 			<BottomSheetFlatList
-				data={comments}
+				data={comments.concat(comments)}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={renderItem}
 			/>
