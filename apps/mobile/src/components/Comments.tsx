@@ -1,6 +1,7 @@
 import React, { useCallback, useImperativeHandle, useRef, forwardRef } from "react"
 import { StyleSheet, View, Text, Pressable } from "react-native"
 import {
+	BottomSheetFlatList,
 	BottomSheetModal,
 	BottomSheetBackdrop,
 	BottomSheetFooter,
@@ -8,7 +9,6 @@ import {
 } from "@gorhom/bottom-sheet"
 import { Image } from "expo-image"
 import { Icon } from "~/components/Icon"
-import { FlatList } from "react-native-gesture-handler"
 
 interface CustomBottomSheetProps {
 	onClose?: () => void
@@ -32,7 +32,7 @@ const images = {
 
 export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((props, ref) => {
 	const bottomSheetRef = useRef<BottomSheetModal>(null)
-	const snapPoints = ["60%", "100%"]
+	const snapPoints = ["60%", "90%"]
 
 	useImperativeHandle(ref, () => ({
 		presentModal: () => bottomSheetRef.current?.present(),
@@ -76,7 +76,14 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 	]
 	const renderBackdrop = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
+		(props: any) => (
+			<BottomSheetBackdrop
+				{...props}
+				disappearsOnIndex={-1}
+				appearsOnIndex={1}
+				pressBehavior="close"
+			/>
+		),
 		[],
 	)
 	const renderItem = useCallback(
@@ -130,23 +137,22 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 			backdropComponent={renderBackdrop}
 			footerComponent={renderActivePostSheetFooter}
 			keyboardBlurBehavior="restore"
-			keyboardBehavior="interactive"
-			topInset={150}
+			keyboardBehavior="extend"
+			topInset={0}
 			index={1}
 		>
-			<View className="flex">
-				<View className="flex justify-between items-center px-4 py-3 flex-row">
-					<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
-					<Pressable className="flex flex-row gap-1 items-center">
-						<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
-						<Icon name="chevron-down" size={20} color="#9A9BA2" />
-					</Pressable>
-				</View>
+			<View className="flex justify-between items-center px-4 py-3 flex-row">
+				<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
+				<Pressable className="flex flex-row gap-1 items-center">
+					<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
+					<Icon name="chevron-down" size={20} color="#9A9BA2" />
+				</Pressable>
 			</View>
-			<FlatList
+			<BottomSheetFlatList
 				data={comments.concat(comments)}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={renderItem}
+				style={{ marginBottom: 70 }}
 			/>
 		</BottomSheetModal>
 	)
@@ -173,7 +179,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		color: "#fff",
 		paddingHorizontal: 12,
-		borderRadius: 8,
+		borderRadius: 18,
 		paddingVertical: 10,
 		borderColor: "#D9DCDD",
 	},

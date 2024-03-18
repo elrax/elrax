@@ -15,7 +15,7 @@ export const fallbackVideos: VideoProps[] = [
 			id: "1",
 			username: "jewerly",
 			displayName: "Tima Miroshnichenko",
-			uriAvatar:
+			urlAvatar:
 				"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
 		},
 	},

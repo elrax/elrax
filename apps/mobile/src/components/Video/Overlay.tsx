@@ -96,7 +96,7 @@ export function Overlay({ item, opacity }: OverlayProps) {
 								<Image
 									className="h-10 w-10"
 									alt="avatar"
-									source={{ uri: item.author.uriAvatar }}
+									source={{ uri: item.author.urlAvatar }}
 								/>
 								{/* <View className="bg-[#4C5152] -mt-2.5 py-0.5 rounded-full items-center">
 								<Text className="font-ns-bold text-xs color-white">Join</Text>

@@ -24,9 +24,22 @@ export const getStorageUrl = (storage: Storage, env: Env, currentUrl: string) =>
 	}
 }
 
-/** Returns url to video based on video id, storage value, and environment */
+/** Returns url to video based on video id and relative settings */
 export const getVideoUrl = (videoId: string, storage: Storage, env: Env, currentUrl: string) => {
 	const url = getCurrentUrl(currentUrl)
 	const storageUrl = getStorageUrl(storage, env, url)
-	return `${storageUrl}${videoId}/video.m3u8`
+	return `${storageUrl}videos/${videoId}/video.m3u8`
+}
+
+/** Returns url to user avatar based on user id, avatar index, and relative settings */
+export const getUserAvatarUrl = (
+	userId: string,
+	index: number,
+	storage: Storage,
+	env: Env,
+	currentUrl: string,
+) => {
+	const url = getCurrentUrl(currentUrl)
+	const storageUrl = getStorageUrl(storage, env, url)
+	return `${storageUrl}users/${userId}/avatar${index}.m3u8`
 }

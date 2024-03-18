@@ -1,8 +1,15 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { type AnySQLiteColumn, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 import type { InferSelectModel } from "drizzle-orm"
 import { createSelectSchema } from "drizzle-zod"
 import { createId } from "@paralleldrive/cuid2"
-import { type SignedWith, Storage, VideoUploadStatus, UserOnboardingStatus } from "./types"
+import {
+	type SignedWith,
+	Storage,
+	VideoUploadStatus,
+	UserOnboardingStatus,
+	VideoCommentType,
+	VideoCommentStatus,
+} from "./types"
 import { dateNow } from "../utils/date"
 
 // Users
@@ -16,7 +23,7 @@ export const users = sqliteTable("users", {
 	onboardingStatus: integer("onboardingStatus")
 		.$type<UserOnboardingStatus>()
 		.notNull()
-		.default(UserOnboardingStatus.FinishedFirstStep),
+		.default(UserOnboardingStatus.FINISHED_FIRST_STEP),
 	signedUpWith: integer("signedUpWith").$type<SignedWith>().notNull(),
 	// Email
 	email: text("email").unique(),
@@ -88,7 +95,7 @@ export const videos = sqliteTable("videos", {
 	uploadStatus: integer("uploadStatus")
 		.$type<VideoUploadStatus>()
 		.notNull()
-		.default(VideoUploadStatus.Uploading),
+		.default(VideoUploadStatus.UPLOADING),
 	/* References */
 	authorId: text("userId")
 		.notNull()
@@ -98,3 +105,31 @@ export const videos = sqliteTable("videos", {
 
 export type Video = InferSelectModel<typeof videos>
 export const VideoSchema = createSelectSchema(videos)
+
+// Video Comments
+
+export const videoComments = sqliteTable("videoComments", {
+	id: text("id").primaryKey().$default(createId),
+	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+	/* Properties */
+	value: text("value").notNull(),
+	commentType: integer("commentType")
+		.$type<VideoCommentType>()
+		.notNull()
+		.default(VideoCommentType.STANDARD),
+	status: integer("status")
+		.$type<VideoCommentStatus>()
+		.notNull()
+		.default(VideoCommentStatus.VISIBLE),
+	/* References */
+	videoId: text("videoId")
+		.notNull()
+		.references(() => videos.id),
+	replyToCommentId: text("replyToCommentId").references((): AnySQLiteColumn => videoComments.id),
+	authorId: text("userId")
+		.notNull()
+		.references(() => users.id),
+})
+
+export type VideoComment = InferSelectModel<typeof videoComments>
+export const VideoCommentSchema = createSelectSchema(videoComments)
