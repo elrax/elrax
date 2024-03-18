@@ -1,5 +1,5 @@
 import React, { useCallback, useImperativeHandle, useRef, forwardRef } from "react"
-import { StyleSheet, View, Text, Pressable } from "react-native"
+import { StyleSheet, View, Text, Pressable, TouchableOpacity } from "react-native"
 import {
 	BottomSheetFlatList,
 	BottomSheetModal,
@@ -33,6 +33,8 @@ const images = {
 export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((props, ref) => {
 	const bottomSheetRef = useRef<BottomSheetModal>(null)
 	const snapPoints = ["60%", "90%"]
+	const inputTextRef = useRef("")
+	const buttonRef = useRef<TouchableOpacity>(null)
 
 	useImperativeHandle(ref, () => ({
 		presentModal: () => bottomSheetRef.current?.present(),
@@ -114,12 +116,37 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(props: any) => (
 			<BottomSheetFooter style={styles.footerContainer} {...props}>
-				<View>
+				<View className="w-[40px] h-[40px] rounded-full bg-slate-300">
+					<Image
+						style={{
+							width: "100%",
+							height: "100%",
+						}}
+						source={images.pfp}
+						contentFit="cover"
+					/>
+				</View>
+				<View className="w-full relative flex-1">
 					<BottomSheetTextInput
 						placeholder="Add your comment"
 						style={styles.bottomSheetInput}
 						placeholderTextColor="#9A9BA2"
+						onChangeText={(text) => {
+							inputTextRef.current = text
+							if (buttonRef.current) {
+								buttonRef.current.setNativeProps({
+									style: { display: text ? "flex" : "none" },
+								})
+							}
+						}}
+						defaultValue={inputTextRef.current}
 					/>
+					<TouchableOpacity
+						ref={buttonRef}
+						className="absolute bg-[#1A232C] hidden rounded-full p-1 right-2 top-[5px]"
+					>
+						<Icon color="#fff" size={20} name="arrow-up" />
+					</TouchableOpacity>
 				</View>
 			</BottomSheetFooter>
 		),
@@ -170,17 +197,22 @@ const styles = StyleSheet.create({
 		borderRadius: 24,
 	},
 	footerContainer: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 10,
 		paddingVertical: 12,
-		margin: 12,
+		marginVertical: 12,
+		paddingHorizontal: 16,
 		paddingBottom: 30,
 		backgroundColor: "#1A232C",
 	},
 	bottomSheetInput: {
 		borderWidth: 1,
-		color: "#fff",
+		color: "#000",
 		paddingHorizontal: 12,
 		borderRadius: 18,
 		paddingVertical: 10,
+		backgroundColor: "#F6F8F8",
 		borderColor: "#D9DCDD",
 	},
 })
