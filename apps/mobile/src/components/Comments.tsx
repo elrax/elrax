@@ -2,7 +2,6 @@ import React, { useCallback, useImperativeHandle, useRef, forwardRef } from "rea
 import { StyleSheet, View, Text, Pressable } from "react-native"
 import {
 	BottomSheetModal,
-	BottomSheetView,
 	BottomSheetBackdrop,
 	BottomSheetFooter,
 	BottomSheetTextInput,
@@ -135,24 +134,20 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 			topInset={150}
 			index={1}
 		>
-			<BottomSheetView>
-				<View className="flex">
-					<View className="flex justify-between items-center px-4 py-3 flex-row">
-						<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
-						<Pressable className="flex flex-row gap-1 items-center">
-							<Text className="text-[#9A9BA2] font-ns-body text-base">
-								All (default)
-							</Text>
-							<Icon name="chevron-down" size={20} color="#9A9BA2" />
-						</Pressable>
-					</View>
+			<View className="flex">
+				<View className="flex justify-between items-center px-4 py-3 flex-row">
+					<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
+					<Pressable className="flex flex-row gap-1 items-center">
+						<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
+						<Icon name="chevron-down" size={20} color="#9A9BA2" />
+					</Pressable>
 				</View>
-				<FlatList
-					data={comments.concat(comments)}
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={renderItem}
-				/>
-			</BottomSheetView>
+			</View>
+			<FlatList
+				data={comments.concat(comments)}
+				keyExtractor={(item, index) => index.toString()}
+				renderItem={renderItem}
+			/>
 		</BottomSheetModal>
 	)
 })
