@@ -18,6 +18,7 @@ export type VideoProps = {
 	urlPoster: string
 	description?: string
 	category: Category
+	commentsNumber: number
 	author: {
 		id: string
 		username: string
@@ -28,6 +29,7 @@ export type VideoProps = {
 
 export type VideoCommentProps = {
 	id: string
+	createdAt: Date
 	value: string
 	replyToCommentId: string
 	author: {

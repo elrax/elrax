@@ -7,12 +7,12 @@ import type { Env } from "../../trpc"
 import { videos, type Database, VideoUploadStatus } from ".."
 
 export const getUserUnuploadedVideos = (db: Database, userId: string) => {
-	return db
-		.select()
-		.from(videos)
-		.where(
-			and(eq(videos.authorId, userId), eq(videos.uploadStatus, VideoUploadStatus.UPLOADING)),
-		)
+	return db.query.videos.findMany({
+		where: and(
+			eq(videos.authorId, userId),
+			eq(videos.uploadStatus, VideoUploadStatus.UPLOADING),
+		),
+	})
 }
 
 export const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => {
@@ -36,12 +36,12 @@ export const getUploadUrls = async (env: Env, videoId: string, partNames: string
 	for (const partName of partNames) {
 		// If local development - use a local endpoint to upload the file
 		if (env.ENVIRONMENT === Environment.DEV) {
-			uploadUrls[partName] = `/dev/uploadFile/${videoId}/${partName}`
+			uploadUrls[partName] = `/dev/uploadFile/videos/${videoId}/${partName}`
 			continue
 		}
 		const url = new URL(uploadUrl)
 		// Preserve the original path
-		url.pathname = `/${videoId}/${partName}`
+		url.pathname = `/videos/${videoId}/${partName}`
 		// Specify a custom expiry for the presigned URL, in seconds
 		url.searchParams.set("X-Amz-Expires", "3600")
 		const signed = await r2.sign(

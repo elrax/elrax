@@ -10,17 +10,19 @@ import {
 import { Image } from "expo-image"
 import { Icon } from "~/components/Icon"
 
-interface CustomBottomSheetProps {
+interface CommentsProps {
+	comments: CommentItem[]
+	onSend: (comment: string) => void
 	onClose?: () => void
 	onOpen?: () => void
-	snapPoints?: (string | number)[]
 }
+
 export interface CommentsMethods {
 	presentModal: () => void
 	closeModal: () => void
 }
 
-interface CommentItem {
+export interface CommentItem {
 	username: string
 	time: string
 	text: string
@@ -30,10 +32,13 @@ const images = {
 	pfp: require("../assets/pfp.png"),
 }
 
-export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((props, ref) => {
+export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) => {
+	// TODO: Fix this.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const commentInputRef = useRef<any>(null)
+	const commentInput = useRef("")
 	const bottomSheetRef = useRef<BottomSheetModal>(null)
 	const snapPoints = ["60%", "90%"]
-	const inputTextRef = useRef("")
 	const buttonRef = useRef<TouchableOpacity>(null)
 
 	useImperativeHandle(ref, () => ({
@@ -44,38 +49,6 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 	const handleSheetChanges = useCallback((index: number) => {
 		console.log("handleSheetChanges", index)
 	}, [])
-	const comments: CommentItem[] = [
-		{
-			username: "Jane Doe",
-			time: "2 hours ago",
-			text: "Absolutely, Elon! World Central Kitchen shows that technology can be a powerful tool to solve real-world problems. Their work highlights the importance of leveraging resources for positive change. ",
-		},
-		{
-			username: "John Smith",
-			time: "3 hours ago",
-			text: "WCK is an example of how compassion can make a significant impact.  ",
-		},
-		{
-			username: "Orlando Diggs",
-			time: "11 days ago",
-			text: "World Central Kitchen's commitment to providing food during crises and their impact on affected communities is truly invaluable.",
-		},
-		{
-			username: "Lori Bryson",
-			time: "7 days ago",
-			text: "I've been inspired by World Central Kitchen's ability to adapt and respond swiftly to emergencies. They bring hope and sustenance to people when they need it the most.",
-		},
-		{
-			username: "John Smith",
-			time: "3 hours ago",
-			text: "WCK is an example of how compassion can make a significant impact.  ",
-		},
-		{
-			username: "Orlando Diggs",
-			time: "11 days ago",
-			text: "World Central Kitchen's commitment to providing food during crises and their impact on affected communities is truly invaluable.",
-		},
-	]
 	const renderBackdrop = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(props: any) => (
@@ -114,8 +87,8 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 	)
 	const renderActivePostSheetFooter = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(props: any) => (
-			<BottomSheetFooter style={styles.footerContainer} {...props}>
+		(propsInner: any) => (
+			<BottomSheetFooter style={styles.footerContainer} {...propsInner}>
 				<View className="w-[40px] h-[40px] rounded-full bg-slate-300">
 					<Image
 						style={{
@@ -128,22 +101,27 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 				</View>
 				<View className="w-full relative flex-1">
 					<BottomSheetTextInput
+						ref={commentInputRef}
 						placeholder="Add your comment"
 						style={styles.bottomSheetInput}
-						placeholderTextColor="#9A9BA2"
+						placeholderTextColor="#bbb"
 						onChangeText={(text) => {
-							inputTextRef.current = text
+							commentInput.current = text
 							if (buttonRef.current) {
 								buttonRef.current.setNativeProps({
 									style: { display: text ? "flex" : "none" },
 								})
 							}
 						}}
-						defaultValue={inputTextRef.current}
 					/>
 					<TouchableOpacity
 						ref={buttonRef}
 						className="absolute bg-[#1A232C] hidden rounded-full p-1 right-2 top-[5px]"
+						onPress={() => {
+							// TODO: Validate input.
+							props.onSend(commentInput.current)
+							commentInputRef.current?.clear()
+						}}
 					>
 						<Icon color="#fff" size={20} name="arrow-up" />
 					</TouchableOpacity>
@@ -166,17 +144,21 @@ export const Comments = forwardRef<CommentsMethods, CustomBottomSheetProps>((pro
 			keyboardBlurBehavior="restore"
 			keyboardBehavior="extend"
 			topInset={0}
-			index={1}
+			index={0}
 		>
 			<View className="flex justify-between items-center px-4 py-3 flex-row">
-				<Text className="text-white font-ns-bold text-base">5.3K comments</Text>
+				<Text className="text-white font-ns-bold text-base">
+					{props.comments.length === 1
+						? "1 comment"
+						: `${props.comments.length} comments`}
+				</Text>
 				<Pressable className="flex flex-row gap-1 items-center">
 					<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
 					<Icon name="chevron-down" size={20} color="#9A9BA2" />
 				</Pressable>
 			</View>
 			<BottomSheetFlatList
-				data={comments.concat(comments)}
+				data={props.comments}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={renderItem}
 				style={{ marginBottom: 70 }}
@@ -208,11 +190,11 @@ const styles = StyleSheet.create({
 	},
 	bottomSheetInput: {
 		borderWidth: 1,
-		color: "#000",
+		color: "#fff",
 		paddingHorizontal: 12,
 		borderRadius: 18,
 		paddingVertical: 10,
-		backgroundColor: "#F6F8F8",
-		borderColor: "#D9DCDD",
+		// backgroundColor: "#F6F8F8",
+		borderColor: "#F6F8F8",
 	},
 })

@@ -8,6 +8,13 @@
 			"when": 1709729174328,
 			"tag": "0000_broad_nightshade",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "5",
+			"when": 1710937978584,
+			"tag": "0001_lovely_kat_farrell",
+			"breakpoints": true
 		}
 	]
 }

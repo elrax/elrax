@@ -4,7 +4,7 @@ import type { inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { drizzle } from "drizzle-orm/d1"
 import type { Environment } from "./types"
-import type * as schema from "./db/schema"
+import * as schema from "./db/schema"
 
 /** Server environment variables */
 export type Env = {
@@ -30,7 +30,9 @@ export type Env = {
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {
 	return {
 		env: opts.env,
-		db: drizzle<typeof schema>(opts.env.DB),
+		db: drizzle(opts.env.DB, {
+			schema,
+		}),
 		req: opts.req,
 	}
 }

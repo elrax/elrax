@@ -3,6 +3,7 @@ import jwt from "@tsndr/cloudflare-worker-jwt"
 import { type Database, users, authSessions } from "../"
 import type { SignedWith } from "../types"
 import type { Env } from "../../trpc"
+import { createId } from "@paralleldrive/cuid2"
 
 type FindUserType = {
 	id?: string
@@ -18,11 +19,10 @@ export const getUserOrNull = async (db: Database, val: FindUserType) => {
 	if (!v) {
 		throw new Error("SYSTEM: Invalid value provided")
 	}
-	const foundUsers = await db
-		.select()
-		.from(users)
-		.where(eq(users[v[0] as keyof FindUserType], v[1]))
-	return foundUsers[0] ?? null
+	const foundUser = await db.query.users.findFirst({
+		where: eq(users[v[0] as keyof FindUserType], v[1]),
+	})
+	return foundUser ?? null
 }
 
 export const signInUserOrCreate = async (
@@ -47,9 +47,12 @@ export const signInUserOrCreate = async (
 		googleId: user.googleId,
 	})
 	if (!foundUser) {
+		// TODO: Generate user avatar
 		const returnedUsers = await db
 			.insert(users)
 			.values({
+				// TODO: Add random username generator
+				username: createId().substring(0, 8),
 				signedUpWith: signedWith,
 				email: user.email,
 				firstName: user.firstName,

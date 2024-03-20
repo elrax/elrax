@@ -36,7 +36,7 @@ export default function RootLayout() {
 			SplashScreen.hideAsync().then(() => {
 				console.log("Splash Screen hidden")
 			})
-			// TODO: I pretty sure there's a better place for this.
+			// TODO: I'm pretty sure there's a better place for this.
 			getUserJWT().then((jwt) => {
 				if (jwt) {
 					router.replace("(app)/feed")

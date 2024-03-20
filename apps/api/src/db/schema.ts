@@ -1,5 +1,5 @@
 import { type AnySQLiteColumn, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
-import type { InferSelectModel } from "drizzle-orm"
+import { relations, type InferSelectModel } from "drizzle-orm"
 import { createSelectSchema } from "drizzle-zod"
 import { createId } from "@paralleldrive/cuid2"
 import {
@@ -30,7 +30,7 @@ export const users = sqliteTable("users", {
 	emailVerificationOTP: text("emailVerificationOTP"),
 	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull().default(false),
 	// Profile
-	username: text("username").unique(),
+	username: text("username").notNull().unique(),
 	firstName: text("firstName"),
 	lastName: text("lastName"),
 	// Socials and integrations
@@ -41,6 +41,11 @@ export const users = sqliteTable("users", {
 	avatarIndex: integer("avatarIndex").notNull().default(0),
 	storage: integer("storage").$type<Storage>().notNull().default(Storage.PRIME_R2_BUCKET),
 })
+
+export const usersRelations = relations(users, ({ many }) => ({
+	videos: many(videos),
+	authSessions: many(authSessions),
+}))
 
 export type User = InferSelectModel<typeof users>
 export const UserSchema = createSelectSchema(users)
@@ -62,6 +67,13 @@ export const authSessions = sqliteTable("authSessions", {
 		.references(() => users.id),
 })
 
+export const authSessionsRelations = relations(authSessions, ({ one }) => ({
+	user: one(users, {
+		fields: [authSessions.userId],
+		references: [users.id],
+	}),
+}))
+
 export type AuthSessions = InferSelectModel<typeof authSessions>
 export const AuthSessionSchema = createSelectSchema(authSessions)
 
@@ -76,6 +88,10 @@ export const categories = sqliteTable("categories", {
 	type: text("type").notNull(),
 	icon: text("icon").notNull(),
 })
+
+export const categoriesRelations = relations(categories, ({ many }) => ({
+	videos: many(videos),
+}))
 
 export type Category = InferSelectModel<typeof categories>
 export const CategorySchema = createSelectSchema(categories)
@@ -102,6 +118,18 @@ export const videos = sqliteTable("videos", {
 		.references(() => users.id),
 	categoryId: text("categoryId").references(() => categories.id),
 })
+
+export const videosRelations = relations(videos, ({ many, one }) => ({
+	author: one(users, {
+		fields: [videos.authorId],
+		references: [users.id],
+	}),
+	category: one(categories, {
+		fields: [videos.categoryId],
+		references: [categories.id],
+	}),
+	comments: many(videoComments),
+}))
 
 export type Video = InferSelectModel<typeof videos>
 export const VideoSchema = createSelectSchema(videos)
@@ -130,6 +158,21 @@ export const videoComments = sqliteTable("videoComments", {
 		.notNull()
 		.references(() => users.id),
 })
+
+export const videoCommentsRelations = relations(videoComments, ({ one }) => ({
+	video: one(videos, {
+		fields: [videoComments.videoId],
+		references: [videos.id],
+	}),
+	replyToComment: one(videoComments, {
+		fields: [videoComments.replyToCommentId],
+		references: [videoComments.id],
+	}),
+	author: one(users, {
+		fields: [videoComments.authorId],
+		references: [users.id],
+	}),
+}))
 
 export type VideoComment = InferSelectModel<typeof videoComments>
 export const VideoCommentSchema = createSelectSchema(videoComments)

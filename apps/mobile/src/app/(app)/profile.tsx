@@ -1,6 +1,5 @@
-import React, { useRef } from "react"
+import React from "react"
 import { View, TouchableWithoutFeedback, Keyboard, Pressable, Text } from "react-native"
-import { Comments } from "~/components/Comments"
 import { Button } from "~/components/Button"
 import { Icon } from "~/components/Icon"
 import { Image } from "expo-image"
@@ -8,18 +7,8 @@ import { Image } from "expo-image"
 const images = {
 	pfp: require("../../assets/pfp.png"),
 }
-interface CommentsMethods {
-	presentModal: () => void
-	closeModal: () => void
-}
 
 export default function Profile() {
-	const commentsRef = useRef<CommentsMethods>(null)
-
-	const openBottomSheet = () => {
-		commentsRef.current?.presentModal()
-	}
-
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<View className="bg-[#000A14] flex-1 flex pt-24 items-center h-full w-full">
@@ -52,11 +41,7 @@ export default function Profile() {
 						</View>
 					</View>
 					<View className="flex flex-row gap-x-1">
-						<Button
-							className="w-[163px]"
-							variant="gradient"
-							onPress={() => openBottomSheet()}
-						>
+						<Button className="w-[163px]" variant="gradient">
 							Follow
 						</Button>
 						<Pressable className="flex items-center justify-center h-11 bg-[#FFFFFF0F] rounded-full w-11">
@@ -94,7 +79,6 @@ export default function Profile() {
 					</View>
 				</View>
 				<View className="flex w-full flex-1 h-full bg-[#FFFFFF0F]"></View>
-				<Comments ref={commentsRef} />
 			</View>
 		</TouchableWithoutFeedback>
 	)

@@ -12,7 +12,11 @@ import Config from "~/config"
 
 export type FeedVideoProps = {
 	item: VideoProps
+	commentsNumber: number
+	sharesNumber: number
 	height: number
+	onPressReaction: (item: VideoProps) => void
+	onPressComments: (item: VideoProps) => void
 }
 
 export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref<FeedVideoRef>) => {
@@ -100,7 +104,15 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	// Read more about Video component here: https://react-native-video.github.io/react-native-video
 	return (
 		<>
-			<Overlay item={props.item} height={props.height} opacity={overlayOpacity} />
+			<Overlay
+				item={props.item}
+				commentsNumber={props.commentsNumber}
+				sharesNumber={props.sharesNumber}
+				height={props.height}
+				opacity={overlayOpacity}
+				onPressReaction={props.onPressReaction}
+				onPressComments={props.onPressComments}
+			/>
 			<Video
 				ref={refVideo}
 				style={{ height: props.height }}
