@@ -28,7 +28,7 @@ export const authRouter = router({
 				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
-					SignedWith.Apple,
+					SignedWith.APPLE,
 					{
 						appleId: input.user.id,
 						email: res.email,
@@ -39,7 +39,7 @@ export const authRouter = router({
 				)
 				return {
 					user,
-					signedWith: SignedWith.Apple,
+					signedWith: SignedWith.APPLE,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,
@@ -55,7 +55,7 @@ export const authRouter = router({
 				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
-					SignedWith.Apple,
+					SignedWith.FACEBOOK,
 					{
 						appleId: input.user.id,
 						email: res.email,
@@ -66,7 +66,7 @@ export const authRouter = router({
 				)
 				return {
 					user,
-					signedWith: SignedWith.Facebook,
+					signedWith: SignedWith.FACEBOOK,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,
@@ -78,7 +78,7 @@ export const authRouter = router({
 				const user = await signInUserOrCreate(
 					ctx.db,
 					ctx.env,
-					SignedWith.Apple,
+					SignedWith.GOOGLE,
 					{
 						appleId: input.user.id,
 						email: res.email,
@@ -89,7 +89,7 @@ export const authRouter = router({
 				)
 				return {
 					user,
-					signedWith: SignedWith.Google,
+					signedWith: SignedWith.GOOGLE,
 					receivedProps: {
 						email: res.email,
 						firstName: input.user.firstName,

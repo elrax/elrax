@@ -13,14 +13,29 @@ export type Category = {
 
 export type VideoProps = {
 	id: string
+	createdAt: Date
 	urlVideo: string
 	urlPoster: string
 	description?: string
 	category: Category
+	commentsNumber: number
 	author: {
 		id: string
 		username: string
 		displayName: string
-		uriAvatar: string
+		urlAvatar: string
+	}
+}
+
+export type VideoCommentProps = {
+	id: string
+	createdAt: Date
+	value: string
+	replyToCommentId: string
+	author: {
+		id: string
+		username: string
+		displayName: string
+		urlAvatar: string
 	}
 }

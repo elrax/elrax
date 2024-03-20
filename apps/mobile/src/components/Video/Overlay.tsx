@@ -14,16 +14,20 @@ import { TouchableScale } from "../TouchableScale"
 
 export type OverlayProps = {
 	item: VideoProps
+	commentsNumber: number
+	sharesNumber: number
 	height: number
 	opacity: number
+	onPressReaction: (item: VideoProps) => void
+	onPressComments: (item: VideoProps) => void
 }
 
-export function Overlay({ item, opacity }: OverlayProps) {
+export function Overlay(props: OverlayProps) {
 	const [currentLikes, setCurrentLikes] = useState(3112)
 	const [isLiked, setIsLiked] = useState(false)
 
 	const opacityDerived = useDerivedValue(() => {
-		return withTiming(opacity, { duration: 200 })
+		return withTiming(props.opacity, { duration: 200 })
 	})
 	const animatedStyles = useAnimatedStyle(() => ({
 		opacity: interpolate(opacityDerived.value, [0, 1], [0, 1], Extrapolation.CLAMP),
@@ -55,11 +59,11 @@ export function Overlay({ item, opacity }: OverlayProps) {
 						</TouchableScale>
 						<TouchableScale scaleTo={0.99}>
 							<Text className="font-ns-bold text-lg color-white">
-								@{item.author.username}
+								@{props.item.author.username}
 							</Text>
 						</TouchableScale>
 						<Text className="font-ns-body text-base color-white mb-2" numberOfLines={1}>
-							{item.description}
+							{props.item.description}
 						</Text>
 						<TouchableScale scaleTo={0.99} innerStyle="w-full">
 							<View
@@ -96,7 +100,7 @@ export function Overlay({ item, opacity }: OverlayProps) {
 								<Image
 									className="h-10 w-10"
 									alt="avatar"
-									source={{ uri: item.author.uriAvatar }}
+									source={{ uri: props.item.author.urlAvatar }}
 								/>
 								{/* <View className="bg-[#4C5152] -mt-2.5 py-0.5 rounded-full items-center">
 								<Text className="font-ns-bold text-xs color-white">Join</Text>
@@ -106,6 +110,7 @@ export function Overlay({ item, opacity }: OverlayProps) {
 						<TouchableScale
 							innerStyle="py-3 items-center w-full"
 							onPress={() => {
+								props.onPressReaction(props.item)
 								setIsLiked(!isLiked)
 								if (isLiked) {
 									setCurrentLikes(currentLikes - 1)
@@ -129,7 +134,12 @@ export function Overlay({ item, opacity }: OverlayProps) {
 								{currentLikes}
 							</Text>
 						</TouchableScale>
-						<TouchableScale innerStyle="py-3 items-center w-full">
+						<TouchableScale
+							innerStyle="py-3 items-center w-full"
+							onPress={() => {
+								props.onPressComments(props.item)
+							}}
+						>
 							<Icon
 								className="text-center"
 								color="white"
@@ -137,7 +147,9 @@ export function Overlay({ item, opacity }: OverlayProps) {
 								name="message-circle"
 								style={style.iconShadow}
 							/>
-							<Text className="font-ns-bold color-white text-center pt-2">325</Text>
+							<Text className="font-ns-bold color-white text-center pt-2">
+								{props.commentsNumber}
+							</Text>
 						</TouchableScale>
 						<TouchableScale innerStyle="py-3 items-center w-full">
 							<Icon
@@ -147,7 +159,9 @@ export function Overlay({ item, opacity }: OverlayProps) {
 								name="send"
 								style={style.iconShadow}
 							/>
-							<Text className="font-ns-bold color-white text-center pt-2">4321</Text>
+							<Text className="font-ns-bold color-white text-center pt-2">
+								{props.sharesNumber}
+							</Text>
 						</TouchableScale>
 						<TouchableScale innerStyle="pt-3 pb-2 items-center w-full">
 							<Image

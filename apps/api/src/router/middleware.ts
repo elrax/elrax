@@ -19,11 +19,9 @@ export const auth = middleware(async ({ next, ctx }) => {
 	}
 	const { payload } = jwt.decode(token)
 	const { sessionId } = payload as { sessionId: string }
-	const foundSessions = await ctx.db
-		.select()
-		.from(authSessions)
-		.where(eq(authSessions.id, sessionId))
-	const session = foundSessions[0]
+	const session = await ctx.db.query.authSessions.findFirst({
+		where: eq(authSessions.id, sessionId),
+	})
 	if (!session?.isActive) {
 		throw new TRPCError({ code: "UNAUTHORIZED", message: "Session is not active" })
 	}

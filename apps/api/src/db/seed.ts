@@ -3,6 +3,7 @@ import type { VideoProps } from "../types"
 export const videos: VideoProps[] = [
 	{
 		id: "1",
+		createdAt: new Date(),
 		urlVideo: "https://cdn-staging.elrax.com/acjxh8jwbugpip6vvbpoh3q6/video.m3u8",
 		urlPoster: "https://i.imgur.com/1E7pBT2.png",
 		description: "Fine jewelry created just for you. Hand crafted and well made goods.",
@@ -15,12 +16,13 @@ export const videos: VideoProps[] = [
 			id: "1",
 			username: "jewerly",
 			displayName: "Tima Miroshnichenko",
-			uriAvatar:
+			urlAvatar:
 				"https://images.pexels.com/users/avatars/3088726/tima-miroshnichenko-388.jpeg?auto=compress&fit=crop&h=130&w=130&dpr=2",
 		},
 	},
 	{
 		id: "2",
+		createdAt: new Date(),
 		urlVideo: "https://cdn-staging.elrax.com/jv309m6az43la5amrajgzymx/video.m3u8",
 		urlPoster: "https://i.imgur.com/ljZTgRN.jpeg",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -33,11 +35,12 @@ export const videos: VideoProps[] = [
 			id: "2",
 			username: "johndoe",
 			displayName: "John Doe",
-			uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
+			urlAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
 		},
 	},
 	{
 		id: "3",
+		createdAt: new Date(),
 		urlVideo: "https://cdn-staging.elrax.com/na2r23buam6nzguc6znw3dzr/video.m3u8",
 		urlPoster: "https://i.imgur.com/ljZTgRN.jpeg",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -50,7 +53,7 @@ export const videos: VideoProps[] = [
 			id: "2",
 			username: "johndoe",
 			displayName: "John Doe",
-			uriAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
+			urlAvatar: "https://i.imgur.com/ljZTgRN.jpeg",
 		},
 	},
 ]
