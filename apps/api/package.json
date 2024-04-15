@@ -26,18 +26,18 @@
 		"@trpc/server": "10.45.2",
 		"@tsndr/cloudflare-worker-jwt": "2.5.3",
 		"aws4fetch": "1.0.18",
-		"drizzle-orm": "0.30.4",
+		"drizzle-orm": "0.30.8",
 		"drizzle-zod": "0.5.1",
-		"hono": "4.1.0",
+		"hono": "4.2.4",
 		"resend": "3.2.0",
 		"superjson": "2.2.1",
 		"zod": "3.22.4"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20240314.0",
-		"better-sqlite3": "9.4.3",
+		"@cloudflare/workers-types": "4.20240405.0",
+		"better-sqlite3": "9.5.0",
 		"drizzle-kit": "0.20.14",
-		"wrangler": "3.35.0"
+		"wrangler": "3.50.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.4.2"
