@@ -22,15 +22,15 @@
 	"devDependencies": {
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
-		"@typescript-eslint/eslint-plugin": "7.2.0",
-		"@typescript-eslint/parser": "7.2.0",
+		"@typescript-eslint/eslint-plugin": "7.7.1",
+		"@typescript-eslint/parser": "7.7.1",
 		"eslint": "8.57.0",
 		"eslint-config-prettier": "9.1.0",
-		"nx": "18.0.8",
+		"nx": "18.3.3",
 		"prettier": "3.2.5",
-		"release-it": "17.1.1",
-		"simple-git-hooks": "2.10.0",
-		"syncpack": "12.3.0"
+		"release-it": "17.2.0",
+		"simple-git-hooks": "2.11.1",
+		"syncpack": "12.3.1"
 	},
 	"peerDependencies": {
 		"typescript": "5.4.2"
