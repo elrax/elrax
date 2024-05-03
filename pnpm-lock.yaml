@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   semver: 7.5.4
 
@@ -211,6 +207,9 @@ importers:
       react-native-cache-video:
         specifier: 0.3.0
         version: 0.3.0(react-native-blob-util@0.19.8)(react-native-url-polyfill@2.0.0)(react-native@0.73.4)(react@18.2.0)
+      react-native-confirmation-code-field:
+        specifier: 7.4.0
+        version: 7.4.0(react-native@0.73.4)(react@18.2.0)
       react-native-fbsdk-next:
         specifier: 12.1.4
         version: 12.1.4(expo@50.0.11)(react-native@0.73.4)
@@ -12790,6 +12789,21 @@ packages:
       react-native-url-polyfill: 2.0.0(react-native@0.73.4)
     dev: false
 
+  /react-native-confirmation-code-field@7.4.0(react-native@0.73.4)(react@18.2.0):
+    resolution: {integrity: sha512-Kw7rD0RXi6vZnt0Y67nkSW2wYmZFdnxJ23yxkKm3jqwvSxAvaA1NP3h3MHSPmJd25l0WK/+fjXOeCliDqWZ9rw==}
+    peerDependencies:
+      react: '>=16.4.0'
+      react-native: '>=0.64.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-native: 0.73.4(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(react@18.2.0)
+    dev: false
+
   /react-native-fbsdk-next@12.1.4(expo@50.0.11)(react-native@0.73.4):
     resolution: {integrity: sha512-6fC+RTG0kwkZkjO/FYNvva1O60EmmvK/8+ifLmLf+eOHybkjKdcSsnbEk7iODyjZALhyAvDaYYyq27yyJo1X5Q==}
     peerDependencies:
@@ -15764,3 +15778,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
