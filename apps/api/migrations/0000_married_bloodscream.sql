@@ -4,7 +4,6 @@ CREATE TABLE `authSessions` (
 	`signedInWith` integer NOT NULL,
 	`device` text NOT NULL,
 	`ipLocation` text NOT NULL,
-	`emailAuthOTP` text,
 	`isActive` integer NOT NULL,
 	`userId` text NOT NULL,
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
@@ -19,6 +18,15 @@ CREATE TABLE `categories` (
 	`icon` text NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE `otpVerifications` (
+	`id` text PRIMARY KEY NOT NULL,
+	`createdAt` integer NOT NULL,
+	`secret` text NOT NULL,
+	`type` integer NOT NULL,
+	`userId` text NOT NULL,
+	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`updatedAt` integer,
@@ -26,16 +34,32 @@ CREATE TABLE `users` (
 	`onboardingStatus` integer DEFAULT 0 NOT NULL,
 	`signedUpWith` integer NOT NULL,
 	`email` text,
-	`emailVerificationOTP` text,
 	`emailVerified` integer DEFAULT false NOT NULL,
-	`username` text,
+	`username` text NOT NULL,
+	`previousUsername` text,
+	`usernameUpdatedAt` integer,
 	`firstName` text,
 	`lastName` text,
 	`appleId` text,
 	`googleId` text,
 	`facebookId` text,
-	`avatarIndex` integer DEFAULT 0 NOT NULL,
+	`avatarIndex` integer,
 	`storage` integer DEFAULT 0 NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `videoComments` (
+	`id` text PRIMARY KEY NOT NULL,
+	`updatedAt` integer,
+	`createdAt` integer NOT NULL,
+	`value` text NOT NULL,
+	`commentType` integer DEFAULT 0 NOT NULL,
+	`status` integer DEFAULT 0 NOT NULL,
+	`videoId` text NOT NULL,
+	`replyToCommentId` text,
+	`userId` text NOT NULL,
+	FOREIGN KEY (`videoId`) REFERENCES `videos`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`replyToCommentId`) REFERENCES `videoComments`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `videos` (

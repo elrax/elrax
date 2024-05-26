@@ -1,19 +1,12 @@
 {
-	"version": "5",
+	"version": "6",
 	"dialect": "sqlite",
 	"entries": [
 		{
 			"idx": 0,
-			"version": "5",
-			"when": 1709729174328,
-			"tag": "0000_broad_nightshade",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "5",
-			"when": 1710937978584,
-			"tag": "0001_lovely_kat_farrell",
+			"version": "6",
+			"when": 1716722160052,
+			"tag": "0000_married_bloodscream",
 			"breakpoints": true
 		}
 	]

@@ -40,8 +40,8 @@ export default function Index() {
 		res: Awaited<ReturnType<typeof continueWithOAuth.mutateAsync>>,
 	) => {
 		console.log(`res: ${JSON.stringify(res)}`)
-		await setUserJWT(res.user.token)
-		if (!res.user.newUser) {
+		await setUserJWT(res.token)
+		if (!res.newUser) {
 			router.replace("(app)/feed")
 			return
 		} else {

@@ -1,8 +1,11 @@
 import React from "react"
 import { View, TouchableWithoutFeedback, Keyboard, Pressable, Text } from "react-native"
+import { router } from "expo-router"
+import { Image } from "expo-image"
+
 import { Button } from "~/components/Button"
 import { Icon } from "~/components/Icon"
-import { Image } from "expo-image"
+import { deleteUserJWT } from "~/stores/userJWT"
 
 const images = {
 	pfp: require("../../assets/pfp.png"),
@@ -47,7 +50,15 @@ export default function Profile() {
 						<Pressable className="flex items-center justify-center h-11 bg-[#FFFFFF0F] rounded-full w-11">
 							<Icon size={24} color="#9A9BA2" name="instagram" />
 						</Pressable>
-						<Pressable className="flex items-center justify-center h-11 bg-[#FFFFFF0F] rounded-full w-11">
+						<Pressable
+							onPress={() => {
+								// TODO: Temporary, should be replaced with a proper logout function.
+								deleteUserJWT().then(() => {
+									router.replace("/")
+								})
+							}}
+							className="flex items-center justify-center h-11 bg-[#FFFFFF0F] rounded-full w-11"
+						>
 							<Icon size={24} color="#9A9BA2" name="chevron-down" />
 						</Pressable>
 					</View>

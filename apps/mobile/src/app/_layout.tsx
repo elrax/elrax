@@ -8,7 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
 import { TRPCProvider } from "~/utils/api"
 import { useIconFont } from "~/components/Icon"
-import { getUserJWT } from "~/stores/userJWT"
+import { deleteUserJWT, getUserJWT } from "~/stores/userJWT"
 
 SplashScreen.preventAutoHideAsync()
 onlineManager.setEventListener((setOnline) => {
@@ -39,8 +39,8 @@ export default function RootLayout() {
 				if (jwt) {
 					router.replace("(app)/feed")
 				} else {
-					// router.replace("/")
-					// deleteUserJWT()
+					router.replace("/")
+					deleteUserJWT()
 				}
 			})
 		}
