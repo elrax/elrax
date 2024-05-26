@@ -16,7 +16,7 @@
 		"db:gen": "drizzle-kit generate:sqlite",
 		"db:list": "NO_D1_WARNING=true wrangler d1 migrations list dev-db --local --env=dev",
 		"db:studio": "drizzle-kit studio",
-		"dev": "NO_D1_WARNING=true wrangler dev --env=dev --ip=0.0.0.0",
+		"dev": "NO_D1_WARNING=true wrangler dev --show-interactive-dev-session=false --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
 		"prepare": "yes 2>/dev/null | pnpm db:apply"
