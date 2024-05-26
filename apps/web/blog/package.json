@@ -21,17 +21,17 @@
 	},
 	"dependencies": {
 		"@astrojs/alpinejs": "0.4.0",
-		"@astrojs/cloudflare": "9.1.0",
-		"@astrojs/mdx": "2.2.0",
-		"@astrojs/rss": "4.0.5",
-		"@astrojs/sitemap": "3.1.1",
+		"@astrojs/cloudflare": "10.2.6",
+		"@astrojs/mdx": "3.0.1",
+		"@astrojs/rss": "4.0.6",
+		"@astrojs/sitemap": "3.1.5",
 		"@astrojs/tailwind": "5.1.0",
 		"@elrax/shared": "workspace:*",
-		"alpinejs": "3.13.7",
-		"astro": "4.5.4",
-		"tailwindcss": "3.4.1"
+		"alpinejs": "3.14.0",
+		"astro": "4.9.1",
+		"tailwindcss": "3.4.3"
 	},
 	"devDependencies": {
-		"@types/alpinejs": "3.13.9"
+		"@types/alpinejs": "3.13.10"
 	}
 }

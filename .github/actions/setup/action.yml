@@ -11,9 +11,9 @@ inputs:
     required: true
     default: "20.x"
   pnpm-version:
-    description: "Version of pnpm to use, e.g. 8"
+    description: "Version of pnpm to use, e.g. 9"
     required: true
-    default: "8"
+    default: "9"
 
 runs:
   using: "composite"

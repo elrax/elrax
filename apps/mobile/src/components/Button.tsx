@@ -100,13 +100,13 @@ const Button = React.forwardRef<
 							style={{ position: "relative" }}
 						>
 							<LinearGradient
-								colors={!disabled ? ["#9747FF", "#007EE5"] : ["#CFA7FB", "#B4CBFC"]}
+								colors={!disabled ? ["#007EE5", "#9747FF"] : ["#CFA7FB", "#B4CBFC"]}
 								start={{ x: 0, y: 0 }}
 								end={{ x: 1, y: 0 }}
 								className="absolute w-full h-full"
 							/>
 							<AnimatedLinearGradient
-								colors={["#007EE5", "#9747FF"]}
+								colors={["#9747FF", "#007EE5"]}
 								start={{ x: 0, y: 0 }}
 								end={{ x: 1, y: 0 }}
 								className="absolute w-full h-full"

@@ -8,7 +8,7 @@
 	"author": "Elrax Corp.",
 	"repository": "https://github.com/elrax/elrax",
 	"private": true,
-	"packageManager": "pnpm@8.15.3",
+	"packageManager": "pnpm@9.1.2",
 	"scripts": {
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
@@ -22,18 +22,18 @@
 	"devDependencies": {
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
-		"@typescript-eslint/eslint-plugin": "7.2.0",
-		"@typescript-eslint/parser": "7.2.0",
-		"eslint": "8.57.0",
+		"eslint": "9.3.0",
 		"eslint-config-prettier": "9.1.0",
-		"nx": "18.0.8",
+		"eslint-plugin-astro": "1.2.0",
+		"nx": "19.0.7",
 		"prettier": "3.2.5",
-		"release-it": "17.1.1",
-		"simple-git-hooks": "2.10.0",
-		"syncpack": "12.3.0"
+		"release-it": "17.3.0",
+		"simple-git-hooks": "2.11.1",
+		"syncpack": "12.3.2",
+		"typescript-eslint": "8.0.0-alpha.10"
 	},
 	"peerDependencies": {
-		"typescript": "5.4.2"
+		"typescript": "5.4.5"
 	},
 	"resolutions": {
 		"semver": "7.5.4"
@@ -43,61 +43,6 @@
 		"apps/web/*",
 		"packages/*"
 	],
-	"eslintConfig": {
-		"root": true,
-		"parser": "@typescript-eslint/parser",
-		"parserOptions": {
-			"project": true
-		},
-		"extends": [
-			"plugin:astro/recommended",
-			"plugin:@typescript-eslint/recommended",
-			"prettier"
-		],
-		"overrides": [
-			{
-				"files": [
-					"*.astro"
-				],
-				"parser": "astro-eslint-parser",
-				"parserOptions": {
-					"parser": "@typescript-eslint/parser",
-					"extraFileExtensions": [
-						".astro"
-					]
-				},
-				"rules": {}
-			}
-		],
-		"rules": {
-			"@typescript-eslint/triple-slash-reference": "off",
-			"@typescript-eslint/restrict-template-expressions": "off",
-			"@typescript-eslint/no-unused-vars": "error",
-			"@typescript-eslint/consistent-type-imports": [
-				"error",
-				{
-					"prefer": "type-imports",
-					"fixStyle": "inline-type-imports"
-				}
-			],
-			"quotes": [
-				2,
-				"double"
-			],
-			"semi": [
-				2,
-				"never"
-			],
-			"comma-dangle": [
-				"error",
-				"always-multiline"
-			]
-		},
-		"ignorePatterns": [
-			"**/*.config.js",
-			"**/*.config.cjs"
-		]
-	},
 	"prettier": {
 		"useTabs": true,
 		"singleQuote": false,
