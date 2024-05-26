@@ -9,6 +9,7 @@ import {
 	UserOnboardingStatus,
 	VideoCommentType,
 	VideoCommentStatus,
+	type OTPVerificationType,
 } from "./types"
 import { dateNow } from "../utils/date"
 
@@ -27,10 +28,12 @@ export const users = sqliteTable("users", {
 	signedUpWith: integer("signedUpWith").$type<SignedWith>().notNull(),
 	// Email
 	email: text("email").unique(),
-	emailVerificationOTP: text("emailVerificationOTP"),
 	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull().default(false),
-	// Profile
+	// Username
 	username: text("username").notNull().unique(),
+	previousUsername: text("previousUsername"),
+	usernameUpdatedAt: integer("usernameUpdatedAt", { mode: "timestamp" }),
+	// Profile
 	firstName: text("firstName"),
 	lastName: text("lastName"),
 	// Socials and integrations
@@ -38,7 +41,7 @@ export const users = sqliteTable("users", {
 	googleId: text("googleId").unique(),
 	facebookId: text("facebookId").unique(),
 	// Uploaded user files
-	avatarIndex: integer("avatarIndex").notNull().default(0),
+	avatarIndex: integer("avatarIndex"),
 	storage: integer("storage").$type<Storage>().notNull().default(Storage.PRIME_R2_BUCKET),
 })
 
@@ -50,6 +53,30 @@ export const usersRelations = relations(users, ({ many }) => ({
 export type User = InferSelectModel<typeof users>
 export const UserSchema = createSelectSchema(users)
 
+// OTP Verifications
+
+export const otpVerifications = sqliteTable("otpVerifications", {
+	id: text("id").primaryKey().$default(createId),
+	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+	/* Properties */
+	secret: text("secret").notNull(),
+	type: integer("type").$type<OTPVerificationType>().notNull(),
+	/* References */
+	userId: text("userId")
+		.notNull()
+		.references(() => users.id),
+})
+
+export const otpVerificationsRelations = relations(otpVerifications, ({ one }) => ({
+	user: one(users, {
+		fields: [otpVerifications.userId],
+		references: [users.id],
+	}),
+}))
+
+export type OTPVerifications = InferSelectModel<typeof otpVerifications>
+export const OTPVerificationSchema = createSelectSchema(otpVerifications)
+
 // Auth Sessions
 
 export const authSessions = sqliteTable("authSessions", {
@@ -59,7 +86,6 @@ export const authSessions = sqliteTable("authSessions", {
 	signedInWith: integer("signedInWith").$type<SignedWith>().notNull(),
 	device: text("device").notNull(),
 	ipLocation: text("ipLocation").notNull(),
-	emailAuthOTP: text("emailAuthOTP"),
 	isActive: integer("isActive", { mode: "boolean" }).notNull(),
 	/* References */
 	userId: text("userId")
@@ -138,6 +164,7 @@ export const VideoSchema = createSelectSchema(videos)
 
 export const videoComments = sqliteTable("videoComments", {
 	id: text("id").primaryKey().$default(createId),
+	updatedAt: integer("updatedAt", { mode: "timestamp" }),
 	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
 	/* Properties */
 	value: text("value").notNull(),

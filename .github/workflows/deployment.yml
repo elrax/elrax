@@ -6,10 +6,8 @@ concurrency:
 
 on:
   workflow_dispatch:
-  # push:
-  # branches: ["main"]
-  # TODO: Pattern matched against refs/tags
-  # tags: ["*"]
+  push:
+    branches: ["main"]
 
 jobs:
   deploy-staging:

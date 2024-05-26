@@ -23,6 +23,7 @@ export type Env = {
 	FACEBOOK_APP_SECRET: string
 	// Crypto secrets
 	JWT_SECRET: string
+	OTP_SECRET: string
 	// Providers
 	RESEND_API_KEY: string
 }
