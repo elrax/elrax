@@ -8,7 +8,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
 import { TRPCProvider } from "~/utils/api"
 import { useIconFont } from "~/components/Icon"
-import { useNunitoSans } from "~/components/Fonts"
 import { getUserJWT } from "~/stores/userJWT"
 
 SplashScreen.preventAutoHideAsync()
@@ -29,10 +28,9 @@ export default function RootLayout() {
 	const lfuPolicyRef = React.useRef(new LFUPolicy(5))
 
 	const [iconsLoaded] = useIconFont()
-	const [fontsLoaded] = useNunitoSans()
 	useEffect(() => {
-		console.debug(`Fonts: ${fontsLoaded}, icons: ${iconsLoaded}`)
-		if (iconsLoaded && fontsLoaded) {
+		console.debug(`Icons: ${iconsLoaded}`)
+		if (iconsLoaded) {
 			SplashScreen.hideAsync().then(() => {
 				console.log("Splash Screen hidden")
 			})
@@ -46,8 +44,8 @@ export default function RootLayout() {
 				}
 			})
 		}
-	}, [iconsLoaded, fontsLoaded])
-	if (!iconsLoaded || !fontsLoaded) {
+	}, [iconsLoaded])
+	if (!iconsLoaded) {
 		return null
 	}
 

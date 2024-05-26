@@ -14,7 +14,7 @@ export const auth = middleware(async ({ next, ctx }) => {
 		if (!isValid) {
 			throw new TRPCError({ code: "UNAUTHORIZED" })
 		}
-	} catch (err) {
+	} catch {
 		throw new TRPCError({ code: "UNAUTHORIZED" })
 	}
 	const { payload } = jwt.decode(token)

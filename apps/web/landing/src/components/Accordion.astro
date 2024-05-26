@@ -44,7 +44,7 @@ const { title, content } = Astro.props
 <script>
 	const buttons = document.querySelectorAll(".accordion-btn")
 	buttons.forEach((button) => {
-		button.addEventListener("click", (e) => {
+		button.addEventListener("click", () => {
 			buttons.forEach((btn) => {
 				if (btn !== button) {
 					btn.classList.add("closed")
