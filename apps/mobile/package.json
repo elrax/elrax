@@ -66,19 +66,19 @@
 		"react-native-video": "6.1.2",
 		"superjson": "2.2.1",
 		"tailwind-merge": "2.3.0",
-		"zustand": "4.5.2"
+		"zustand": "4.5.4"
 	},
 	"devDependencies": {
-		"@babel/core": "7.24.5",
-		"@babel/plugin-transform-flow-strip-types": "7.24.1",
-		"@babel/plugin-transform-private-methods": "7.24.1",
+		"@babel/core": "7.24.7",
+		"@babel/plugin-transform-flow-strip-types": "7.24.7",
+		"@babel/plugin-transform-private-methods": "7.24.7",
 		"@elrax/api": "workspace:*",
 		"@types/babel__core": "7.20.5",
 		"@types/react": "18.2.79",
 		"@types/webpack-env": "1.18.5",
 		"babel-plugin-module-resolver": "5.0.2",
 		"babel-preset-expo": "11.0.6",
-		"postcss": "8.4.38",
+		"postcss": "8.4.39",
 		"tailwindcss": "3.2.2"
 	},
 	"peerDependencies": {
