@@ -1,35 +1,4 @@
 import type { Config } from "drizzle-kit"
-import * as path from "node:path"
-import * as fs from "node:fs"
-
-const findByExt = (base: string, ext: string, files?: string[], result?: string[]) => {
-	let res = result ? result : ([] as string[])
-	const f = files || fs.readdirSync(base)
-	f.forEach((file: string) => {
-		const newbase = path.join(base, file)
-		if (fs.statSync(newbase).isDirectory()) {
-			res = findByExt(newbase, ext, fs.readdirSync(newbase), res)
-		} else {
-			if (file.slice(-1 * ext.length) === ext) {
-				res.push(newbase)
-			}
-		}
-	})
-	return res
-}
-
-const getLocalSqliteUrl = () => {
-	let sqliteFiles: string[] = []
-	try {
-		sqliteFiles = findByExt("./.wrangler", ".sqlite")
-	} catch (e) {
-		console.error("failed to find, got error", e)
-	}
-	if (sqliteFiles.length === 0) {
-		console.warn("No sqlite files found in .wrangler folder")
-	}
-	return sqliteFiles[0] || ""
-}
 
 /**
  * This is the config for __drizzle-kit__.
@@ -43,8 +12,10 @@ const getLocalSqliteUrl = () => {
 export default {
 	schema: "./src/db/schema.ts",
 	out: "./migrations",
-	driver: "better-sqlite",
+	dialect: "sqlite",
+	driver: "d1",
 	dbCredentials: {
-		url: getLocalSqliteUrl(),
+		wranglerConfigPath: "./wrangler.toml",
+		dbName: "dev-db",
 	},
 } satisfies Config

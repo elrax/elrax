@@ -1,9 +1,10 @@
 import { eq } from "drizzle-orm"
 import jwt from "@tsndr/cloudflare-worker-jwt"
+import { createId } from "@paralleldrive/cuid2"
+
 import { type Database, users, authSessions } from "../"
 import type { SignedWith } from "../types"
 import type { Env } from "../../trpc"
-import { createId } from "@paralleldrive/cuid2"
 
 type FindUserType = {
 	id?: string
@@ -51,12 +52,16 @@ export const signInUserOrCreate = async (
 		const returnedUsers = await db
 			.insert(users)
 			.values({
-				// TODO: Add random username generator
-				username: createId().substring(0, 8),
 				signedUpWith: signedWith,
+				// Username
+				// TODO: Add random username generator.
+				username: createId().substring(0, 8),
+				// Email
 				email: user.email,
+				// Profile
 				firstName: user.firstName,
 				lastName: user.lastName,
+				// Socials and integrations
 				appleId: user.appleId,
 				facebookId: user.facebookId,
 				googleId: user.googleId,
@@ -83,6 +88,7 @@ export const signInUserOrCreate = async (
 		env.JWT_SECRET,
 	)
 	return {
+		userId: foundUser.id,
 		newUser,
 		token,
 	}

@@ -61,3 +61,11 @@ export enum VideoCommentStatus {
 	/** Comment is automatically hidden by system */
 	HIDDEN_BY_SYSTEM = 2,
 }
+
+/** OTP verification type */
+export enum OTPVerificationType {
+	/** Confirm email by user */
+	EMAIL = 0,
+	/** User sign-in with different device or location */
+	SIGN_IN = 1,
+}

@@ -1,7 +1,7 @@
 {
-	"version": "5",
+	"version": "6",
 	"dialect": "sqlite",
-	"id": "a518a3d1-9ce3-45d2-af57-385ece4d3558",
+	"id": "54c125d3-96d5-46f9-ac8e-c92cfea571e6",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"authSessions": {
@@ -40,13 +40,6 @@
 					"type": "text",
 					"primaryKey": false,
 					"notNull": true,
-					"autoincrement": false
-				},
-				"emailAuthOTP": {
-					"name": "emailAuthOTP",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
 					"autoincrement": false
 				},
 				"isActive": {
@@ -130,6 +123,60 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
+		"otpVerifications": {
+			"name": "otpVerifications",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"secret": {
+					"name": "secret",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"type": {
+					"name": "type",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"otpVerifications_userId_users_id_fk": {
+					"name": "otpVerifications_userId_users_id_fk",
+					"tableFrom": "otpVerifications",
+					"tableTo": "users",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
 		"users": {
 			"name": "users",
 			"columns": {
@@ -176,13 +223,6 @@
 					"notNull": false,
 					"autoincrement": false
 				},
-				"emailVerificationOTP": {
-					"name": "emailVerificationOTP",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				},
 				"emailVerified": {
 					"name": "emailVerified",
 					"type": "integer",
@@ -194,6 +234,20 @@
 				"username": {
 					"name": "username",
 					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"previousUsername": {
+					"name": "previousUsername",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"usernameUpdatedAt": {
+					"name": "usernameUpdatedAt",
+					"type": "integer",
 					"primaryKey": false,
 					"notNull": false,
 					"autoincrement": false
@@ -237,9 +291,8 @@
 					"name": "avatarIndex",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
+					"notNull": false,
+					"autoincrement": false
 				},
 				"storage": {
 					"name": "storage",
@@ -278,6 +331,108 @@
 				}
 			},
 			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"videoComments": {
+			"name": "videoComments",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"value": {
+					"name": "value",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"commentType": {
+					"name": "commentType",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"status": {
+					"name": "status",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"videoId": {
+					"name": "videoId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"replyToCommentId": {
+					"name": "replyToCommentId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"videoComments_videoId_videos_id_fk": {
+					"name": "videoComments_videoId_videos_id_fk",
+					"tableFrom": "videoComments",
+					"tableTo": "videos",
+					"columnsFrom": ["videoId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"videoComments_replyToCommentId_videoComments_id_fk": {
+					"name": "videoComments_replyToCommentId_videoComments_id_fk",
+					"tableFrom": "videoComments",
+					"tableTo": "videoComments",
+					"columnsFrom": ["replyToCommentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"videoComments_userId_users_id_fk": {
+					"name": "videoComments_userId_users_id_fk",
+					"tableFrom": "videoComments",
+					"tableTo": "users",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
