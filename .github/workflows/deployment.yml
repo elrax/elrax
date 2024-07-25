@@ -110,3 +110,6 @@ jobs:
           command: eas update --auto --channel=staging
           working-directory: ./apps/mobile/
           comment: false
+        env:
+          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.FACEBOOK_APP_ID }}
+          EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: ${{ vars.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN }}
