@@ -28,9 +28,9 @@ jobs:
         uses: expo/expo-github-action/preview@v8
         id: preview
         with:
-          command: eas update --auto --channel=development
+          command: EXPO_PUBLIC_FACEBOOK_APP_ID=$EXPO_PUBLIC_FACEBOOK_APP_ID EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN=$EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN eas update --auto --channel=development
           working-directory: ./apps/mobile/
           comment: true
         env:
-          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.FACEBOOK_APP_ID }}
+          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.EXPO_PUBLIC_FACEBOOK_APP_ID }}
           EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: ${{ vars.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN }}
