@@ -15,8 +15,8 @@ export type Env = {
 	// System settings
 	ENVIRONMENT: Environment
 	// Cloudflare R2 storage secrets
+	CLOUDFLARE_ACCOUNT_ID: string
 	CF_BUCKET_NAME: string
-	CF_ACCOUNT_ID: string
 	CF_ACCESS_KEY_ID: string
 	CF_SECRET_ACCESS_KEY: string
 	// OAuth secrets

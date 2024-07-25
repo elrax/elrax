@@ -29,7 +29,7 @@ export const getUploadUrls = async (env: Env, contentItemId: string, partNames: 
 		secretAccessKey: env.CF_SECRET_ACCESS_KEY,
 	})
 	const bucketName = env.CF_BUCKET_NAME
-	const accountId = env.CF_ACCOUNT_ID
+	const accountId = env.CLOUDFLARE_ACCOUNT_ID
 	const uploadUrl = `https://${bucketName}.${accountId}.r2.cloudflarestorage.com`
 
 	const uploadUrls: { [partName: string]: string } = {}

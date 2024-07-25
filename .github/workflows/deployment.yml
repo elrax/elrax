@@ -28,18 +28,34 @@ jobs:
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ./apps/api/
           packageManager: pnpm
           environment: staging
+          preCommands: |
+            echo "*** pre command ***"
+            echo $CLOUDFLARE_ACCOUNT_ID | bun wrangler secret put -e=staging CLOUDFLARE_ACCOUNT_ID
+            echo $CF_BUCKET_NAME | bun wrangler secret put -e=staging CF_BUCKET_NAME
+            echo $CF_ACCESS_KEY_ID | bun wrangler secret put -e=staging CF_ACCESS_KEY_ID
+            echo $CF_SECRET_ACCESS_KEY | bun wrangler secret put -e=staging CF_SECRET_ACCESS_KEY
+            echo $FACEBOOK_APP_ID | bun wrangler secret put -e=staging FACEBOOK_APP_ID
+            echo $FACEBOOK_APP_SECRET | bun wrangler secret put -e=staging FACEBOOK_APP_SECRET
+            echo $JWT_SECRET | bun wrangler secret put -e=staging JWT_SECRET
+            echo $OTP_SECRET | bun wrangler secret put -e=staging OTP_SECRET
+            echo $RESEND_API_KEY | bun wrangler secret put -e=staging RESEND_API_KEY
+            echo $TURSO_CONNECTION_URL | bun wrangler secret put -e=staging TURSO_CONNECTION_URL
+            echo $TURSO_AUTH_TOKEN | bun wrangler secret put -e=staging TURSO_AUTH_TOKEN
+            echo "*** end ***"
         env:
-          CF_BUCKET_NAME: elrax-staging
-          CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CF_BUCKET_NAME: ${{ vars.CF_BUCKET_NAME }}
           CF_ACCESS_KEY_ID: ${{ secrets.CF_ACCESS_KEY_ID }}
           CF_SECRET_ACCESS_KEY: ${{ secrets.CF_SECRET_ACCESS_KEY }}
           FACEBOOK_APP_ID: ${{ vars.FACEBOOK_APP_ID }}
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          OTP_SECRET: ${{ secrets.OTP_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           TURSO_CONNECTION_URL: ${{ vars.TURSO_CONNECTION_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
