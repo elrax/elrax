@@ -1,5 +1,4 @@
-account_id = "82fd74a54708ed514403791b191174b5"
-compatibility_date = "2024-05-13"
+compatibility_date = "2024-05-12"
 main = "src/index.ts"
 compatibility_flags = ["nodejs_compat"]
 

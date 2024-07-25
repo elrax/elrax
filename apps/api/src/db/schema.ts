@@ -1,19 +1,19 @@
-import { type AnySQLiteColumn, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
-import { relations, type InferSelectModel } from "drizzle-orm"
+import { type AnySQLiteColumn, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { type InferInsertModel, relations, type InferSelectModel } from "drizzle-orm"
 import { createSelectSchema } from "drizzle-zod"
 import { createId } from "@paralleldrive/cuid2"
 import {
 	type SignedWith,
 	Storage,
-	VideoUploadStatus,
+	ContentUploadStatus,
 	UserOnboardingStatus,
-	VideoCommentType,
-	VideoCommentStatus,
+	CommentType,
+	CommentStatus,
 	type OTPVerificationType,
 } from "./types"
 import { dateNow } from "../utils/date"
 
-// Users
+/** Users */
 
 export const users = sqliteTable("users", {
 	id: text("id").primaryKey().$default(createId),
@@ -46,26 +46,34 @@ export const users = sqliteTable("users", {
 })
 
 export const usersRelations = relations(users, ({ many }) => ({
-	videos: many(videos),
+	contentItems: many(contentItems),
 	authSessions: many(authSessions),
 }))
 
 export type User = InferSelectModel<typeof users>
 export const UserSchema = createSelectSchema(users)
 
-// OTP Verifications
+/** OTP Verifications */
 
-export const otpVerifications = sqliteTable("otpVerifications", {
-	id: text("id").primaryKey().$default(createId),
-	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
-	/* Properties */
-	secret: text("secret").notNull(),
-	type: integer("type").$type<OTPVerificationType>().notNull(),
-	/* References */
-	userId: text("userId")
-		.notNull()
-		.references(() => users.id),
-})
+export const otpVerifications = sqliteTable(
+	"otpVerifications",
+	{
+		id: text("id").primaryKey().$default(createId),
+		createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+		/* Properties */
+		secret: text("secret").notNull(),
+		type: integer("type").$type<OTPVerificationType>().notNull(),
+		/* References */
+		userId: text("userId")
+			.notNull()
+			.references(() => users.id),
+	},
+	(table) => {
+		return {
+			userIdIdx: index("otpVerifications_userIdIdx").on(table.userId),
+		}
+	},
+)
 
 export const otpVerificationsRelations = relations(otpVerifications, ({ one }) => ({
 	user: one(users, {
@@ -77,21 +85,29 @@ export const otpVerificationsRelations = relations(otpVerifications, ({ one }) =
 export type OTPVerifications = InferSelectModel<typeof otpVerifications>
 export const OTPVerificationSchema = createSelectSchema(otpVerifications)
 
-// Auth Sessions
+/** Auth Sessions */
 
-export const authSessions = sqliteTable("authSessions", {
-	id: text("id").primaryKey().$default(createId),
-	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
-	/* Properties */
-	signedInWith: integer("signedInWith").$type<SignedWith>().notNull(),
-	device: text("device").notNull(),
-	ipLocation: text("ipLocation").notNull(),
-	isActive: integer("isActive", { mode: "boolean" }).notNull(),
-	/* References */
-	userId: text("userId")
-		.notNull()
-		.references(() => users.id),
-})
+export const authSessions = sqliteTable(
+	"authSessions",
+	{
+		id: text("id").primaryKey().$default(createId),
+		createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+		/* Properties */
+		signedInWith: integer("signedInWith").$type<SignedWith>().notNull(),
+		device: text("device").notNull(),
+		ipLocation: text("ipLocation").notNull(),
+		isActive: integer("isActive", { mode: "boolean" }).notNull(),
+		/* References */
+		userId: text("userId")
+			.notNull()
+			.references(() => users.id),
+	},
+	(table) => {
+		return {
+			userIdIdx: index("authSessions_userIdIdx").on(table.userId),
+		}
+	},
+)
 
 export const authSessionsRelations = relations(authSessions, ({ one }) => ({
 	user: one(users, {
@@ -103,7 +119,7 @@ export const authSessionsRelations = relations(authSessions, ({ one }) => ({
 export type AuthSessions = InferSelectModel<typeof authSessions>
 export const AuthSessionSchema = createSelectSchema(authSessions)
 
-// Categories
+/** Categories */
 
 export const categories = sqliteTable("categories", {
 	id: text("id").primaryKey().$default(createId),
@@ -116,90 +132,108 @@ export const categories = sqliteTable("categories", {
 })
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
-	videos: many(videos),
+	contentItems: many(contentItems),
 }))
 
 export type Category = InferSelectModel<typeof categories>
 export const CategorySchema = createSelectSchema(categories)
 
-// Videos
+/** Content Items */
 
-export const videos = sqliteTable("videos", {
-	id: text("id").primaryKey().$default(createId),
-	updatedAt: integer("updatedAt", { mode: "timestamp" }),
-	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
-	/* Properties */
-	title: text("title").notNull(),
-	description: text("description"),
-	thumbnailIndex: integer("thumbnailIndex").notNull().default(0),
-	storage: integer("storage").$type<Storage>().notNull().default(Storage.PRIME_R2_BUCKET),
-	segmentsNumber: integer("segmentsNumber").notNull(),
-	uploadStatus: integer("uploadStatus")
-		.$type<VideoUploadStatus>()
-		.notNull()
-		.default(VideoUploadStatus.UPLOADING),
-	/* References */
-	authorId: text("userId")
-		.notNull()
-		.references(() => users.id),
-	categoryId: text("categoryId").references(() => categories.id),
-})
+export const contentItems = sqliteTable(
+	"contentItems",
+	{
+		id: text("id").primaryKey().$default(createId),
+		updatedAt: integer("updatedAt", { mode: "timestamp" }),
+		createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+		/* Properties */
+		title: text("title").notNull(),
+		description: text("description"),
+		thumbnailIndex: integer("thumbnailIndex").notNull().default(0),
+		storage: integer("storage").$type<Storage>().notNull().default(Storage.PRIME_R2_BUCKET),
+		segmentsNumber: integer("segmentsNumber").notNull(),
+		uploadStatus: integer("uploadStatus")
+			.$type<ContentUploadStatus>()
+			.notNull()
+			.default(ContentUploadStatus.UPLOADING),
+		/* References */
+		authorId: text("userId")
+			.notNull()
+			.references(() => users.id),
+		categoryId: text("categoryId").references(() => categories.id),
+	},
+	(table) => {
+		return {
+			authorIdIdx: index("contentItems_authorIdIdx").on(table.authorId),
+			categoryIdIdx: index("contentItems_categoryId").on(table.categoryId),
+		}
+	},
+)
 
-export const videosRelations = relations(videos, ({ many, one }) => ({
+export const contentItemsRelations = relations(contentItems, ({ many, one }) => ({
 	author: one(users, {
-		fields: [videos.authorId],
+		fields: [contentItems.authorId],
 		references: [users.id],
 	}),
 	category: one(categories, {
-		fields: [videos.categoryId],
+		fields: [contentItems.categoryId],
 		references: [categories.id],
 	}),
-	comments: many(videoComments),
+	comments: many(comments),
 }))
 
-export type Video = InferSelectModel<typeof videos>
-export const VideoSchema = createSelectSchema(videos)
+export type ContentItem = InferSelectModel<typeof contentItems>
+export type ContentItemInsert = InferInsertModel<typeof contentItems>
+export const ContentItemSchema = createSelectSchema(contentItems)
 
-// Video Comments
+/** Comments */
 
-export const videoComments = sqliteTable("videoComments", {
-	id: text("id").primaryKey().$default(createId),
-	updatedAt: integer("updatedAt", { mode: "timestamp" }),
-	createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
-	/* Properties */
-	value: text("value").notNull(),
-	commentType: integer("commentType")
-		.$type<VideoCommentType>()
-		.notNull()
-		.default(VideoCommentType.STANDARD),
-	status: integer("status")
-		.$type<VideoCommentStatus>()
-		.notNull()
-		.default(VideoCommentStatus.VISIBLE),
-	/* References */
-	videoId: text("videoId")
-		.notNull()
-		.references(() => videos.id),
-	replyToCommentId: text("replyToCommentId").references((): AnySQLiteColumn => videoComments.id),
-	authorId: text("userId")
-		.notNull()
-		.references(() => users.id),
-})
+export const comments = sqliteTable(
+	"comments",
+	{
+		id: text("id").primaryKey().$default(createId),
+		updatedAt: integer("updatedAt", { mode: "timestamp" }),
+		createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
+		/* Properties */
+		value: text("value").notNull(),
+		commentType: integer("commentType")
+			.$type<CommentType>()
+			.notNull()
+			.default(CommentType.STANDARD),
+		status: integer("status").$type<CommentStatus>().notNull().default(CommentStatus.VISIBLE),
+		/* References */
+		contentItemId: text("contentItemId")
+			.notNull()
+			.references(() => contentItems.id),
+		replyToCommentId: text("replyToCommentId").references((): AnySQLiteColumn => comments.id),
+		authorId: text("authorId")
+			.notNull()
+			.references(() => users.id),
+	},
+	(table) => {
+		return {
+			contentItemIdIdx: index("comments_contentItemIdIdx").on(table.contentItemId),
+			replyToCommentIdIdx: index("comments_replyToCommentIdIdx").on(table.replyToCommentId),
+			authorIdIdx: index("comments_authorIdIdx").on(table.authorId),
+		}
+	},
+)
 
-export const videoCommentsRelations = relations(videoComments, ({ one }) => ({
-	video: one(videos, {
-		fields: [videoComments.videoId],
-		references: [videos.id],
+export const commentsRelations = relations(comments, ({ one }) => ({
+	contentItem: one(contentItems, {
+		fields: [comments.contentItemId],
+		references: [contentItems.id],
 	}),
-	replyToComment: one(videoComments, {
-		fields: [videoComments.replyToCommentId],
-		references: [videoComments.id],
+	replyToComment: one(comments, {
+		fields: [comments.replyToCommentId],
+		references: [comments.id],
 	}),
 	author: one(users, {
-		fields: [videoComments.authorId],
+		fields: [comments.authorId],
 		references: [users.id],
 	}),
 }))
 
-export type VideoComment = InferSelectModel<typeof videoComments>
-export const VideoCommentSchema = createSelectSchema(videoComments)
+export type Comment = InferSelectModel<typeof comments>
+export type CommentInsert = InferInsertModel<typeof comments>
+export const CommentSchema = createSelectSchema(comments)

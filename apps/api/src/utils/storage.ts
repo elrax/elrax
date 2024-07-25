@@ -1,6 +1,6 @@
 import { Storage } from "../db/types"
 import { Environment } from "../types"
-import type { Env } from "../trpc"
+import type { Env } from "../context"
 
 /** Returns current base url. Used in dev environment */
 export const getCurrentUrl = (fullUrl: string) => {
@@ -25,20 +25,28 @@ export const getStorageUrl = (storage: Storage, env: Env, currentUrl: string) =>
 }
 
 /** Returns url to video based on video id and relative settings */
-export const getVideoUrl = (videoId: string, storage: Storage, env: Env, currentUrl: string) => {
+export const getVideoUrl = (
+	contentItemId: string,
+	storage: Storage,
+	env: Env,
+	currentUrl: string,
+) => {
 	const url = getCurrentUrl(currentUrl)
 	const storageUrl = getStorageUrl(storage, env, url)
-	return `${storageUrl}videos/${videoId}/video.m3u8`
+	return `${storageUrl}content/${contentItemId}/video.m3u8`
 }
 
 /** Returns url to user avatar based on user id, avatar index, and relative settings */
 export const getUserAvatarUrl = (
 	userId: string,
-	index: number,
+	index: number | null,
 	storage: Storage,
 	env: Env,
 	currentUrl: string,
 ) => {
+	if (!index) {
+		return "https://avatars.githubusercontent.com/u/24860875"
+	}
 	const url = getCurrentUrl(currentUrl)
 	const storageUrl = getStorageUrl(storage, env, url)
 	return `${storageUrl}users/${userId}/avatar${index}.m3u8`

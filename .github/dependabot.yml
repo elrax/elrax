@@ -6,9 +6,7 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: fix
-      prefix-development: chore
-      include: scope
+      prefix: ":arrow_up:"
     labels:
       - "⬆️ dependencies"
     groups:

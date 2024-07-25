@@ -26,7 +26,7 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           wranglerVersion: "3"
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: ./apps/web/landing/
@@ -37,7 +37,7 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           wranglerVersion: "3"
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: ./apps/web/blog/
@@ -48,7 +48,7 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           wranglerVersion: "3"
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: ./apps/web/comics/

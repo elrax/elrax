@@ -1,7 +1,8 @@
 import jwt from "@tsndr/cloudflare-worker-jwt"
 import { eq } from "drizzle-orm"
 import { TRPCError } from "@trpc/server"
-import { middleware } from "../trpc"
+
+import { middleware } from "../context"
 import { authSessions } from "../db"
 
 export const auth = middleware(async ({ next, ctx }) => {

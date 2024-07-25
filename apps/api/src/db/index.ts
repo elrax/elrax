@@ -1,8 +1,8 @@
-import type { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core"
+import { type LibSQLDatabase } from "drizzle-orm/libsql"
 import type * as schema from "./schema"
 
 export * from "./schema"
 export * from "./helpers"
 export * from "./types"
 
-export type Database = BaseSQLiteDatabase<"async" | "sync", D1Result | void, typeof schema>
+export type Database = LibSQLDatabase<typeof schema>

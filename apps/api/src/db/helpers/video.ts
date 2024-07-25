@@ -3,19 +3,19 @@ import { TRPCError } from "@trpc/server"
 import { and, eq } from "drizzle-orm"
 
 import { Environment } from "../../types"
-import type { Env } from "../../trpc"
-import { videos, type Database, VideoUploadStatus } from ".."
+import type { Env } from "../../context"
+import { contentItems, type Database, ContentUploadStatus } from ".."
 
 export const getUserUnuploadedVideos = (db: Database, userId: string) => {
-	return db.query.videos.findMany({
+	return db.query.contentItems.findMany({
 		where: and(
-			eq(videos.authorId, userId),
-			eq(videos.uploadStatus, VideoUploadStatus.UPLOADING),
+			eq(contentItems.authorId, userId),
+			eq(contentItems.uploadStatus, ContentUploadStatus.UPLOADING),
 		),
 	})
 }
 
-export const getUploadUrls = async (env: Env, videoId: string, partNames: string[]) => {
+export const getUploadUrls = async (env: Env, contentItemId: string, partNames: string[]) => {
 	const m3u8File = partNames.find((v) => v.includes(".m3u8"))
 	if (!m3u8File) {
 		throw new TRPCError({
@@ -29,19 +29,19 @@ export const getUploadUrls = async (env: Env, videoId: string, partNames: string
 		secretAccessKey: env.CF_SECRET_ACCESS_KEY,
 	})
 	const bucketName = env.CF_BUCKET_NAME
-	const accountId = env.CF_ACCOUNT_ID
+	const accountId = env.CLOUDFLARE_ACCOUNT_ID
 	const uploadUrl = `https://${bucketName}.${accountId}.r2.cloudflarestorage.com`
 
 	const uploadUrls: { [partName: string]: string } = {}
 	for (const partName of partNames) {
 		// If local development - use a local endpoint to upload the file
 		if (env.ENVIRONMENT === Environment.DEV) {
-			uploadUrls[partName] = `/dev/uploadFile/videos/${videoId}/${partName}`
+			uploadUrls[partName] = `/dev/uploadFile/content/${contentItemId}/${partName}`
 			continue
 		}
 		const url = new URL(uploadUrl)
 		// Preserve the original path
-		url.pathname = `/videos/${videoId}/${partName}`
+		url.pathname = `/content/${contentItemId}/${partName}`
 		// Specify a custom expiry for the presigned URL, in seconds
 		url.searchParams.set("X-Amz-Expires", "3600")
 		const signed = await r2.sign(

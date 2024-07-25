@@ -1,7 +1,7 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "54c125d3-96d5-46f9-ac8e-c92cfea571e6",
+	"id": "371e2c58-ecda-468f-836d-7dc31ceab51f",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"authSessions": {
@@ -57,7 +57,13 @@
 					"autoincrement": false
 				}
 			},
-			"indexes": {},
+			"indexes": {
+				"authSessions_userIdIdx": {
+					"name": "authSessions_userIdIdx",
+					"columns": ["userId"],
+					"isUnique": false
+				}
+			},
 			"foreignKeys": {
 				"authSessions_userId_users_id_fk": {
 					"name": "authSessions_userId_users_id_fk",
@@ -123,6 +129,243 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
+		"comments": {
+			"name": "comments",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"value": {
+					"name": "value",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"commentType": {
+					"name": "commentType",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"status": {
+					"name": "status",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"contentItemId": {
+					"name": "contentItemId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"replyToCommentId": {
+					"name": "replyToCommentId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"authorId": {
+					"name": "authorId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {
+				"comments_contentItemIdIdx": {
+					"name": "comments_contentItemIdIdx",
+					"columns": ["contentItemId"],
+					"isUnique": false
+				},
+				"comments_replyToCommentIdIdx": {
+					"name": "comments_replyToCommentIdIdx",
+					"columns": ["replyToCommentId"],
+					"isUnique": false
+				},
+				"comments_authorIdIdx": {
+					"name": "comments_authorIdIdx",
+					"columns": ["authorId"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"comments_contentItemId_contentItems_id_fk": {
+					"name": "comments_contentItemId_contentItems_id_fk",
+					"tableFrom": "comments",
+					"tableTo": "contentItems",
+					"columnsFrom": ["contentItemId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"comments_replyToCommentId_comments_id_fk": {
+					"name": "comments_replyToCommentId_comments_id_fk",
+					"tableFrom": "comments",
+					"tableTo": "comments",
+					"columnsFrom": ["replyToCommentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"comments_authorId_users_id_fk": {
+					"name": "comments_authorId_users_id_fk",
+					"tableFrom": "comments",
+					"tableTo": "users",
+					"columnsFrom": ["authorId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"contentItems": {
+			"name": "contentItems",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"thumbnailIndex": {
+					"name": "thumbnailIndex",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"storage": {
+					"name": "storage",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"segmentsNumber": {
+					"name": "segmentsNumber",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"uploadStatus": {
+					"name": "uploadStatus",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"userId": {
+					"name": "userId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"categoryId": {
+					"name": "categoryId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				}
+			},
+			"indexes": {
+				"contentItems_authorIdIdx": {
+					"name": "contentItems_authorIdIdx",
+					"columns": ["userId"],
+					"isUnique": false
+				},
+				"contentItems_categoryId": {
+					"name": "contentItems_categoryId",
+					"columns": ["categoryId"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"contentItems_userId_users_id_fk": {
+					"name": "contentItems_userId_users_id_fk",
+					"tableFrom": "contentItems",
+					"tableTo": "users",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"contentItems_categoryId_categories_id_fk": {
+					"name": "contentItems_categoryId_categories_id_fk",
+					"tableFrom": "contentItems",
+					"tableTo": "categories",
+					"columnsFrom": ["categoryId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
 		"otpVerifications": {
 			"name": "otpVerifications",
 			"columns": {
@@ -162,7 +405,13 @@
 					"autoincrement": false
 				}
 			},
-			"indexes": {},
+			"indexes": {
+				"otpVerifications_userIdIdx": {
+					"name": "otpVerifications_userIdIdx",
+					"columns": ["userId"],
+					"isUnique": false
+				}
+			},
 			"foreignKeys": {
 				"otpVerifications_userId_users_id_fk": {
 					"name": "otpVerifications_userId_users_id_fk",
@@ -331,216 +580,6 @@
 				}
 			},
 			"foreignKeys": {},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"videoComments": {
-			"name": "videoComments",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"primaryKey": true,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"updatedAt": {
-					"name": "updatedAt",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				},
-				"createdAt": {
-					"name": "createdAt",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"value": {
-					"name": "value",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"commentType": {
-					"name": "commentType",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
-				},
-				"status": {
-					"name": "status",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
-				},
-				"videoId": {
-					"name": "videoId",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"replyToCommentId": {
-					"name": "replyToCommentId",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				},
-				"userId": {
-					"name": "userId",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"videoComments_videoId_videos_id_fk": {
-					"name": "videoComments_videoId_videos_id_fk",
-					"tableFrom": "videoComments",
-					"tableTo": "videos",
-					"columnsFrom": ["videoId"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"videoComments_replyToCommentId_videoComments_id_fk": {
-					"name": "videoComments_replyToCommentId_videoComments_id_fk",
-					"tableFrom": "videoComments",
-					"tableTo": "videoComments",
-					"columnsFrom": ["replyToCommentId"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"videoComments_userId_users_id_fk": {
-					"name": "videoComments_userId_users_id_fk",
-					"tableFrom": "videoComments",
-					"tableTo": "users",
-					"columnsFrom": ["userId"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"videos": {
-			"name": "videos",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"primaryKey": true,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"updatedAt": {
-					"name": "updatedAt",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				},
-				"createdAt": {
-					"name": "createdAt",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"title": {
-					"name": "title",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"description": {
-					"name": "description",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				},
-				"thumbnailIndex": {
-					"name": "thumbnailIndex",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
-				},
-				"storage": {
-					"name": "storage",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
-				},
-				"segmentsNumber": {
-					"name": "segmentsNumber",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"uploadStatus": {
-					"name": "uploadStatus",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false,
-					"default": 0
-				},
-				"userId": {
-					"name": "userId",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"categoryId": {
-					"name": "categoryId",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false,
-					"autoincrement": false
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"videos_userId_users_id_fk": {
-					"name": "videos_userId_users_id_fk",
-					"tableFrom": "videos",
-					"tableTo": "users",
-					"columnsFrom": ["userId"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"videos_categoryId_categories_id_fk": {
-					"name": "videos_categoryId_categories_id_fk",
-					"tableFrom": "videos",
-					"tableTo": "categories",
-					"columnsFrom": ["categoryId"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		}

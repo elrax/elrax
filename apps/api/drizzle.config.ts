@@ -1,4 +1,9 @@
+import { config } from "dotenv"
 import type { Config } from "drizzle-kit"
+
+if (!process.env.TURSO_CONNECTION_URL) {
+	config({ path: ".dev.vars" })
+}
 
 /**
  * This is the config for __drizzle-kit__.
@@ -13,9 +18,9 @@ export default {
 	schema: "./src/db/schema.ts",
 	out: "./migrations",
 	dialect: "sqlite",
-	driver: "d1",
+	driver: "turso",
 	dbCredentials: {
-		wranglerConfigPath: "./wrangler.toml",
-		dbName: "dev-db",
+		url: process.env.TURSO_CONNECTION_URL || ":memory:",
+		authToken: process.env.TURSO_AUTH_TOKEN,
 	},
 } satisfies Config
