@@ -41,7 +41,7 @@ jobs:
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                name: ['eas-build']
+                name: ['eas-create-build']
               })
             } catch (e) {
               if (e.status != 404) {
@@ -57,5 +57,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['eas-build']
+              labels: ['eas-create-build']
             })

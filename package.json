@@ -25,7 +25,7 @@
 		"eslint": "9.3.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-astro": "1.2.0",
-		"nx": "19.0.7",
+		"nx": "19.5.3",
 		"prettier": "3.2.5",
 		"release-it": "17.3.0",
 		"simple-git-hooks": "2.11.1",

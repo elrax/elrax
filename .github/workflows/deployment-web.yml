@@ -17,10 +17,6 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Checkout from PR code so we can run this from forks
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: "latest"

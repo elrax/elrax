@@ -1,3 +1,9 @@
+import { config } from "dotenv"
+
+if (!process.env.EXPO_PUBLIC_FACEBOOK_APP_ID) {
+	config({ path: ".env" })
+}
+
 /** @type {import("@expo/config").ExpoConfig} */
 const defineConfig = {
 	name: "Elrax",
