@@ -12,18 +12,18 @@
 	"main": "./src/client.ts",
 	"scripts": {
 		"clean": "rm -rf node_modules .wrangler",
-		"db:apply": "NO_D1_WARNING=true wrangler d1 migrations apply dev-db --local --env=dev",
+		"db:apply": "drizzle-kit push",
 		"db:gen": "drizzle-kit generate --dialect=sqlite",
-		"db:list": "NO_D1_WARNING=true wrangler d1 migrations list dev-db --local --env=dev",
 		"db:studio": "drizzle-kit studio",
 		"db:upgrade": "drizzle-kit up",
-		"dev": "NO_D1_WARNING=true wrangler dev --show-interactive-dev-session=false --env=dev --ip=0.0.0.0",
+		"dev": "wrangler dev --show-interactive-dev-session=false --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
 		"prepare": "yes 2>/dev/null | pnpm db:apply",
 		"test": "bun test"
 	},
 	"dependencies": {
+		"@libsql/client": "0.7.0",
 		"@otplib/core": "12.0.1",
 		"@otplib/plugin-base32-enc-dec": "12.0.1",
 		"@otplib/plugin-crypto-js": "12.0.1",
@@ -40,7 +40,6 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20240512.0",
-		"better-sqlite3": "10.0.0",
 		"bun-types": "1.1.10",
 		"drizzle-kit": "0.21.4",
 		"wrangler": "3.57.1"

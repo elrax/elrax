@@ -2,7 +2,7 @@ import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import type { AppRouter } from "./router"
 
 export { appRouter, type AppRouter } from "./router"
-export { createContext } from "./trpc"
+export { createContext } from "./context"
 export type * from "./types"
 
 /**

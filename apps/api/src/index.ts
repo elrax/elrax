@@ -3,7 +3,7 @@ import { cors } from "hono/cors"
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch"
 
 import { appRouter } from "./router"
-import { createContext, type Env } from "./trpc"
+import { createContext, type Env } from "./context"
 import { devApi } from "./utils/localR2"
 
 const app = new Hono<{ Bindings: Env }>()

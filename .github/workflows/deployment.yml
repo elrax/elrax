@@ -19,12 +19,11 @@ jobs:
 
       - name: Apply DB migrations
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          NO_D1_WARNING: true
+          TURSO_CONNECTION_URL: ${{ vars.TURSO_CONNECTION_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
         run: |
           cd ./apps/api/
-          pnpm wrangler d1 migrations apply -e=staging elrax-db-staging
+          bun db:apply
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
@@ -34,15 +33,16 @@ jobs:
           packageManager: pnpm
           environment: staging
         env:
-          NO_D1_WARNING: true
           CF_BUCKET_NAME: elrax-staging
-          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CF_ACCESS_KEY_ID: ${{ secrets.CF_ACCESS_KEY_ID }}
           CF_SECRET_ACCESS_KEY: ${{ secrets.CF_SECRET_ACCESS_KEY }}
-          FACEBOOK_APP_ID: 667538938706539
+          FACEBOOK_APP_ID: ${{ vars.FACEBOOK_APP_ID }}
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TURSO_CONNECTION_URL: ${{ vars.TURSO_CONNECTION_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8

@@ -1,15 +1,16 @@
-import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
-import type { inferAsyncReturnType } from "@trpc/server"
+import { initTRPC, type inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
-import { drizzle } from "drizzle-orm/d1"
-import type { Environment } from "./types"
+import { drizzle } from "drizzle-orm/libsql"
+import { createClient } from "@libsql/client"
+import { ZodError } from "zod"
+
+import { Environment } from "./types"
 import * as schema from "./db/schema"
 
 /** Server environment variables */
 export type Env = {
 	// Cloudflare integrations
-	DB: D1Database
 	BUCKET: R2Bucket
 	// System settings
 	ENVIRONMENT: Environment
@@ -26,20 +27,47 @@ export type Env = {
 	OTP_SECRET: string
 	// Providers
 	RESEND_API_KEY: string
+	// Database
+	TURSO_CONNECTION_URL: string
+	TURSO_AUTH_TOKEN: string
+}
+
+export const initDB = (env: Env) => {
+	const client = createClient({
+		url: env.TURSO_CONNECTION_URL,
+		authToken: env.TURSO_AUTH_TOKEN,
+	})
+	return drizzle(client, {
+		schema,
+	})
 }
 
 export async function createContext(opts: FetchCreateContextFnOptions & { env: Env }) {
 	return {
 		env: opts.env,
-		db: drizzle(opts.env.DB, {
-			schema,
-		}),
+		db: initDB(opts.env),
 		req: opts.req,
 	}
 }
 
 const t = initTRPC.context<Context>().create({
 	transformer: superjson,
+	errorFormatter(opts) {
+		const { shape, error, ctx } = opts
+		if (ctx?.env.ENVIRONMENT !== Environment.PRODUCTION) {
+			console.log(error)
+		}
+		return {
+			...shape,
+			data: {
+				...shape.data,
+				zodError:
+					error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+						? error.cause.flatten()
+						: null,
+			},
+		}
+	},
 })
 
 export type Context = inferAsyncReturnType<typeof createContext>

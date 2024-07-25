@@ -4,7 +4,7 @@ import { createId } from "@paralleldrive/cuid2"
 
 import { type Database, users, authSessions } from "../"
 import type { SignedWith } from "../types"
-import type { Env } from "../../trpc"
+import type { Env } from "../../context"
 
 type FindUserType = {
 	id?: string

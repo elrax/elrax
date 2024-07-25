@@ -1,5 +1,5 @@
 import { Hono } from "hono"
-import type { Env } from "../trpc"
+import type { Env } from "../context"
 import { Environment } from "../types"
 
 export const devApi = new Hono<{ Bindings: Env }>()

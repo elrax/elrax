@@ -1,4 +1,4 @@
-import { router } from "../trpc"
+import { router } from "../context"
 import { authRouter } from "./auth"
 import { videoRouter } from "./video"
 

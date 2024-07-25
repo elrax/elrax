@@ -1,12 +1,12 @@
 import { z } from "zod"
 import { TRPCError } from "@trpc/server"
+import { Resend } from "resend"
 
 import { verifyAppleToken, verifyFacebookToken, verifyGoogleToken } from "../utils/oauth"
-import { type Env, procedure, router } from "../trpc"
+import { type Env, procedure, router } from "../context"
 import { type Database, signInUserOrCreate, otpVerifications } from "../db"
 import { OTPVerificationType, SignedWith } from "../db/types"
 import { generateOTP } from "../utils/otp"
-import { Resend } from "resend"
 
 const signInOrCreateUser = async (
 	db: Database,

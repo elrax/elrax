@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server"
 import { eq, and, desc, isNull } from "drizzle-orm"
 
 import { getUserAvatarUrl, getVideoUrl } from "../utils/storage"
-import { type Context, procedure, router } from "../trpc"
+import { type Context, procedure, router } from "../context"
 import { dateNow } from "../utils/date"
 import {
 	contentItems,

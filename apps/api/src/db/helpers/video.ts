@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server"
 import { and, eq } from "drizzle-orm"
 
 import { Environment } from "../../types"
-import type { Env } from "../../trpc"
+import type { Env } from "../../context"
 import { contentItems, type Database, ContentUploadStatus } from ".."
 
 export const getUserUnuploadedVideos = (db: Database, userId: string) => {
