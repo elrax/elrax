@@ -72,18 +72,20 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 				</Text>
 			)}
 			<Pressable
-				className="mt-4"
+				style={{ marginTop: 4 }}
 				disabled={timer > 0}
 				onPress={() => {
 					setTimer(60)
 				}}
 			>
 				{timer > 0 ? (
-					<Text className="text-sm font-ns-body">
-						Resend code in <Text className="text-[#007EE5]">{timer}</Text> seconds
+					<Text style={styles.resendCodeInfo}>
+						Resend code in <Text style={styles.resendCodeColor}>{timer}</Text> seconds
 					</Text>
 				) : (
-					<Text className="text-[#007EE5] text-sm font-ns-body">Resend code</Text>
+					<Text style={{ ...styles.resendCodeInfo, ...styles.resendCodeColor }}>
+						Resend code
+					</Text>
 				)}
 			</Pressable>
 		</View>
@@ -91,7 +93,10 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 }
 
 const styles = StyleSheet.create({
-	rootStyles: { display: "flex", gap: 8 },
+	rootStyles: {
+		display: "flex",
+		gap: 8,
+	},
 	cell: {
 		width: 44,
 		height: 44,
@@ -113,5 +118,12 @@ const styles = StyleSheet.create({
 	focusCell: {
 		borderWidth: 2,
 		borderColor: "#007EE5",
+	},
+	resendCodeColor: {
+		color: "#007EE5",
+	},
+	resendCodeInfo: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 14,
 	},
 })
