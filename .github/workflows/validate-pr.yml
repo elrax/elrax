@@ -15,10 +15,23 @@ jobs:
   validate-pr-title:
     runs-on: ubuntu-latest
     steps:
-      - uses: amannn/action-semantic-pull-request@v5
+      - name: Check PR title
         id: lint_pr_title
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          # Regex pattern for shortcode emojis
+          shortcode=':[a-zA-Z0-9_+-]+:'
+
+          # Regex pattern for Unicode emojis (this is a simplified pattern and may not catch all emojis)
+          unicode=$'[\U1F300-\U1F5FF\U1F600-\U1F64F\U1F680-\U1F6FF\U2600-\U26FF\U2700-\U27BF]'
+
+          if echo $TITLE | grep -qP "$shortcode|$unicode"; then
+            exit 0
+          else
+            echo "error_message=error" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
@@ -27,12 +40,8 @@ jobs:
         with:
           header: pr-title-lint-error
           message: |
-            Hello there, and thank you for opening this pull request! 👋🏼
-            We require pull request titles to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/), and it looks like your proposed title needs to be adjusted.
-            Details:
-            ```
-            ${{ steps.lint_pr_title.outputs.error_message }}
-            ```
+            Sorry buddy, but your PR title is not following the naming conventions! 😢
+            We require pull request titles to follow the [Gitmoji specification](https://gitmoji.dev/), and it looks like your proposed title needs to be adjusted.
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # Delete a previous comment when the issue has been resolved.
