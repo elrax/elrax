@@ -15,6 +15,6 @@
 	},
 	"dependencies": {
 		"@fontsource/nunito-sans": "5.0.13",
-		"astro": "4.9.1"
+		"astro": "4.12.2"
 	}
 }
