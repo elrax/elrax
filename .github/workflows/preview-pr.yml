@@ -16,7 +16,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Install dependencies
-        run: bun i -g node-gyp-build && bun i --frozen-lockfile
+        run: bun i --frozen-lockfile
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -28,7 +28,7 @@ jobs:
         uses: expo/expo-github-action/preview@v8
         id: preview
         with:
-          command: EXPO_PUBLIC_FACEBOOK_APP_ID=$EXPO_PUBLIC_FACEBOOK_APP_ID EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN=$EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN eas update --auto --channel=development
+          command: eas update --auto --channel=development
           working-directory: ./apps/mobile/
           comment: true
         env:

@@ -17,7 +17,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Install dependencies
-        run: bun i -g node-gyp-build && bun i --frozen-lockfile
+        run: bun i --frozen-lockfile
 
       - name: Copy .env and code lint
         run: cp .env.example .env && bun lint

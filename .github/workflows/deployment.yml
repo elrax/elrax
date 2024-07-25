@@ -20,7 +20,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Install dependencies
-        run: bun i -g node-gyp-build && bun i --frozen-lockfile
+        run: bun i --frozen-lockfile
 
       - name: Apply DB migrations
         env:
@@ -79,7 +79,7 @@ jobs:
         with:
           bun-version: "latest"
       - name: Install dependencies
-        run: bun i -g node-gyp-build && bun i --frozen-lockfile
+        run: bun i --frozen-lockfile
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -92,7 +92,7 @@ jobs:
         uses: expo/expo-github-action/fingerprint@main
 
       - name: Create build
-        uses: expo/expo-github-action/preview@v8
+        uses: expo/expo-github-action/preview-build@v8
         if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' }}
         with:
           # Temporary iOS only, replace with "all" when needed
