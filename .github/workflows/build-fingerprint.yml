@@ -1,0 +1,61 @@
+name: PR Labeler
+
+on:
+  push:
+    # REQUIRED: push main(default) branch is necessary for this action to update its fingerprint database
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  fingerprint:
+    runs-on: ubuntu-latest
+    # REQUIRED: limit concurrency when pushing main(default) branch to prevent conflict for this action to update its fingerprint database
+    concurrency: fingerprint-${{ github.event_name != 'pull_request' && 'main' || github.run_id }}
+    permissions:
+      # REQUIRED: Allow comments of PRs
+      pull-requests: write # Allow comments on PRs
+      # REQUIRED: Allow updating fingerprint in action caches
+      actions: write
+      # OPTIONAL: Allow reading of repo contents for private projects
+      # contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i -g node-gyp-build && bun i --frozen-lockfile
+
+      - name: Check fingerprint
+        id: fingerprint
+        uses: expo/expo-github-action/fingerprint@main
+
+      - uses: actions/github-script@v6
+        if: ${{ github.event_name == 'pull_request' && steps.fingerprint.outputs.fingerprint-diff == '[]' }}
+        with:
+          script: |
+            try {
+              await github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: ['eas-build']
+              })
+            } catch (e) {
+              if (e.status != 404) {
+                throw e;
+              }
+            }
+
+      - uses: actions/github-script@v6
+        if: ${{ github.event_name == 'pull_request' && steps.fingerprint.outputs.fingerprint-diff != '[]' }}
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['eas-build']
+            })

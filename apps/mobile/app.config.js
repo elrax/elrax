@@ -92,10 +92,10 @@ const defineConfig = {
 			// Learn more: https://github.com/thebergamo/react-native-fbsdk-next
 			"react-native-fbsdk-next",
 			{
-				appID: "667538938706539",
-				clientToken: "cd37ab027cedb481d2c8e42633ead849",
+				appID: process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
+				clientToken: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN,
 				displayName: "Elrax",
-				scheme: "fb667538938706539",
+				scheme: "fb" + process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
 				advertiserIDCollectionEnabled: false,
 				autoLogAppEventsEnabled: false,
 				isAutoInitEnabled: true,

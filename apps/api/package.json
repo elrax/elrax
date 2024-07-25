@@ -19,7 +19,6 @@
 		"dev": "wrangler dev --show-interactive-dev-session=false --env=dev --ip=0.0.0.0",
 		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
-		"prepare": "yes 2>/dev/null | pnpm db:apply",
 		"test": "bun test"
 	},
 	"dependencies": {
