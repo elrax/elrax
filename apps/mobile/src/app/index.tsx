@@ -1,5 +1,5 @@
 import React from "react"
-import { ScrollView, Text, TouchableOpacity, View } from "react-native"
+import { ScrollView, Text, TouchableOpacity, View, StyleSheet } from "react-native"
 import { setStatusBarStyle } from "expo-status-bar"
 import {
 	AppleAuthenticationButton,
@@ -161,7 +161,7 @@ export default function Index() {
 
 	return (
 		<ScrollView
-			className="bg-[#F7F7F7] h-full w-full px-8 pt-12"
+			style={styles.container}
 			contentContainerStyle={{
 				flex: 1,
 				justifyContent: "flex-start",
@@ -176,11 +176,11 @@ export default function Index() {
 				source={images.auth}
 				contentFit="contain"
 			/>
-			<Text className="font-ns-extra text-4xl color-black">Let me in!</Text>
-			<Text className="font-ns-body text-base text-center color-black">
+			<Text style={styles.title}>Let me in!</Text>
+			<Text style={styles.paragraph}>
 				Create a profile, follow other accounts, post your own videos, and more.
 			</Text>
-			<View className="my-4">
+			<View style={{ marginVertical: 16 }}>
 				<AppleAuthenticationButton
 					style={{
 						height: 45,
@@ -192,18 +192,23 @@ export default function Index() {
 					onPress={signInWithApple}
 				/>
 				<Button
-					className="mt-4"
+					style={{ marginTop: 16 }}
 					variant="facebook"
 					icon="facebook"
 					onPress={signInWithFacebook}
 				>
 					Continue with Facebook
 				</Button>
-				<Button className="mt-4" variant="google" icon="google" onPress={signInWithGoogle}>
+				<Button
+					style={{ marginTop: 16 }}
+					variant="google"
+					icon="google"
+					onPress={signInWithGoogle}
+				>
 					Continue with Google
 				</Button>
 				<Button
-					className="mt-4"
+					style={{ marginTop: 16 }}
 					variant="gradient"
 					onPress={() => {
 						router.push("(sign-up)/email")
@@ -212,16 +217,62 @@ export default function Index() {
 					Continue with Email
 				</Button>
 			</View>
-			<View className="flex flex-row gap-1">
-				<Text className="font-ns-body text-base color-black">Already have an account?</Text>
+			<View style={styles.footerContainer}>
+				<Text
+					style={{
+						fontFamily: "NunitoSans-Body",
+						fontSize: 16,
+						lineHeight: 24,
+						color: "#000",
+					}}
+				>
+					Already have an account?
+				</Text>
 				<TouchableOpacity
 					onPress={() => {
 						router.push("sign-in")
 					}}
 				>
-					<Text className="font-ns-body text-base color-[#007EE5]">Sign in</Text>
+					<Text
+						style={{
+							fontFamily: "NunitoSans-Body",
+							fontSize: 16,
+							lineHeight: 24,
+							color: "#007EE5",
+						}}
+					>
+						Sign in
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</ScrollView>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		width: "100%",
+		backgroundColor: "#F7F7F7",
+		paddingHorizontal: 32,
+		paddingTop: 48,
+	},
+	title: {
+		fontFamily: "NunitoSans-ExtraBold",
+		fontSize: 36,
+		lineHeight: 40,
+		color: "#000",
+	},
+	paragraph: {
+		fontFamily: "NunitoSans-Body",
+		fontSize: 16,
+		lineHeight: 24,
+		textAlign: "center",
+		color: "#000",
+	},
+	footerContainer: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 4,
+	},
+})

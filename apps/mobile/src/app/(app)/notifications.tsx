@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Button } from "react-native"
+import { View, Button, StyleSheet } from "react-native"
 import { checkForUpdateAsync, fetchUpdateAsync, reloadAsync } from "expo-updates"
 
 export default function Notifications() {
@@ -20,8 +20,19 @@ export default function Notifications() {
 		}
 	}
 	return (
-		<View className="bg-[#000A14] h-full w-full flex justify-center items-center">
+		<View style={styles.container}>
 			<Button onPress={onFetchUpdateAsync} title="Fetch app updates" />
 		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		width: "100%",
+		backgroundColor: "#000A14",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+})

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, RefreshControl, Text, View } from "react-native"
+import { Dimensions, RefreshControl, Text, View, StyleSheet } from "react-native"
 import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 import { Comments, type CommentsMethods, type CommentItem } from "~/components/Comments"
@@ -98,7 +98,7 @@ export default function Index() {
 	return (
 		<>
 			<FeedTopOverlay category={category} />
-			<View className="bg-[#000A14] h-full w-full">
+			<View style={styles.container}>
 				<FlashList
 					data={feedVideos}
 					renderItem={({ item }) => (
@@ -125,13 +125,8 @@ export default function Index() {
 						/>
 					)}
 					ListEmptyComponent={
-						<View
-							className="flex items-center justify-center"
-							style={{
-								height: videoHeight,
-							}}
-						>
-							<Text className="font-ns-bold text-base color-white">
+						<View style={[{ height: videoHeight }, styles.listEmptyContainer]}>
+							<Text style={styles.listEmptyText}>
 								{videos?.isLoading ? "Loading..." : "No videos found."}
 							</Text>
 						</View>
@@ -186,3 +181,22 @@ export default function Index() {
 		</>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		width: "100%",
+		backgroundColor: "#000A14",
+	},
+	listEmptyContainer: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	listEmptyText: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#fff",
+	},
+})

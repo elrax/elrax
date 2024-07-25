@@ -38,7 +38,7 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 	}, [])
 
 	return (
-		<View className="flex w-[305px] mb-4 mx-auto items-center">
+		<View style={styles.container}>
 			<CodeField
 				{...props}
 				value={code}
@@ -54,7 +54,6 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 				renderCell={({ index, symbol, isFocused }) => (
 					<Text
 						key={index}
-						className="overflow-hidden font-ns-extra text-[#181818]"
 						style={[
 							styles.cell,
 							isFocused && styles.focusCell,
@@ -66,11 +65,7 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 					</Text>
 				)}
 			/>
-			{!isCodeCorrect && (
-				<Text className="mt-1 text-sm text-[#FF6C7E] text-left w-full">
-					Wrong code try again
-				</Text>
-			)}
+			{!isCodeCorrect && <Text style={styles.wrongCodeText}>Wrong code try again</Text>}
 			<Pressable
 				style={{ marginTop: 4 }}
 				disabled={timer > 0}
@@ -97,6 +92,21 @@ const styles = StyleSheet.create({
 		display: "flex",
 		gap: 8,
 	},
+	container: {
+		display: "flex",
+		width: 305,
+		marginBottom: 16,
+		marginHorizontal: "auto",
+		alignItems: "center",
+	},
+	wrongCodeText: {
+		marginTop: 4,
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#FF6C7E",
+		textAlign: "left",
+		width: "100%",
+	},
 	cell: {
 		width: 44,
 		height: 44,
@@ -106,6 +116,8 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		borderRadius: 8,
 		overflow: "hidden",
+		fontFamily: "NunitoSans-ExtraBold",
+		color: "#181818",
 	},
 	correctBorder: {
 		borderWidth: 1,

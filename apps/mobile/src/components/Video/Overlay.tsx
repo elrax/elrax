@@ -37,55 +37,61 @@ export function Overlay(props: OverlayProps) {
 		<>
 			<LinearGradient
 				colors={["rgba(0,0,0,0.0)", "rgba(0,0,0,0.6)"]}
-				className={"absolute z-10 bottom-0 h-[160px] w-full"}
+				style={styles.gradient}
 				pointerEvents="none"
 			/>
-			<Animated.View
-				className="absolute z-20 bottom-0 max-w-full"
-				style={animatedStyles}
-				pointerEvents="box-none"
-			>
-				<View
-					className="flex-row ml-4 mb-4 justify-between items-end"
-					pointerEvents="box-none"
-				>
-					<View className="w-full max-w-[82%] items-start">
+			<Animated.View style={[animatedStyles, styles.animatedView]} pointerEvents="box-none">
+				<View style={styles.container} pointerEvents="box-none">
+					<View style={{ width: "100%", maxWidth: "82%", alignItems: "flex-start" }}>
 						<TouchableScale>
-							<View className="mb-2 px-2.5 py-1 rounded-full border-[1px] border-white">
-								<Text className="font-ns-bold text-sm color-white">
-									Skip preview
-								</Text>
+							<View style={styles.skipPreviewButton}>
+								<Text style={styles.skipPreviewText}>Skip preview</Text>
 							</View>
 						</TouchableScale>
 						<TouchableScale scaleTo={0.99}>
-							<Text className="font-ns-bold text-lg color-white">
-								@{props.item.author.username}
-							</Text>
+							<Text style={styles.textAuthor}>@{props.item.author.username}</Text>
 						</TouchableScale>
-						<Text className="font-ns-body text-base color-white mb-2" numberOfLines={1}>
+						<Text style={styles.descriptionText} numberOfLines={1}>
 							{props.item.description}
 						</Text>
 						<TouchableScale scaleTo={0.99} innerStyle="w-full">
 							<View
-								className="flex-row justify-between rounded-xl w-full pl-3 py-2"
 								style={{
 									backgroundColor: "rgba(24,24,24,0.8)",
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "space-between",
+									borderRadius: 12,
+									paddingLeft: 12,
+									paddingVertical: 8,
 								}}
 							>
-								<View className="text-xs gap-0.2">
-									<Text className="font-ns-bold color-white">
+								<View style={{ gap: 8 }}>
+									<Text
+										style={{ fontFamily: "NunitoSans-Bold", color: "#FFFFFF" }}
+									>
 										$69,383 raised of $23,000
 									</Text>
-									<View className="flex-row gap-2">
-										<Text className="font-ns-body color-white">
+									<View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
+										<Text
+											style={{
+												fontFamily: "NunitoSans-Regular",
+												color: "#FFFFFF",
+											}}
+										>
 											<Icon name="clock" /> 33 days to go
 										</Text>
-										<Text className="font-ns-body color-white">
+										<Text
+											style={{
+												fontFamily: "NunitoSans-Regular",
+												color: "#FFFFFF",
+											}}
+										>
 											<Icon name="map-pin" /> San Francisco, CA
 										</Text>
 									</View>
 								</View>
-								<View className="justify-center">
+								<View style={{ justifyContent: "center" }}>
 									<Icon color="white" size={24} name="chevron-right" />
 								</View>
 							</View>
@@ -94,11 +100,11 @@ export function Overlay(props: OverlayProps) {
 					<View className="items-center -mr-2 justify-center pr-1 gap-2 w-18">
 						<TouchableScale innerStyle="flex-column items-center mb-2">
 							<View
-								style={style.iconShadow}
+								style={styles.iconShadow}
 								className="bg-black rounded-full border-[1px] border-white overflow-hidden"
 							>
 								<Image
-									className="h-10 w-10"
+									style={{ width: 40, height: 40 }}
 									alt="avatar"
 									source={{ uri: props.item.author.urlAvatar }}
 								/>
@@ -120,11 +126,10 @@ export function Overlay(props: OverlayProps) {
 							}}
 						>
 							<Icon
-								className="text-center"
 								color={isLiked ? "#FFDB5A" : "white"}
 								size={28}
 								name={isLiked ? "star-1-close" : "star-1-open"}
-								style={style.iconShadow}
+								style={styles.iconShadow}
 							/>
 							<Text
 								className={`font-ns-bold text-center pt-2 ${
@@ -145,7 +150,7 @@ export function Overlay(props: OverlayProps) {
 								color="white"
 								size={28}
 								name="message-circle"
-								style={style.iconShadow}
+								style={styles.iconShadow}
 							/>
 							<Text className="font-ns-bold color-white text-center pt-2">
 								{props.commentsNumber}
@@ -157,7 +162,7 @@ export function Overlay(props: OverlayProps) {
 								color="white"
 								size={28}
 								name="send"
-								style={style.iconShadow}
+								style={styles.iconShadow}
 							/>
 							<Text className="font-ns-bold color-white text-center pt-2">
 								{props.sharesNumber}
@@ -165,7 +170,7 @@ export function Overlay(props: OverlayProps) {
 						</TouchableScale>
 						<TouchableScale innerStyle="pt-3 pb-2 items-center w-full">
 							<Image
-								style={style.iconShadow}
+								style={styles.iconShadow}
 								className="h-10 w-10 rounded-full bg-black"
 								alt="avatar"
 								source={{ uri: "https://i.imgur.com/d5502Q2.png" }}
@@ -178,8 +183,52 @@ export function Overlay(props: OverlayProps) {
 	)
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
+	gradient: {
+		position: "absolute",
+		zIndex: 10,
+		bottom: 0,
+		height: 160,
+		width: "100%",
+	},
+	animatedView: {
+		position: "absolute",
+		zIndex: 20,
+		maxWidth: "100%",
+		bottom: 0,
+	},
+	textAuthor: { fontFamily: "NonitoSans-Bold", fontSize: 18, lineHeight: 28, color: "#fff" },
+	descriptionText: {
+		fontFamily: "NunitoSans-Regular",
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#FFFFFF",
+		marginBottom: 8,
+	},
+	container: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-end",
+		marginLeft: 16,
+		marginBottom: 16,
+	},
+	skipPreviewButton: {
+		marginBottom: 8,
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		borderRadius: 9999,
+		borderWidth: 1,
+		borderColor: "#FFFFFF",
+	},
+	skipPreviewText: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#FFFFFF",
+	},
 	iconShadow: {
+		textAlign: "center",
 		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,

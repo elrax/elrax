@@ -1,5 +1,12 @@
 import React, { useState } from "react"
-import { Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native"
+import {
+	Text,
+	View,
+	KeyboardAvoidingView,
+	TouchableWithoutFeedback,
+	Keyboard,
+	StyleSheet,
+} from "react-native"
 import { setStatusBarStyle } from "expo-status-bar"
 import { Button } from "~/components/Button"
 import { VerificationCode } from "~/components/VerificationCode"
@@ -27,23 +34,21 @@ export default function Index() {
 	const onPressOutside = () => Keyboard.dismiss()
 
 	return (
-		<TouchableWithoutFeedback className="bg-[#F7F7F7]" onPress={onPressOutside}>
+		<TouchableWithoutFeedback style={{ backgroundColor: "#F7F7F7" }} onPress={onPressOutside}>
 			<KeyboardAvoidingView
 				behavior="padding"
 				keyboardVerticalOffset={16}
-				className="justify-between h-full w-full flex pt-24 mb-12 px-4 flex-1"
+				style={styles.container}
 			>
 				<View>
-					<Text className="font-ns-extra text-[32px] leading-[42px] text-[#181818]">
-						Verification code
-					</Text>
-					<View className="flex gap-5 mb-4">
-						<Text className="font-ns-body text-sm text-[#181818]">
+					<Text style={styles.title}>Verification code</Text>
+					<View style={styles.textWrapper}>
+						<Text style={styles.text}>
 							We have sent an email to
-							<Text className="text-[#007EE5]"> {email} </Text>
+							<Text style={{ color: "#007EE5" }}> {email} </Text>
 							Please check your inbox as well as the spam folder.
 						</Text>
-						<Text className="font-ns-body text-sm text-[#181818]">
+						<Text style={styles.text}>
 							Please enter the verification code below to continue with your account.
 						</Text>
 					</View>
@@ -67,3 +72,33 @@ export default function Index() {
 		</TouchableWithoutFeedback>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		width: "100%",
+		display: "flex",
+		justifyContent: "space-between",
+		paddingTop: 96,
+		marginBottom: 48,
+		paddingHorizontal: 16,
+		flex: 1,
+	},
+	title: {
+		fontFamily: "NunitoSans-ExtraBold",
+		fontSize: 32,
+		lineHeight: 42,
+		color: "#181818",
+	},
+	textWrapper: {
+		display: "flex",
+		marginBottom: 16,
+		gap: 20,
+	},
+	text: {
+		fontFamily: "NunitoSans-Body",
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#181818",
+	},
+})

@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { View, Text, StyleSheet } from "react-native"
 import Constants from "expo-constants"
 import type { Category } from "@elrax/api"
 import { Icon } from "./Icon"
@@ -10,24 +10,12 @@ export type FeedTopOverlayProps = {
 
 export default function FeedTopOverlay({ category }: FeedTopOverlayProps) {
 	return (
-		<View
-			className="absolute z-20 p-4 pr-5 w-full flex-row justify-between items-center"
-			style={{
-				top: Constants.statusBarHeight,
-				shadowColor: "#000",
-				shadowOffset: {
-					width: 0,
-					height: 0,
-				},
-				shadowOpacity: 0.4,
-				shadowRadius: 2,
-			}}
-		>
+		<View style={styles.container}>
 			<View>
-				<Text className="font-ns-bold text-2xl text-white">
+				<Text style={styles.categoryTypeText}>
 					{category.type} <Icon size={16} name="chevron-down" />
 				</Text>
-				<Text className="font-ns-body text-base text-white align-middle">
+				<Text style={styles.categoryNameText}>
 					<Icon size={16} name={category.icon} /> {category.name}
 				</Text>
 			</View>
@@ -37,3 +25,38 @@ export default function FeedTopOverlay({ category }: FeedTopOverlayProps) {
 		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		top: Constants.statusBarHeight,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.4,
+		shadowRadius: 2,
+		display: "flex",
+		flexDirection: "row",
+		width: "100%",
+		alignItems: "center",
+		justifyContent: "space-between",
+		padding: 16,
+		paddingRight: 20,
+		zIndex: 20,
+		position: "absolute",
+	},
+	categoryTypeText: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 24,
+		lineHeight: 32,
+		color: "#fff",
+	},
+	categoryNameText: {
+		fontFamily: "NunitoSans-Regular",
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#fff",
+		verticalAlign: "middle",
+	},
+})

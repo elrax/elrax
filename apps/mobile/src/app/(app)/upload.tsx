@@ -180,12 +180,12 @@ export default function Upload() {
 	}
 
 	return (
-		<View className="bg-[#000A14] h-full w-full flex justify-center items-center">
+		<View style={styles.container}>
 			{status.btn && <Button onPress={onClick} title={status.btn} />}
-			{status.msg && <Text className="font-ns-bold text-xl text-white">{status.msg}</Text>}
+			{status.msg && <Text style={styles.videoText}>{status.msg}</Text>}
 			{thumbnail && (
-				<View className="flex flex-col">
-					<Text className="font-ns-bold text-xl text-white">Thumbnail:</Text>
+				<View style={styles.thumbNailContainer}>
+					<Text style={styles.videoText}>Thumbnail:</Text>
 					<Image source={{ uri: thumbnail }} style={{ width: 200, height: 200 }} />
 				</View>
 			)}
@@ -195,6 +195,24 @@ export default function Upload() {
 }
 
 const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		width: "100%",
+		backgroundColor: "#000A14",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	thumbNailContainer: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	videoText: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 20,
+		lineHeight: 28,
+		color: "#fff",
+	},
 	video: {
 		alignSelf: "center",
 		width: 320,
