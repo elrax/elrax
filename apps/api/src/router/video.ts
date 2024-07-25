@@ -7,20 +7,20 @@ import { getUserAvatarUrl, getVideoUrl } from "../utils/storage"
 import { type Context, procedure, router } from "../trpc"
 import { dateNow } from "../utils/date"
 import {
-	videos,
+	contentItems,
 	getUploadUrls,
 	Storage,
-	VideoUploadStatus,
+	ContentUploadStatus,
 	getUserUnuploadedVideos,
-	videoComments,
+	comments,
 	getUserOrNull,
-	type VideoComment,
+	type Comment,
 	type User,
 } from "../db"
 import type { VideoCommentProps, VideoProps } from "../types"
 import { auth } from "./middleware"
 
-const transformComment = (ctx: Context, v: VideoComment & { author: User }) => {
+const transformComment = (ctx: Context, v: Comment & { author: User }) => {
 	const avatarUrl = getUserAvatarUrl(
 		v.author.id,
 		v.author.avatarIndex,
@@ -56,30 +56,30 @@ export const videoRouter = router({
 			// TODO: Probably we need to move this to a durable object logic to prevent
 			// multiple user video upload. But it doesn't really matter for now.
 
-			let videoId = createId()
-			const uploadUrls = await getUploadUrls(ctx.env, videoId, input.partNames)
+			let contentItemId = createId()
+			const uploadUrls = await getUploadUrls(ctx.env, contentItemId, input.partNames)
 			// Finds if the user already has an unuploaded video and updates it
 			const userUnuploadedVideos = await getUserUnuploadedVideos(ctx.db, ctx.userId)
 			if (userUnuploadedVideos.length > 0 && userUnuploadedVideos[0]) {
-				videoId = userUnuploadedVideos[0].id
+				contentItemId = userUnuploadedVideos[0].id
 			}
 			const newVideo = {
-				id: videoId,
+				id: contentItemId,
 				title: "untitled video",
 				thumbnailIndex: 0,
 				storage: Storage.PRIME_R2_BUCKET,
 				segmentsNumber: input.partNames.filter((v) => v.includes(".ts")).length,
-				uploadStatus: VideoUploadStatus.UPLOADING,
+				uploadStatus: ContentUploadStatus.UPLOADING,
 				// References
 				authorId: ctx.userId,
 				// TODO: Add category to the video
 			}
 			await ctx.db
-				.insert(videos)
+				.insert(contentItems)
 				.values(newVideo)
-				.onConflictDoUpdate({ target: videos.id, set: newVideo })
+				.onConflictDoUpdate({ target: contentItems.id, set: newVideo })
 			return {
-				videoId,
+				contentItemId,
 				uploadUrls,
 			}
 		}),
@@ -87,12 +87,12 @@ export const videoRouter = router({
 		.use(auth)
 		.input(
 			z.object({
-				videoId: z.string(),
+				contentItemId: z.string(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			const foundVideo = await ctx.db.query.videos.findFirst({
-				where: eq(videos.id, input.videoId),
+			const foundVideo = await ctx.db.query.contentItems.findFirst({
+				where: eq(contentItems.id, input.contentItemId),
 			})
 			if (!foundVideo) {
 				throw new TRPCError({
@@ -101,19 +101,19 @@ export const videoRouter = router({
 				})
 			}
 			await ctx.db
-				.update(videos)
+				.update(contentItems)
 				.set({
 					// TODO: Should be Checking first, and Ready after author/bot checks the video
-					uploadStatus: VideoUploadStatus.READY,
+					uploadStatus: ContentUploadStatus.READY,
 					updatedAt: dateNow(),
 				})
-				.where(eq(videos.id, foundVideo.id))
+				.where(eq(contentItems.id, foundVideo.id))
 			return getVideoUrl(foundVideo.id, foundVideo.storage, ctx.env, ctx.req.url)
 		}),
 	getVideos: procedure.use(auth).query(async ({ ctx }) => {
 		// TODO: Add recommendation system
-		const foundVideos = await ctx.db.query.videos.findMany({
-			where: eq(videos.uploadStatus, VideoUploadStatus.READY),
+		const foundVideos = await ctx.db.query.contentItems.findMany({
+			where: eq(contentItems.uploadStatus, ContentUploadStatus.READY),
 			with: {
 				author: true,
 				// TODO: This is temporary solution. Fix this, we CAN'T
@@ -161,35 +161,35 @@ export const videoRouter = router({
 		.use(auth)
 		.input(
 			z.object({
-				videoId: z.string(),
+				contentItemId: z.string(),
 				offset: z.number().max(1000).optional(),
 			}),
 		)
 		// TODO: Replace with query instead of mutation
 		.mutation(async ({ ctx, input }) => {
-			const foundComments = await ctx.db.query.videoComments.findMany({
+			const foundComments = await ctx.db.query.comments.findMany({
 				// TODO: Add option to get replies to a specific comment
 				where: and(
-					eq(videoComments.videoId, input.videoId),
-					isNull(videoComments.replyToCommentId),
+					eq(comments.contentItemId, input.contentItemId),
+					isNull(comments.replyToCommentId),
 				),
 				with: {
 					author: true,
 				},
 				// TODO: Add recommendation system
-				orderBy: desc(videoComments.createdAt),
+				orderBy: desc(comments.createdAt),
 				limit: 15,
 				offset: input.offset || 0,
 			})
-			const comments: VideoCommentProps[] = foundComments.map((v) => transformComment(ctx, v))
-			return comments
+			const res: VideoCommentProps[] = foundComments.map((v) => transformComment(ctx, v))
+			return res
 		}),
 	addCommentToVideo: procedure
 		.use(auth)
 		.input(
 			z.object({
 				comment: z.string().min(1).max(1000),
-				videoId: z.string(),
+				contentItemId: z.string(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -200,8 +200,8 @@ export const videoRouter = router({
 					message: "Author not found",
 				})
 			}
-			const foundVideo = await ctx.db.query.videos.findFirst({
-				where: eq(videoComments.id, input.videoId),
+			const foundVideo = await ctx.db.query.contentItems.findFirst({
+				where: eq(contentItems.id, input.contentItemId),
 			})
 			if (!foundVideo) {
 				throw new TRPCError({
@@ -210,11 +210,11 @@ export const videoRouter = router({
 				})
 			}
 			const comment = await ctx.db
-				.insert(videoComments)
+				.insert(comments)
 				.values({
 					value: input.comment,
 					authorId: ctx.userId,
-					videoId: input.videoId,
+					contentItemId: input.contentItemId,
 				})
 				.returning()
 			if (!comment[0]) {

@@ -85,7 +85,7 @@ export default function Index() {
 			console.log("No video id")
 			return
 		}
-		getVideoComments.mutateAsync({ videoId: currentVideoId }).then((commentsArray) => {
+		getVideoComments.mutateAsync({ contentItemId: currentVideoId }).then((commentsArray) => {
 			comments.current = commentsArray.map((comment) => ({
 				username: comment.author.username,
 				time: toRelative(comment.createdAt),
@@ -171,7 +171,7 @@ export default function Index() {
 						return
 					}
 					const newComment = await addCommentToVideo.mutateAsync({
-						videoId: currentVideoId,
+						contentItemId: currentVideoId,
 						comment,
 					})
 					const newComments = comments.current

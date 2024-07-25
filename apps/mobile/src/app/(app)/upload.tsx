@@ -151,7 +151,7 @@ export default function Upload() {
 		console.log(`Upload: ${result.replace(videoName, "")}`)
 
 		const partNames = await readDirectoryAsync(result.replace(videoName, ""))
-		const { videoId, uploadUrls } = await getUploadVideoURL.mutateAsync({ partNames })
+		const { contentItemId, uploadUrls } = await getUploadVideoURL.mutateAsync({ partNames })
 		console.log(`${partNames.length} files to upload: ${JSON.stringify(partNames)}`)
 
 		for (const partName of partNames) {
@@ -174,7 +174,7 @@ export default function Upload() {
 			})
 			console.log(`${partName} upload status: ${uploadResult.status}`)
 		}
-		const url = await updateVideo.mutateAsync({ videoId })
+		const url = await updateVideo.mutateAsync({ contentItemId })
 		setStatus({ btn: "Okay", msg: "Video uploaded." })
 		console.log("Video url: " + url)
 	}

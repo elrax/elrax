@@ -23,7 +23,7 @@ export enum SignedWith {
 }
 
 /** Status of the video upload */
-export enum VideoUploadStatus {
+export enum ContentUploadStatus {
 	/** Nothing uploaded yet, just called the API for Presigned URL */
 	UPLOADING = 0,
 	/** Segments are uploaded to R2 and now we need to check if the video is valid */
@@ -45,7 +45,7 @@ export enum Storage {
 }
 
 /** Type of comment */
-export enum VideoCommentType {
+export enum CommentType {
 	/** Standard comment with text */
 	STANDARD = 0,
 	/** Comment with a GIF from GIPHY */
@@ -53,7 +53,7 @@ export enum VideoCommentType {
 }
 
 /** Status of specific comment */
-export enum VideoCommentStatus {
+export enum CommentStatus {
 	/** Comment is visible by everyone */
 	VISIBLE = 0,
 	/** Comment is hidden by video author */
