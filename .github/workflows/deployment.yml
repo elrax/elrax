@@ -23,7 +23,7 @@ jobs:
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
         run: |
           cd ./apps/api/
-          bun db:apply
+          pnpm run db:apply
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
@@ -35,17 +35,17 @@ jobs:
           environment: staging
           preCommands: |
             echo "*** pre command ***"
-            echo $CLOUDFLARE_ACCOUNT_ID | bun wrangler secret put -e=staging CLOUDFLARE_ACCOUNT_ID
-            echo $CF_BUCKET_NAME | bun wrangler secret put -e=staging CF_BUCKET_NAME
-            echo $CF_ACCESS_KEY_ID | bun wrangler secret put -e=staging CF_ACCESS_KEY_ID
-            echo $CF_SECRET_ACCESS_KEY | bun wrangler secret put -e=staging CF_SECRET_ACCESS_KEY
-            echo $FACEBOOK_APP_ID | bun wrangler secret put -e=staging FACEBOOK_APP_ID
-            echo $FACEBOOK_APP_SECRET | bun wrangler secret put -e=staging FACEBOOK_APP_SECRET
-            echo $JWT_SECRET | bun wrangler secret put -e=staging JWT_SECRET
-            echo $OTP_SECRET | bun wrangler secret put -e=staging OTP_SECRET
-            echo $RESEND_API_KEY | bun wrangler secret put -e=staging RESEND_API_KEY
-            echo $TURSO_CONNECTION_URL | bun wrangler secret put -e=staging TURSO_CONNECTION_URL
-            echo $TURSO_AUTH_TOKEN | bun wrangler secret put -e=staging TURSO_AUTH_TOKEN
+            echo $CLOUDFLARE_ACCOUNT_ID | pnpm wrangler secret put -e=staging CLOUDFLARE_ACCOUNT_ID
+            echo $CF_BUCKET_NAME | pnpm wrangler secret put -e=staging CF_BUCKET_NAME
+            echo $CF_ACCESS_KEY_ID | pnpm wrangler secret put -e=staging CF_ACCESS_KEY_ID
+            echo $CF_SECRET_ACCESS_KEY | pnpm wrangler secret put -e=staging CF_SECRET_ACCESS_KEY
+            echo $FACEBOOK_APP_ID | pnpm wrangler secret put -e=staging FACEBOOK_APP_ID
+            echo $FACEBOOK_APP_SECRET | pnpm wrangler secret put -e=staging FACEBOOK_APP_SECRET
+            echo $JWT_SECRET | pnpm wrangler secret put -e=staging JWT_SECRET
+            echo $OTP_SECRET | pnpm wrangler secret put -e=staging OTP_SECRET
+            echo $RESEND_API_KEY | pnpm wrangler secret put -e=staging RESEND_API_KEY
+            echo $TURSO_CONNECTION_URL | pnpm wrangler secret put -e=staging TURSO_CONNECTION_URL
+            echo $TURSO_AUTH_TOKEN | pnpm wrangler secret put -e=staging TURSO_AUTH_TOKEN
             echo "*** end ***"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
