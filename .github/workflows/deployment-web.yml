@@ -17,10 +17,14 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i --frozen-lockfile
 
       - name: Build apps
-        run: pnpm build
+        run: bun build
 
       - name: Deploy landing
         uses: cloudflare/pages-action@v1

@@ -9,7 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+        with:
+          # Checkout from PR code so we can run this from forks
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i --frozen-lockfile
 
       - name: Copy .env and code lint
-        run: cp .env.example .env && pnpm lint
+        run: cp .env.example .env && bun lint

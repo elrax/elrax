@@ -1,60 +1,20 @@
-import { cva, type VariantProps } from "class-variance-authority"
 import React, { useRef } from "react"
-import { Pressable, Text, View, Animated } from "react-native"
+import { Pressable, Text, View, Animated, StyleSheet, type ViewStyle } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import { Image } from "expo-image"
 import { Icon } from "./Icon"
-import { cn } from "~/utils/style"
 
-const buttonVariants = cva(
-	["flex-row items-center w-full justify-center rounded-[36px] overflow-hidden"],
-	{
-		variants: {
-			variant: {
-				default: "bg-[#007EE5]",
-				gradient: "",
-				facebook: "bg-[#3975EA]",
-				google: "bg-[#292a2e]",
-			},
-			size: {
-				default: "h-11",
-			},
-		},
-		defaultVariants: {
-			variant: "default",
-			size: "default",
-		},
-	},
-)
-
-const buttonTextVariants = cva("text-base px-2", {
-	variants: {
-		variant: {
-			default: "text-white",
-			gradient: "text-white",
-			facebook: "text-white",
-			google: "text-white",
-		},
-		size: {
-			default: "font-ns-bold",
-		},
-	},
-	defaultVariants: {
-		variant: "default",
-		size: "default",
-	},
-})
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
 const Button = React.forwardRef<
 	React.ElementRef<typeof Pressable>,
-	React.ComponentPropsWithoutRef<typeof Pressable> &
-		VariantProps<typeof buttonVariants> & {
-			textClass?: string
-			icon?: string
-		}
+	React.ComponentPropsWithoutRef<typeof Pressable> & {
+		variant: "default" | "gradient" | "facebook" | "google"
+		innerStyle?: ViewStyle
+		icon?: string
+	}
 >((props, ref) => {
-	const { className, textClass, icon, variant = "default", size, children, disabled } = props
+	const { innerStyle, icon, variant = "default", children, disabled } = props
 	const fadeAnim = useRef(new Animated.Value(0)).current
 
 	const animateGradient = () => {
@@ -76,17 +36,21 @@ const Button = React.forwardRef<
 	return (
 		<View>
 			<Pressable
-				className={cn(
-					buttonVariants({
-						variant,
-						size,
-						className: cn(
-							className,
-							disabled && "web:cursor-default",
-							disabled && variant === "default" && "bg-[#D9DCDD]",
-						),
-					}),
-				)}
+				style={[
+					styles.defaultStyle,
+					{
+						backgroundColor: (() => {
+							if (variant === "default") {
+								if (disabled) return "#D9DCDD"
+								return "#007EE5"
+							}
+							if (variant === "gradient") return "transparent"
+							if (variant === "facebook") return "#3975EA"
+							if (variant === "google") return "#292a2e"
+						})(),
+					},
+					innerStyle,
+				]}
 				ref={ref}
 				onPressIn={animateGradient}
 				onPressOut={resetGradient}
@@ -96,23 +60,40 @@ const Button = React.forwardRef<
 				{({ pressed }) =>
 					variant === "gradient" ? (
 						<View
-							className="flex-row w-full h-full justify-center items-center"
-							style={{ position: "relative" }}
+							style={{
+								position: "relative",
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "center",
+								height: 48,
+								width: "100%",
+							}}
 						>
 							<LinearGradient
 								colors={!disabled ? ["#007EE5", "#9747FF"] : ["#CFA7FB", "#B4CBFC"]}
 								start={{ x: 0, y: 0 }}
 								end={{ x: 1, y: 0 }}
-								className="absolute w-full h-full"
+								style={{
+									position: "absolute",
+									top: 0,
+									left: 0,
+									right: 0,
+									bottom: 0,
+									borderRadius: 36,
+								}}
 							/>
 							<AnimatedLinearGradient
 								colors={["#9747FF", "#007EE5"]}
 								start={{ x: 0, y: 0 }}
 								end={{ x: 1, y: 0 }}
-								className="absolute w-full h-full"
-								style={{ opacity: fadeAnim }}
+								style={{
+									opacity: fadeAnim,
+									position: "absolute",
+									width: "100%",
+									height: "100%",
+								}}
 							/>
-							<View className="flex flex-row items-center">
+							<View style={{ flex: 1, alignItems: "center" }}>
 								{icon && (
 									<Icon
 										style={{ marginRight: -3 }}
@@ -121,18 +102,20 @@ const Button = React.forwardRef<
 										color="white"
 									/>
 								)}
-								<Text
-									className={cn(
-										pressed && "opacity-70",
-										buttonTextVariants({ variant, size, className: textClass }),
-									)}
-								>
+								<Text style={[styles.defaultText, pressed && { opacity: 0.7 }]}>
 									{children as string | string[]}
 								</Text>
 							</View>
 						</View>
 					) : (
-						<View className="flex flex-row items-center">
+						<View
+							style={{
+								gap: 6,
+								flexDirection: "row",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
 							{icon &&
 								(icon === "google" ? (
 									<Image
@@ -148,11 +131,11 @@ const Button = React.forwardRef<
 									/>
 								))}
 							<Text
-								className={cn(
-									pressed && "opacity-70",
-									buttonTextVariants({ variant, size, className: textClass }),
-									disabled && variant === "default" && "text-[#9A9BA2]",
-								)}
+								style={[
+									styles.defaultText,
+									pressed && { opacity: 0.7 },
+									disabled && variant === "default" && { color: "#9A9BA2" },
+								]}
 							>
 								{children as string | string[]}
 							</Text>
@@ -164,6 +147,24 @@ const Button = React.forwardRef<
 	)
 })
 
+const styles = StyleSheet.create({
+	defaultStyle: {
+		flex: 1,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 36,
+		overflow: "hidden",
+		fontFamily: "NunitoSans-Bold",
+	},
+	defaultText: {
+		color: "white",
+		paddingHorizontal: 2,
+		fontSize: 16,
+		fontFamily: "NunitoSans-Bold",
+	},
+})
+
 Button.displayName = "Button"
 
-export { Button, buttonTextVariants, buttonVariants }
+export { Button }

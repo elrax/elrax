@@ -7,15 +7,20 @@ concurrency:
 on:
   workflow_dispatch:
   push:
+    # REQUIRED: push main branch is necessary for deploy-expo-staging to update its fingerprint database
     branches: ["main"]
 
 jobs:
-  deploy-staging:
+  deploy-cf-staging:
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i --frozen-lockfile
 
       - name: Apply DB migrations
         env:
@@ -23,7 +28,7 @@ jobs:
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
         run: |
           cd ./apps/api/
-          pnpm run db:apply
+          bun run db:apply
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
@@ -31,21 +36,21 @@ jobs:
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: ./apps/api/
-          packageManager: pnpm
+          packageManager: bun
           environment: staging
           preCommands: |
             echo "*** pre command ***"
-            echo $CLOUDFLARE_ACCOUNT_ID | pnpm wrangler secret put -e=staging CLOUDFLARE_ACCOUNT_ID
-            echo $CF_BUCKET_NAME | pnpm wrangler secret put -e=staging CF_BUCKET_NAME
-            echo $CF_ACCESS_KEY_ID | pnpm wrangler secret put -e=staging CF_ACCESS_KEY_ID
-            echo $CF_SECRET_ACCESS_KEY | pnpm wrangler secret put -e=staging CF_SECRET_ACCESS_KEY
-            echo $FACEBOOK_APP_ID | pnpm wrangler secret put -e=staging FACEBOOK_APP_ID
-            echo $FACEBOOK_APP_SECRET | pnpm wrangler secret put -e=staging FACEBOOK_APP_SECRET
-            echo $JWT_SECRET | pnpm wrangler secret put -e=staging JWT_SECRET
-            echo $OTP_SECRET | pnpm wrangler secret put -e=staging OTP_SECRET
-            echo $RESEND_API_KEY | pnpm wrangler secret put -e=staging RESEND_API_KEY
-            echo $TURSO_CONNECTION_URL | pnpm wrangler secret put -e=staging TURSO_CONNECTION_URL
-            echo $TURSO_AUTH_TOKEN | pnpm wrangler secret put -e=staging TURSO_AUTH_TOKEN
+            echo $CLOUDFLARE_ACCOUNT_ID | bun wrangler secret put -e=staging CLOUDFLARE_ACCOUNT_ID
+            echo $CF_BUCKET_NAME | bun wrangler secret put -e=staging CF_BUCKET_NAME
+            echo $CF_ACCESS_KEY_ID | bun wrangler secret put -e=staging CF_ACCESS_KEY_ID
+            echo $CF_SECRET_ACCESS_KEY | bun wrangler secret put -e=staging CF_SECRET_ACCESS_KEY
+            echo $FACEBOOK_APP_ID | bun wrangler secret put -e=staging FACEBOOK_APP_ID
+            echo $FACEBOOK_APP_SECRET | bun wrangler secret put -e=staging FACEBOOK_APP_SECRET
+            echo $JWT_SECRET | bun wrangler secret put -e=staging JWT_SECRET
+            echo $OTP_SECRET | bun wrangler secret put -e=staging OTP_SECRET
+            echo $RESEND_API_KEY | bun wrangler secret put -e=staging RESEND_API_KEY
+            echo $TURSO_CONNECTION_URL | bun wrangler secret put -e=staging TURSO_CONNECTION_URL
+            echo $TURSO_AUTH_TOKEN | bun wrangler secret put -e=staging TURSO_AUTH_TOKEN
             echo "*** end ***"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -60,19 +65,43 @@ jobs:
           TURSO_CONNECTION_URL: ${{ vars.TURSO_CONNECTION_URL }}
           TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
 
+  deploy-expo-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      # REQUIRED: Allow updating fingerprint in action caches
+      actions: write
+      # OPTIONAL: Allow reading of repo contents for private projects
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i --frozen-lockfile
+
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Check fingerprint
+        id: fingerprint
+        uses: expo/expo-github-action/fingerprint@main
+
       - name: Create build
-        uses: expo/expo-github-action/preview@v8
+        uses: expo/expo-github-action/preview-build@v8
+        if: ${{ steps.fingerprint.outputs.fingerprint-diff != '[]' }}
         with:
-          # temporary iOS only, replace with "all" when needed
+          # Temporary iOS only, replace with "all" when needed
           command: eas build -e=staging -p=ios --non-interactive
           working-directory: ./apps/mobile/
           comment: false
+        env:
+          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.EXPO_PUBLIC_FACEBOOK_APP_ID }}
+          EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: ${{ vars.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN }}
 
       - name: Create update
         uses: expo/expo-github-action/preview@v8
@@ -81,3 +110,6 @@ jobs:
           command: eas update --auto --channel=staging
           working-directory: ./apps/mobile/
           comment: false
+        env:
+          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.EXPO_PUBLIC_FACEBOOK_APP_ID }}
+          EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: ${{ vars.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN }}

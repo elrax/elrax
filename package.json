@@ -8,7 +8,7 @@
 	"author": "Elrax Corp.",
 	"repository": "https://github.com/elrax/elrax",
 	"private": true,
-	"packageManager": "pnpm@9.1.2",
+	"packageManager": "bun@1.1.21",
 	"scripts": {
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
@@ -22,18 +22,18 @@
 	"devDependencies": {
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
-		"eslint": "9.3.0",
+		"eslint": "9.7.0",
 		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-astro": "1.2.0",
-		"nx": "19.0.7",
-		"prettier": "3.2.5",
-		"release-it": "17.3.0",
+		"eslint-plugin-astro": "1.2.3",
+		"nx": "19.5.3",
+		"prettier": "3.3.3",
+		"release-it": "17.6.0",
 		"simple-git-hooks": "2.11.1",
-		"syncpack": "12.3.2",
+		"syncpack": "12.4.0",
 		"typescript-eslint": "8.0.0-alpha.10"
 	},
 	"peerDependencies": {
-		"typescript": "5.4.5"
+		"typescript": "5.5.4"
 	},
 	"resolutions": {
 		"semver": "7.5.4"
@@ -52,7 +52,7 @@
 	},
 	"release-it": {
 		"hooks": {
-			"after:bump": "pnpm fix-pkgs"
+			"after:bump": "bun fix-pkgs"
 		},
 		"git": {
 			"tagName": "v${version}",
@@ -95,7 +95,7 @@
 		}
 	},
 	"simple-git-hooks": {
-		"pre-commit": "pnpm fix-pkgs && pnpm lint"
+		"pre-commit": "bun fix-pkgs && bun lint"
 	},
 	"syncpack": {
 		"versionGroups": [
@@ -103,9 +103,6 @@
 				"label": "Ignoring tailwind version",
 				"packages": [
 					"@elrax/mobile"
-				],
-				"dependencies": [
-					"tailwindcss"
 				],
 				"isIgnored": true
 			}

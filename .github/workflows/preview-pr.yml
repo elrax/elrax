@@ -12,7 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+      - name: Install dependencies
+        run: bun i --frozen-lockfile
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -27,3 +31,6 @@ jobs:
           command: eas update --auto --channel=development
           working-directory: ./apps/mobile/
           comment: true
+        env:
+          EXPO_PUBLIC_FACEBOOK_APP_ID: ${{ vars.EXPO_PUBLIC_FACEBOOK_APP_ID }}
+          EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN: ${{ vars.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN }}

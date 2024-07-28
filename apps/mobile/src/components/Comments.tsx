@@ -63,8 +63,8 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 	)
 	const renderItem = useCallback(
 		({ item }: { item: CommentItem }) => (
-			<View className="flex gap-2.5 flex-row px-4 py-2.5">
-				<View className="w-[40px] h-[40px] rounded-full bg-slate-300">
+			<View style={styles.commentContainer}>
+				<View style={styles.commentImage}>
 					<Image
 						style={{
 							width: "100%",
@@ -74,12 +74,12 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 						contentFit="cover"
 					/>
 				</View>
-				<View className="flex flex-1">
-					<View className="flex gap-1 flex-row">
-						<Text className="text-sm text-white font-ns-bold">{item.username}</Text>
-						<Text className="text-sm text-[#9A9BA2] font-ns-body">· {item.time}</Text>
+				<View style={{ display: "flex", flex: 1 }}>
+					<View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
+						<Text style={styles.commentUsername}>{item.username}</Text>
+						<Text style={styles.commentTime}>· {item.time}</Text>
 					</View>
-					<Text className="text-sm text-white font-ns-body">{item.text}</Text>
+					<Text style={styles.commentText}>{item.text}</Text>
 				</View>
 			</View>
 		),
@@ -89,7 +89,7 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(propsInner: any) => (
 			<BottomSheetFooter style={styles.footerContainer} {...propsInner}>
-				<View className="w-[40px] h-[40px] rounded-full bg-slate-300">
+				<View style={styles.footerImage}>
 					<Image
 						style={{
 							width: "100%",
@@ -99,7 +99,7 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 						contentFit="cover"
 					/>
 				</View>
-				<View className="w-full relative flex-1">
+				<View style={{ flex: 1, width: "100%", position: "relative" }}>
 					<BottomSheetTextInput
 						ref={commentInputRef}
 						placeholder="Add your comment"
@@ -116,7 +116,7 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 					/>
 					<TouchableOpacity
 						ref={buttonRef}
-						className="absolute bg-[#1A232C] hidden rounded-full p-1 right-2 top-[5px]"
+						style={styles.footerButton}
 						onPress={() => {
 							// TODO: Validate input.
 							props.onSend(commentInput.current)
@@ -146,14 +146,14 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 			topInset={0}
 			index={0}
 		>
-			<View className="flex justify-between items-center px-4 py-3 flex-row">
-				<Text className="text-white font-ns-bold text-base">
+			<View style={styles.headerContainer}>
+				<Text style={styles.headerText}>
 					{props.comments.length === 1
 						? "1 comment"
 						: `${props.comments.length} comments`}
 				</Text>
-				<Pressable className="flex flex-row gap-1 items-center">
-					<Text className="text-[#9A9BA2] font-ns-body text-base">All (default)</Text>
+				<Pressable style={styles.headerButton}>
+					<Text style={styles.headerButtonText}>All (default)</Text>
 					<Icon name="chevron-down" size={20} color="#9A9BA2" />
 				</Pressable>
 			</View>
@@ -168,6 +168,32 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 })
 
 const styles = StyleSheet.create({
+	headerContainer: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+	},
+	headerText: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#fff",
+	},
+	headerButton: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 4,
+		alignItems: "center",
+	},
+	headerButtonText: {
+		fontFamily: "NunitoSans-Regular",
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#9A9BA2",
+	},
 	indicator: {
 		backgroundColor: "white",
 		marginTop: 8,
@@ -188,6 +214,21 @@ const styles = StyleSheet.create({
 		paddingBottom: 30,
 		backgroundColor: "#1A232C",
 	},
+	footerImage: {
+		width: 40,
+		height: 40,
+		borderRadius: 9999,
+		backgroundColor: "#cbd5e1",
+	},
+	footerButton: {
+		position: "absolute",
+		right: 8,
+		top: 5,
+		borderRadius: 9999,
+		display: "none",
+		backgroundColor: "#1A232C",
+		padding: 4,
+	},
 	bottomSheetInput: {
 		borderWidth: 1,
 		color: "#fff",
@@ -196,5 +237,36 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		// backgroundColor: "#F6F8F8",
 		borderColor: "#F6F8F8",
+	},
+	commentContainer: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 10,
+		paddingVertical: 10,
+		paddingHorizontal: 16,
+	},
+	commentImage: {
+		width: 40,
+		height: 40,
+		borderRadius: 9999,
+		backgroundColor: "#cbd5e1",
+	},
+	commentUsername: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#fff",
+	},
+	commentTime: {
+		fontFamily: "NunitoSans-Regular",
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#9A9BA2",
+	},
+	commentText: {
+		fontFamily: "NunitoSans-Body",
+		fontSize: 14,
+		lineHeight: 20,
+		color: "#fff",
 	},
 })

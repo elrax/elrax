@@ -4,7 +4,7 @@
 	},
 	"build": {
 		"base": {
-			"pnpm": "9.1.2",
+			"bun": "1.1.21",
 			"android": {
 				"resourceClass": "medium"
 			},

@@ -20,7 +20,7 @@
 			"~/*": ["./src/*"]
 		},
 		"jsx": "react-native",
-		"types": ["nativewind/types", "webpack-env"]
+		"types": ["webpack-env"]
 	},
 	"include": ["expo-plugins", "src", "*.config.*"],
 	"exclude": ["node_modules"],

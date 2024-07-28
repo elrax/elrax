@@ -1,6 +1,10 @@
 import React, { type ReactElement } from "react"
-import { styled } from "nativewind"
-import { type GestureResponderEvent, TouchableOpacity } from "react-native"
+import {
+	type GestureResponderEvent,
+	type StyleProp,
+	TouchableOpacity,
+	type ViewStyle,
+} from "react-native"
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
@@ -11,7 +15,7 @@ import Animated, {
 } from "react-native-reanimated"
 
 export type TouchableScaleProps = {
-	innerStyle?: { [k: string]: string }
+	innerStyle?: StyleProp<ViewStyle>
 	children?: ReactElement | ReactElement[]
 	onPress?: (event: GestureResponderEvent) => void
 	scaleTo?: number
@@ -19,7 +23,7 @@ export type TouchableScaleProps = {
 	touchableProps?: React.ComponentProps<typeof TouchableOpacity>
 }
 
-const TouchableScaleInner = ({
+export const TouchableScale = ({
 	onPress,
 	innerStyle,
 	children,
@@ -33,10 +37,7 @@ const TouchableScaleInner = ({
 	})
 	const animatedStyle = useAnimatedStyle(() => {
 		const scale = interpolate(progress.value, [0, 1], [1, scaleTo], Extrapolate.CLAMP)
-		return {
-			transform: [{ scale }],
-			...innerStyle,
-		}
+		return { transform: [{ scale }] }
 	})
 	return (
 		<TouchableOpacity
@@ -52,15 +53,9 @@ const TouchableScaleInner = ({
 			disabled={disabled}
 			{...touchableProps}
 		>
-			<Animated.View pointerEvents="none" style={animatedStyle}>
+			<Animated.View pointerEvents="none" style={[animatedStyle, innerStyle]}>
 				{children}
 			</Animated.View>
 		</TouchableOpacity>
 	)
 }
-
-export const TouchableScale = styled(TouchableScaleInner, {
-	props: {
-		innerStyle: true,
-	},
-})

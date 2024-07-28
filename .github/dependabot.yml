@@ -19,5 +19,4 @@ updates:
       - dependency-name: "*expo*"
       - dependency-name: "*react*"
       - dependency-name: "@shopify*"
-      - dependency-name: "tailwindcss"
       - dependency-name: "@tanstack/react-query"
