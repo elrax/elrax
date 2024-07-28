@@ -9,6 +9,9 @@ on:
   push:
     # REQUIRED: push main branch is necessary for deploy-expo-staging to update its fingerprint database
     branches: ["main"]
+    paths:
+      - "apps/api/**"
+      - "apps/mobile/**"
 
 jobs:
   deploy-cf-staging:
