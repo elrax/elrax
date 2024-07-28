@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { TextInput, View, TouchableOpacity, Text } from "react-native"
-import { cn } from "~/utils/style"
 import { Icon } from "./Icon"
 
 const Input = React.forwardRef<
@@ -9,7 +8,7 @@ const Input = React.forwardRef<
 		type?: "text" | "password"
 		errorMsg: string
 	}
->(({ className, errorMsg, type = "text", ...props }, ref) => {
+>(({ style, errorMsg, type = "text", ...props }, ref) => {
 	const [text, setText] = useState("")
 	// const [error, setError] = useState(false)
 	const [isSecure, setIsSecure] = useState(type === "password")
@@ -35,13 +34,26 @@ const Input = React.forwardRef<
 	}
 
 	return (
-		<View className="relative">
+		<View style={{ position: "relative" }}>
 			<TextInput
 				ref={ref}
-				className={cn(
-					"rounded-lg border font-ns-body w-full border-[#D9DCDD] bg-[#000A140F] px-3 py-2.5 text-base h-12 leading-[24px] text-[#181818] items-center placeholder:text-[#9A9BA2] disabled:opacity-50",
-					className,
-				)}
+				style={[
+					style,
+					{
+						fontFamily: "NunitoSans-Regular",
+						width: "100%",
+						height: 48,
+						paddingHorizontal: 3,
+						paddingVertical: 2.5,
+						color: "#181818",
+						alignItems: "center",
+						backgroundColor: "#000A140F",
+						lineHeight: 24,
+						borderRadius: 8,
+						borderColor: "#D9DCDD",
+						// placeholder:text-[#9A9BA2] disabled:opacity-50",
+					},
+				]}
 				onChangeText={(text) => setText(text)}
 				value={text}
 				secureTextEntry={isSecure}
@@ -49,7 +61,11 @@ const Input = React.forwardRef<
 			/>
 			{text.length > 0 && (
 				<TouchableOpacity
-					className="absolute right-3 top-[13px]"
+					style={{
+						position: "absolute",
+						right: 3,
+						top: 13,
+					}}
 					onPress={type === "password" ? toggleSecureEntry : handleClearText}
 					accessibilityLabel={
 						type === "password" ? "Toggle password visibility" : "Clear text"
@@ -63,16 +79,42 @@ const Input = React.forwardRef<
 				</TouchableOpacity>
 			)}
 			{type === "password" && (
-				<View className="mt-1 flex-row justify-between">
-					<Text className="text-[#9A9BA2] font-ns-body">
+				<View
+					style={{
+						marginTop: 1,
+						flex: 1,
+						flexDirection: "row",
+						justifyContent: "space-between",
+					}}
+				>
+					<Text
+						style={{
+							fontFamily: "NunitoSans-Regular",
+							color: "#9A9BA2",
+						}}
+					>
 						Letters, numbers, and special characters
 					</Text>
-					<Text className="text-[#9A9BA2] font-ns-body">{text.length}/16</Text>
+					<Text
+						style={{
+							fontFamily: "NunitoSans-Regular",
+							color: "#9A9BA2",
+						}}
+					>
+						{text.length}/16
+					</Text>
 				</View>
 			)}
 			{false && (
-				<View className="mt-1">
-					<Text className="text-[#FF6C7E] font-ns-body">{errorMsg}</Text>
+				<View style={{ marginTop: 1 }}>
+					<Text
+						style={{
+							fontFamily: "NunitoSans-Regular",
+							color: "#FF6C7E",
+						}}
+					>
+						{errorMsg}
+					</Text>
 				</View>
 			)}
 		</View>

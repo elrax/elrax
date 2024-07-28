@@ -5,6 +5,7 @@ import { useNavigation } from "expo-router"
 import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import { Environment } from "@elrax/api/src/types"
+
 import type { FeedVideoRef } from "./types"
 import { Overlay } from "./Overlay"
 import { useVideoViewState } from "~/stores/videoViewState"
@@ -117,8 +118,12 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 				ref={refVideo}
 				style={{ height: props.height }}
 				source={{ uri }}
-				poster={props.item.urlPoster}
-				posterResizeMode={"cover"}
+				poster={{
+					source: {
+						uri: props.item.urlPoster,
+					},
+					resizeMode: "cover",
+				}}
 				paused={paused}
 				mixWithOthers="duck"
 				ignoreSilentSwitch="ignore"

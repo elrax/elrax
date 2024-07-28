@@ -9,7 +9,6 @@ module.exports = (api) => {
 	return {
 		presets: ["babel-preset-expo"],
 		plugins: [
-			"nativewind/babel",
 			["module-resolver", { alias: { "~": "./src" } }],
 			"@babel/plugin-transform-flow-strip-types",
 			["@babel/plugin-transform-private-methods", { loose: true }],

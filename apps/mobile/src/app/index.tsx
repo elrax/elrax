@@ -183,7 +183,7 @@ export default function Index() {
 			<View style={{ marginVertical: 16 }}>
 				<AppleAuthenticationButton
 					style={{
-						height: 45,
+						height: 44,
 						borderColor: "#DEDFE0",
 					}}
 					buttonType={AppleAuthenticationButtonType.CONTINUE}
@@ -192,7 +192,7 @@ export default function Index() {
 					onPress={signInWithApple}
 				/>
 				<Button
-					style={{ marginTop: 16 }}
+					innerStyle={{ marginTop: 16, maxHeight: 44 }}
 					variant="facebook"
 					icon="facebook"
 					onPress={signInWithFacebook}
@@ -200,7 +200,7 @@ export default function Index() {
 					Continue with Facebook
 				</Button>
 				<Button
-					style={{ marginTop: 16 }}
+					innerStyle={{ marginTop: 16, maxHeight: 44 }}
 					variant="google"
 					icon="google"
 					onPress={signInWithGoogle}
@@ -208,7 +208,7 @@ export default function Index() {
 					Continue with Google
 				</Button>
 				<Button
-					style={{ marginTop: 16 }}
+					innerStyle={{ marginTop: 16, maxHeight: 44 }}
 					variant="gradient"
 					onPress={() => {
 						router.push("(sign-up)/email")
@@ -251,8 +251,6 @@ export default function Index() {
 
 const styles = StyleSheet.create({
 	container: {
-		height: "100%",
-		width: "100%",
 		backgroundColor: "#F7F7F7",
 		paddingHorizontal: 32,
 		paddingTop: 48,
@@ -271,7 +269,6 @@ const styles = StyleSheet.create({
 		color: "#000",
 	},
 	footerContainer: {
-		display: "flex",
 		flexDirection: "row",
 		gap: 4,
 	},

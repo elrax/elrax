@@ -54,7 +54,7 @@ export function Overlay(props: OverlayProps) {
 						<Text style={styles.descriptionText} numberOfLines={1}>
 							{props.item.description}
 						</Text>
-						<TouchableScale scaleTo={0.99} innerStyle="w-full">
+						<TouchableScale scaleTo={0.99} innerStyle={{ width: "100%" }}>
 							<View
 								style={{
 									backgroundColor: "rgba(24,24,24,0.8)",
@@ -97,11 +97,34 @@ export function Overlay(props: OverlayProps) {
 							</View>
 						</TouchableScale>
 					</View>
-					<View className="items-center -mr-2 justify-center pr-1 gap-2 w-18">
-						<TouchableScale innerStyle="flex-column items-center mb-2">
+					<View
+						style={{
+							width: 40,
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "flex-start",
+							gap: 2,
+						}}
+					>
+						<TouchableScale
+							innerStyle={{
+								flex: 1,
+								flexDirection: "column",
+								alignItems: "center",
+								marginBottom: 2,
+							}}
+						>
 							<View
-								style={styles.iconShadow}
-								className="bg-black rounded-full border-[1px] border-white overflow-hidden"
+								style={[
+									styles.iconShadow,
+									{
+										backgroundColor: "black",
+										borderRadius: 9999,
+										borderWidth: 1,
+										borderColor: "#fff",
+										overflow: "hidden",
+									},
+								]}
 							>
 								<Image
 									style={{ width: 40, height: 40 }}
@@ -114,7 +137,7 @@ export function Overlay(props: OverlayProps) {
 							</View>
 						</TouchableScale>
 						<TouchableScale
-							innerStyle="py-3 items-center w-full"
+							innerStyle={styles.iconButton}
 							onPress={() => {
 								props.onPressReaction(props.item)
 								setIsLiked(!isLiked)
@@ -132,46 +155,45 @@ export function Overlay(props: OverlayProps) {
 								style={styles.iconShadow}
 							/>
 							<Text
-								className={`font-ns-bold text-center pt-2 ${
-									isLiked ? "text-[#FFDB5A]" : "text-white"
-								}`}
+								style={{
+									fontFamily: "NunitoSans-Bold",
+									textAlign: "center",
+									paddingTop: 2,
+									color: isLiked ? "#FFDB5A" : "white",
+								}}
 							>
 								{currentLikes}
 							</Text>
 						</TouchableScale>
 						<TouchableScale
-							innerStyle="py-3 items-center w-full"
+							innerStyle={styles.iconButton}
 							onPress={() => {
 								props.onPressComments(props.item)
 							}}
 						>
 							<Icon
-								className="text-center"
 								color="white"
 								size={28}
 								name="message-circle"
 								style={styles.iconShadow}
 							/>
-							<Text className="font-ns-bold color-white text-center pt-2">
-								{props.commentsNumber}
-							</Text>
+							<Text style={styles.iconText}>{props.commentsNumber}</Text>
 						</TouchableScale>
-						<TouchableScale innerStyle="py-3 items-center w-full">
-							<Icon
-								className="text-center"
-								color="white"
-								size={28}
-								name="send"
-								style={styles.iconShadow}
-							/>
-							<Text className="font-ns-bold color-white text-center pt-2">
-								{props.sharesNumber}
-							</Text>
+						<TouchableScale innerStyle={styles.iconButton}>
+							<Icon color="white" size={28} name="send" style={styles.iconShadow} />
+							<Text style={styles.iconText}>{props.sharesNumber}</Text>
 						</TouchableScale>
-						<TouchableScale innerStyle="pt-3 pb-2 items-center w-full">
+						<TouchableScale innerStyle={[styles.iconButton, { paddingBottom: 6 }]}>
 							<Image
-								style={styles.iconShadow}
-								className="h-10 w-10 rounded-full bg-black"
+								style={[
+									styles.iconShadow,
+									{
+										width: 40,
+										height: 40,
+										borderRadius: 9999,
+										backgroundColor: "black",
+									},
+								]}
 								alt="avatar"
 								source={{ uri: "https://i.imgur.com/d5502Q2.png" }}
 							/>
@@ -196,8 +218,14 @@ const styles = StyleSheet.create({
 		zIndex: 20,
 		maxWidth: "100%",
 		bottom: 0,
+		paddingHorizontal: 16,
 	},
-	textAuthor: { fontFamily: "NonitoSans-Bold", fontSize: 18, lineHeight: 28, color: "#fff" },
+	textAuthor: {
+		fontFamily: "NunitoSans-Bold",
+		fontSize: 18,
+		lineHeight: 28,
+		color: "#fff",
+	},
 	descriptionText: {
 		fontFamily: "NunitoSans-Regular",
 		fontSize: 16,
@@ -206,11 +234,9 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	container: {
-		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "flex-end",
-		marginLeft: 16,
 		marginBottom: 16,
 	},
 	skipPreviewButton: {
@@ -236,5 +262,17 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
+	},
+	iconButton: {
+		paddingVertical: 3,
+		flex: 1,
+		width: "100%",
+		alignItems: "center",
+	},
+	iconText: {
+		fontFamily: "NunitoSans-Bold",
+		textAlign: "center",
+		paddingTop: 2,
+		color: "white",
 	},
 })

@@ -44,7 +44,7 @@ export default function Profile() {
 						</View>
 					</View>
 					<View style={styles.profileActions}>
-						<Button style={{ width: 163 }} variant="gradient">
+						<Button innerStyle={{ width: 163 }} variant="gradient">
 							Follow
 						</Button>
 						<Pressable style={styles.roundButton}>
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		width: "100%",
 		justifyContent: "space-between",
+		gap: 8,
 	},
 	section: {
 		display: "flex",
@@ -208,7 +209,6 @@ const styles = StyleSheet.create({
 		color: "#fff",
 		width: 115,
 		borderRadius: 60,
-		paddingHorizontal: 16,
 		paddingVertical: 8,
 		backgroundColor: "#333B43",
 	},

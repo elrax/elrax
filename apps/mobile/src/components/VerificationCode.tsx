@@ -89,12 +89,10 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 
 const styles = StyleSheet.create({
 	rootStyles: {
-		display: "flex",
 		gap: 8,
 	},
 	container: {
-		display: "flex",
-		width: 305,
+		width: "100%",
 		marginBottom: 16,
 		marginHorizontal: "auto",
 		alignItems: "center",
@@ -108,9 +106,9 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 	cell: {
-		width: 44,
-		height: 44,
-		lineHeight: 44,
+		width: 48,
+		height: 48,
+		lineHeight: 48,
 		fontSize: 24,
 		backgroundColor: "#000A140F",
 		textAlign: "center",

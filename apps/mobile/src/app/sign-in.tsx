@@ -11,7 +11,7 @@ export default function Index() {
 		<View style={styles.container}>
 			<Text style={styles.text}>Sign in page</Text>
 			<Button
-				style={{ marginTop: 16 }}
+				innerStyle={{ marginTop: 16 }}
 				variant="gradient"
 				onPress={() => {
 					router.replace("/")

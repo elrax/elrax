@@ -60,6 +60,7 @@ export default function Index() {
 					/>
 				</View>
 				<Button
+					innerStyle={{ width: "100%", minHeight: 48 }}
 					variant="gradient"
 					disabled={code.length !== 6}
 					onPress={() => {
@@ -75,14 +76,11 @@ export default function Index() {
 
 const styles = StyleSheet.create({
 	container: {
-		height: "100%",
-		width: "100%",
-		display: "flex",
 		justifyContent: "space-between",
+		flexDirection: "column",
 		paddingTop: 96,
 		marginBottom: 48,
 		paddingHorizontal: 16,
-		flex: 1,
 	},
 	title: {
 		fontFamily: "NunitoSans-ExtraBold",
@@ -91,7 +89,6 @@ const styles = StyleSheet.create({
 		color: "#181818",
 	},
 	textWrapper: {
-		display: "flex",
 		marginBottom: 16,
 		gap: 20,
 	},
