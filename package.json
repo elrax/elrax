@@ -30,7 +30,7 @@
 		"release-it": "17.6.0",
 		"simple-git-hooks": "2.11.1",
 		"syncpack": "12.4.0",
-		"typescript-eslint": "7.17.0"
+		"typescript-eslint": "7.18.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.5.4"
