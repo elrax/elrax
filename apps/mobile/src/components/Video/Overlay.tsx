@@ -67,9 +67,7 @@ export function Overlay(props: OverlayProps) {
 								}}
 							>
 								<View style={{ gap: 8 }}>
-									<Text
-										style={{ fontFamily: "NunitoSans-Bold", color: "#FFFFFF" }}
-									>
+									<Text style={{ fontFamily: "NunitoSans-Bold", color: "#FFFFFF" }}>
 										$69,383 raised of $23,000
 									</Text>
 									<View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
@@ -171,12 +169,7 @@ export function Overlay(props: OverlayProps) {
 								props.onPressComments(props.item)
 							}}
 						>
-							<Icon
-								color="white"
-								size={28}
-								name="message-circle"
-								style={styles.iconShadow}
-							/>
+							<Icon color="white" size={28} name="message-circle" style={styles.iconShadow} />
 							<Text style={styles.iconText}>{props.commentsNumber}</Text>
 						</TouchableScale>
 						<TouchableScale innerStyle={styles.iconButton}>

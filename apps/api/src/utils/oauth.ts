@@ -95,9 +95,7 @@ export const verifyFacebookToken = async (token: string, appId: string, appSecre
 		})
 	}
 
-	const fbResponse = await fetch(
-		`${FACEBOOK_BASE_URL}/me?fields=id,first_name,last_name,email&access_token=${token}`,
-	)
+	const fbResponse = await fetch(`${FACEBOOK_BASE_URL}/me?fields=id,first_name,last_name,email&access_token=${token}`)
 	if (!fbResponse.ok) {
 		throw new TRPCError({
 			code: "BAD_REQUEST",

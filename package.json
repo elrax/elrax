@@ -48,7 +48,7 @@
 		"singleQuote": false,
 		"semi": false,
 		"trailingComma": "all",
-		"printWidth": 100
+		"printWidth": 120
 	},
 	"release-it": {
 		"hooks": {

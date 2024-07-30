@@ -10,11 +10,7 @@ export interface Props {
 const { subdomain } = Astro.props
 ---
 
-<header
-	class={`p-4 z-30 ${
-		!subdomain && "absolute top-0"
-	}  w-full md:px-[32px] lg:px-[60px] 2xl:px-[80px]`}
->
+<header class:list={["p-4 z-30 w-full md:px-[32px] lg:px-[60px] 2xl:px-[80px]", !subdomain && "absolute top-0"]}>
 	<nav class="flex items-center justify-between">
 		<div class="flex items-center gap-2 md:gap-6">
 			<div class="flex items-center gap-1.5">
@@ -51,9 +47,7 @@ const { subdomain } = Astro.props
 							href="https://elrax.blog"
 							class="flex items-center py-1.5 px-3 rounded-xl hover:bg-white/10 transition-all md:px-4"
 						>
-							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">
-								Blog
-							</p>
+							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">Blog</p>
 						</a>
 					</>
 				)
@@ -65,9 +59,7 @@ const { subdomain } = Astro.props
 							href="https://comics.elrax.com"
 							class="flex items-center py-1.5 px-3 rounded-xl hover:bg-white/10 transition-all md:px-4"
 						>
-							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">
-								Comics
-							</p>
+							<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] text-white font-semibold">Comics</p>
 						</a>
 					</>
 				)

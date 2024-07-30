@@ -8,10 +8,7 @@ import { contentItems, type Database, ContentUploadStatus } from ".."
 
 export const getUserUnuploadedVideos = (db: Database, userId: string) => {
 	return db.query.contentItems.findMany({
-		where: and(
-			eq(contentItems.authorId, userId),
-			eq(contentItems.uploadStatus, ContentUploadStatus.UPLOADING),
-		),
+		where: and(eq(contentItems.authorId, userId), eq(contentItems.uploadStatus, ContentUploadStatus.UPLOADING)),
 	})
 }
 

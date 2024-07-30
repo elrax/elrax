@@ -21,13 +21,7 @@ import type { VideoCommentProps, VideoProps } from "../types"
 import { auth } from "./middleware"
 
 const transformComment = (ctx: Context, v: Comment & { author: User }) => {
-	const avatarUrl = getUserAvatarUrl(
-		v.author.id,
-		v.author.avatarIndex,
-		v.author.storage,
-		ctx.env,
-		ctx.req.url,
-	)
+	const avatarUrl = getUserAvatarUrl(v.author.id, v.author.avatarIndex, v.author.storage, ctx.env, ctx.req.url)
 	return {
 		id: v.id,
 		createdAt: v.createdAt,
@@ -36,9 +30,7 @@ const transformComment = (ctx: Context, v: Comment & { author: User }) => {
 		author: {
 			id: v.author.id,
 			username: v.author.username,
-			displayName: v.author.firstName
-				? `${v.author.firstName} ${v.author.lastName}`
-				: v.author.username,
+			displayName: v.author.firstName ? `${v.author.firstName} ${v.author.lastName}` : v.author.username,
 			urlAvatar: avatarUrl,
 		},
 	} as VideoCommentProps
@@ -148,9 +140,7 @@ export const videoRouter = router({
 				author: {
 					id: v.author.id,
 					username: v.author.username,
-					displayName: v.author.firstName
-						? `${v.author.firstName} ${v.author.lastName}`
-						: v.author.username,
+					displayName: v.author.firstName ? `${v.author.firstName} ${v.author.lastName}` : v.author.username,
 					urlAvatar: avatarUrl,
 				},
 			} as VideoProps
@@ -169,10 +159,7 @@ export const videoRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			const foundComments = await ctx.db.query.comments.findMany({
 				// TODO: Add option to get replies to a specific comment
-				where: and(
-					eq(comments.contentItemId, input.contentItemId),
-					isNull(comments.replyToCommentId),
-				),
+				where: and(eq(comments.contentItemId, input.contentItemId), isNull(comments.replyToCommentId)),
 				with: {
 					author: true,
 				},

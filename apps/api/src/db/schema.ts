@@ -196,10 +196,7 @@ export const comments = sqliteTable(
 		createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$default(dateNow),
 		/* Properties */
 		value: text("value").notNull(),
-		commentType: integer("commentType")
-			.$type<CommentType>()
-			.notNull()
-			.default(CommentType.STANDARD),
+		commentType: integer("commentType").$type<CommentType>().notNull().default(CommentType.STANDARD),
 		status: integer("status").$type<CommentStatus>().notNull().default(CommentStatus.VISIBLE),
 		/* References */
 		contentItemId: text("contentItemId")

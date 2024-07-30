@@ -52,12 +52,7 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 	const renderBackdrop = useCallback(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(props: any) => (
-			<BottomSheetBackdrop
-				{...props}
-				disappearsOnIndex={-1}
-				appearsOnIndex={1}
-				pressBehavior="close"
-			/>
+			<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={1} pressBehavior="close" />
 		),
 		[],
 	)
@@ -148,9 +143,7 @@ export const Comments = forwardRef<CommentsMethods, CommentsProps>((props, ref) 
 		>
 			<View style={styles.headerContainer}>
 				<Text style={styles.headerText}>
-					{props.comments.length === 1
-						? "1 comment"
-						: `${props.comments.length} comments`}
+					{props.comments.length === 1 ? "1 comment" : `${props.comments.length} comments`}
 				</Text>
 				<Pressable style={styles.headerButton}>
 					<Text style={styles.headerButtonText}>All (default)</Text>

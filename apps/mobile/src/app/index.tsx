@@ -36,9 +36,7 @@ export default function Index() {
 		})
 	}, [])
 
-	const proceedWithOAuth = async (
-		res: Awaited<ReturnType<typeof continueWithOAuth.mutateAsync>>,
-	) => {
+	const proceedWithOAuth = async (res: Awaited<ReturnType<typeof continueWithOAuth.mutateAsync>>) => {
 		console.log(`res: ${JSON.stringify(res)}`)
 		await setUserJWT(res.token)
 		if (!res.newUser) {
@@ -89,10 +87,7 @@ export default function Index() {
 	const signInWithApple = async () => {
 		try {
 			const credential = await signInAsync({
-				requestedScopes: [
-					AppleAuthenticationScope.FULL_NAME,
-					AppleAuthenticationScope.EMAIL,
-				],
+				requestedScopes: [AppleAuthenticationScope.FULL_NAME, AppleAuthenticationScope.EMAIL],
 			})
 
 			console.log(`credential: ${JSON.stringify(credential)}`)

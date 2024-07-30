@@ -42,9 +42,7 @@ const defineConfig = {
 		infoPlist: {
 			CFBundleURLTypes: [
 				{
-					CFBundleURLSchemes: [
-						"com.googleusercontent.apps.987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9",
-					],
+					CFBundleURLSchemes: ["com.googleusercontent.apps.987743451157-7c3h22e8n61nsg3183niopc2alpdv0o9"],
 				},
 			],
 		},
@@ -105,8 +103,7 @@ const defineConfig = {
 				advertiserIDCollectionEnabled: false,
 				autoLogAppEventsEnabled: false,
 				isAutoInitEnabled: true,
-				iosUserTrackingPermission:
-					"This identifier will be used to deliver personalized ads to you.",
+				iosUserTrackingPermission: "This identifier will be used to deliver personalized ads to you.",
 			},
 		],
 	],
