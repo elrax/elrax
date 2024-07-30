@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { View, Image, Text, Button, StyleSheet } from "react-native"
 import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker"
-import {
-	makeDirectoryAsync,
-	getInfoAsync,
-	cacheDirectory,
-	readDirectoryAsync,
-	deleteAsync,
-} from "expo-file-system"
+import { makeDirectoryAsync, getInfoAsync, cacheDirectory, readDirectoryAsync, deleteAsync } from "expo-file-system"
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from "ffmpeg-kit-react-native"
 import Video from "react-native-video"
 import { api, getBaseUrl } from "~/utils/api"
@@ -21,10 +15,7 @@ const fetchImageFromUri = async (uri: string) => {
 	const blob = await res.blob()
 	return {
 		blob,
-		contentType:
-			res.headers.get("Content-Type") || uri.includes(".m3u8")
-				? "application/x-mpegurl"
-				: "video/mp2t",
+		contentType: res.headers.get("Content-Type") || uri.includes(".m3u8") ? "application/x-mpegurl" : "video/mp2t",
 	}
 }
 

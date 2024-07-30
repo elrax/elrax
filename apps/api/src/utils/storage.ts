@@ -25,12 +25,7 @@ export const getStorageUrl = (storage: Storage, env: Env, currentUrl: string) =>
 }
 
 /** Returns url to video based on video id and relative settings */
-export const getVideoUrl = (
-	contentItemId: string,
-	storage: Storage,
-	env: Env,
-	currentUrl: string,
-) => {
+export const getVideoUrl = (contentItemId: string, storage: Storage, env: Env, currentUrl: string) => {
 	const url = getCurrentUrl(currentUrl)
 	const storageUrl = getStorageUrl(storage, env, url)
 	return `${storageUrl}content/${contentItemId}/video.m3u8`

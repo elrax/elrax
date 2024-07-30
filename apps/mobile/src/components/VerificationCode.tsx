@@ -78,9 +78,7 @@ export const VerificationCode: React.FC<VerificationCodeProps> = ({
 						Resend code in <Text style={styles.resendCodeColor}>{timer}</Text> seconds
 					</Text>
 				) : (
-					<Text style={{ ...styles.resendCodeInfo, ...styles.resendCodeColor }}>
-						Resend code
-					</Text>
+					<Text style={{ ...styles.resendCodeInfo, ...styles.resendCodeColor }}>Resend code</Text>
 				)}
 			</Pressable>
 		</View>

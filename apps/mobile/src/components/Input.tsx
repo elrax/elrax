@@ -67,9 +67,7 @@ const Input = React.forwardRef<
 						top: 13,
 					}}
 					onPress={type === "password" ? toggleSecureEntry : handleClearText}
-					accessibilityLabel={
-						type === "password" ? "Toggle password visibility" : "Clear text"
-					}
+					accessibilityLabel={type === "password" ? "Toggle password visibility" : "Clear text"}
 				>
 					<Icon
 						color="#9A9BA2"

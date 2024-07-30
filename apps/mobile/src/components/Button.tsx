@@ -94,14 +94,7 @@ const Button = React.forwardRef<
 								}}
 							/>
 							<View style={{ flex: 1, alignItems: "center" }}>
-								{icon && (
-									<Icon
-										style={{ marginRight: -3 }}
-										name={icon}
-										size={16}
-										color="white"
-									/>
-								)}
+								{icon && <Icon style={{ marginRight: -3 }} name={icon} size={16} color="white" />}
 								<Text style={[styles.defaultText, pressed && { opacity: 0.7 }]}>
 									{children as string | string[]}
 								</Text>
@@ -123,12 +116,7 @@ const Button = React.forwardRef<
 										style={{ width: 16, height: 16, marginRight: -2 }}
 									/>
 								) : (
-									<Icon
-										style={{ marginRight: -3 }}
-										name={icon}
-										size={16}
-										color="white"
-									/>
+									<Icon style={{ marginRight: -3 }} name={icon} size={16} color="white" />
 								))}
 							<Text
 								style={[

@@ -1,12 +1,5 @@
 import React, { useState } from "react"
-import {
-	Text,
-	View,
-	KeyboardAvoidingView,
-	TouchableWithoutFeedback,
-	Keyboard,
-	StyleSheet,
-} from "react-native"
+import { Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native"
 import { setStatusBarStyle } from "expo-status-bar"
 import { Button } from "~/components/Button"
 import { VerificationCode } from "~/components/VerificationCode"
@@ -35,11 +28,7 @@ export default function Index() {
 
 	return (
 		<TouchableWithoutFeedback style={{ backgroundColor: "#F7F7F7" }} onPress={onPressOutside}>
-			<KeyboardAvoidingView
-				behavior="padding"
-				keyboardVerticalOffset={16}
-				style={styles.container}
-			>
+			<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={16} style={styles.container}>
 				<View>
 					<Text style={styles.title}>Verification code</Text>
 					<View style={styles.textWrapper}>

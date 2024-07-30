@@ -94,12 +94,7 @@ export default function Profile() {
 						<Icon size={24} color="#9A9BA2" name="repost" />
 					</View>
 					<View style={styles.tab}>
-						<Icon
-							size={24}
-							color="#9A9BA2"
-							name="link-2"
-							style={{ transform: "rotate(90deg)" }}
-						/>
+						<Icon size={24} color="#9A9BA2" name="link-2" style={{ transform: "rotate(90deg)" }} />
 					</View>
 				</View>
 				<View

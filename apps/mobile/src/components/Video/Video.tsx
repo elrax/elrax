@@ -32,9 +32,7 @@ export const FeedVideo = forwardRef((props: FeedVideoProps, parentRef: React.Ref
 	const [paused, setPaused] = useState(true)
 	const [lastTouchPos, setLastTouchPos] = useState(null as null | NativeTouchEvent)
 	const [overlayOpacity, setOverlayOpacity] = useState(1)
-	const [pauseTimeoutId, setPauseTimeoutId] = useState(
-		null as null | ReturnType<typeof setTimeout>,
-	)
+	const [pauseTimeoutId, setPauseTimeoutId] = useState(null as null | ReturnType<typeof setTimeout>)
 	const { setVideoPlayUrlBy, cachedVideoUrl } = useAsyncCache()
 
 	useImperativeHandle(

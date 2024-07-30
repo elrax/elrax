@@ -40,6 +40,8 @@ const {
 		<Sidebar />
 		<style is:global>
 			@import "tailwindcss/base";
+			@import "tailwindcss/components";
+			@import "tailwindcss/utilities";
 			@layer base {
 				main h1 {
 					@apply text-4xl leading-[42px] font-black text-center md:text-start md:text-5xl md:leading-[58px] 2xl:text-[64px] 2xl:leading-[72px];
@@ -82,7 +84,10 @@ const {
 				-webkit-text-fill-color: transparent;
 			}
 			.text-gradient-p {
-				background: var(--gradient-blue-3, linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%));
+				background: var(
+					--gradient-blue-3,
+					linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%)
+				);
 				background-clip: text;
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
@@ -95,7 +100,11 @@ const {
 			}
 			.circle-gradient {
 				pointer-events: none;
-				background: radial-gradient(50% 50% at 50% 50%, #2028f6 0%, rgba(135, 33, 245, 0) 100%);
+				background: radial-gradient(
+					50% 50% at 50% 50%,
+					#2028f6 0%,
+					rgba(135, 33, 245, 0) 100%
+				);
 			}
 		</style>
 	</body>
