@@ -21,12 +21,12 @@
 	},
 	"dependencies": {
 		"@astrojs/alpinejs": "0.4.0",
-		"@astrojs/check": "0.8.3",
-		"@astrojs/cloudflare": "11.0.1",
+		"@astrojs/check": "0.9.1",
+		"@astrojs/cloudflare": "11.0.4",
 		"@astrojs/tailwind": "5.1.0",
 		"@elrax/shared": "workspace:*",
 		"alpinejs": "3.14.1",
-		"astro": "4.12.2",
+		"astro": "4.13.1",
 		"tailwindcss": "3.4.7"
 	},
 	"devDependencies": {
