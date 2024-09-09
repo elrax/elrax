@@ -23,7 +23,7 @@
 		"@config-plugins/ffmpeg-kit-react-native": "8.0.0",
 		"@expo-google-fonts/nunito-sans": "0.2.3",
 		"@expo/vector-icons": "14.0.2",
-		"@gorhom/bottom-sheet": "4.6.3",
+		"@gorhom/bottom-sheet": "4.6.4",
 		"@react-native-community/netinfo": "11.3.1",
 		"@react-native-google-signin/google-signin": "12.2.1",
 		"@react-native/assets-registry": "0.74.85",
@@ -64,12 +64,12 @@
 		"react-native-url-polyfill": "2.0.0",
 		"react-native-video": "6.4.3",
 		"superjson": "2.2.1",
-		"zustand": "4.5.4"
+		"zustand": "4.5.5"
 	},
 	"devDependencies": {
-		"@babel/core": "7.24.9",
-		"@babel/plugin-transform-flow-strip-types": "7.24.7",
-		"@babel/plugin-transform-private-methods": "7.24.7",
+		"@babel/core": "7.25.2",
+		"@babel/plugin-transform-flow-strip-types": "7.25.2",
+		"@babel/plugin-transform-private-methods": "7.25.4",
 		"@elrax/api": "workspace:*",
 		"@types/babel__core": "7.20.5",
 		"@types/react": "18.2.79",
