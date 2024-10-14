@@ -22,12 +22,12 @@
 	"devDependencies": {
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
-		"eslint": "9.8.0",
+		"eslint": "9.12.0",
 		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-astro": "1.2.3",
+		"eslint-plugin-astro": "1.2.4",
 		"nx": "19.5.3",
 		"prettier": "3.3.3",
-		"release-it": "17.6.0",
+		"release-it": "17.9.0",
 		"simple-git-hooks": "2.11.1",
 		"syncpack": "12.4.0",
 		"typescript-eslint": "7.17.0"
