@@ -67,9 +67,9 @@
 		"zustand": "4.5.4"
 	},
 	"devDependencies": {
-		"@babel/core": "7.24.9",
-		"@babel/plugin-transform-flow-strip-types": "7.24.7",
-		"@babel/plugin-transform-private-methods": "7.24.7",
+		"@babel/core": "7.25.8",
+		"@babel/plugin-transform-flow-strip-types": "7.25.7",
+		"@babel/plugin-transform-private-methods": "7.25.7",
 		"@elrax/api": "workspace:*",
 		"@types/babel__core": "7.20.5",
 		"@types/react": "18.2.79",
