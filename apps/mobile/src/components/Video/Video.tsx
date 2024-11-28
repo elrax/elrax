@@ -1,15 +1,16 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
-import type { NativeTouchEvent } from "react-native"
-import Video, { type VideoRef } from "react-native-video"
-import { useNavigation } from "expo-router"
-import { useAsyncCache } from "react-native-cache-video"
 import type { VideoProps } from "@elrax/api"
 import { Environment } from "@elrax/api/src/types"
+import { useNavigation } from "expo-router"
+import type React from "react"
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
+import type { NativeTouchEvent } from "react-native"
+import { useAsyncCache } from "react-native-cache-video"
+import Video, { type VideoRef } from "react-native-video"
 
-import type { FeedVideoRef } from "./types"
-import { Overlay } from "./Overlay"
-import { useVideoViewState } from "~/stores/videoViewState"
 import Config from "~/config"
+import { useVideoViewState } from "~/stores/videoViewState"
+import { Overlay } from "./Overlay"
+import type { FeedVideoRef } from "./types"
 
 export type FeedVideoProps = {
 	item: VideoProps

@@ -1,6 +1,4 @@
-import React from "react"
-import { ScrollView, Text, TouchableOpacity, View, StyleSheet } from "react-native"
-import { setStatusBarStyle } from "expo-status-bar"
+import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import {
 	AppleAuthenticationButton,
 	AppleAuthenticationButtonStyle,
@@ -8,15 +6,17 @@ import {
 	AppleAuthenticationScope,
 	signInAsync,
 } from "expo-apple-authentication"
-import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
-import { GoogleSignin } from "@react-native-google-signin/google-signin"
-import { Image } from "expo-image"
 import * as Device from "expo-device"
-import { Button } from "~/components/Button"
+import { Image } from "expo-image"
 import { router } from "expo-router"
-import { api } from "~/utils/api"
-import { setUserJWT } from "~/stores/userJWT"
+import { setStatusBarStyle } from "expo-status-bar"
+import React from "react"
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { AccessToken, LoginManager, Profile } from "react-native-fbsdk-next"
+import { Button } from "~/components/Button"
 import { useSignUpState } from "~/stores/signUpState"
+import { setUserJWT } from "~/stores/userJWT"
+import { api } from "~/utils/api"
 
 const images = {
 	auth: require("../assets/auth.png"),
@@ -42,14 +42,13 @@ export default function Index() {
 		if (!res.newUser) {
 			router.replace("(app)/feed")
 			return
-		} else {
-			setUserData({
-				oauthProvider: res.signedWith,
-				email: res.receivedProps.email,
-				firstName: res.receivedProps.firstName,
-				lastName: res.receivedProps.lastName,
-			})
 		}
+		setUserData({
+			oauthProvider: res.signedWith,
+			email: res.receivedProps.email,
+			firstName: res.receivedProps.firstName,
+			lastName: res.receivedProps.lastName,
+		})
 		if (!res.receivedProps.email) {
 			router.push("(sign-up)/email")
 		} else {
@@ -150,7 +149,7 @@ export default function Index() {
 				await proceedWithOAuth(res)
 			}
 		} catch (error) {
-			console.log("login has error: " + error)
+			console.log(`login has error: ${error}`)
 		}
 	}
 

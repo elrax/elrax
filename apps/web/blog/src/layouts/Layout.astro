@@ -1,11 +1,11 @@
 ---
 import BaseHead from "@elrax/shared/components/BaseHead.astro"
-import Header from "@elrax/shared/components/Header.astro"
 import Footer from "@elrax/shared/components/Footer.astro"
+import Header from "@elrax/shared/components/Header.astro"
 import Sidebar from "@elrax/shared/components/Sidebar.astro"
-import bgSmall from "../assets/icons/bg/sm.svg"
 import bgLarge from "../assets/icons/bg/lg.svg"
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from "../consts"
+import bgSmall from "../assets/icons/bg/sm.svg"
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "../consts"
 
 export type Props = {
 	title?: string
@@ -28,7 +28,11 @@ const {
 		<BaseHead {title} {description} {pageUrl} {coverUrl} />
 	</head>
 	<body class="bg-[#0A141D] relative text-white font-nunito">
-		<img class="w-full h-full md:hidden pointer-events-none absolute" src={bgSmall.src} alt="bg" />
+		<img
+			class="w-full h-full md:hidden pointer-events-none absolute"
+			src={bgSmall.src}
+			alt="bg"
+		/>
 		<img
 			class="w-full h-full hidden md:block pointer-events-none top-0 object-cover absolute"
 			src={bgLarge.src}
@@ -45,11 +49,16 @@ const {
 					rgba(78, 82, 86, 0.9) 1px 1px 0px -0.5px inset,
 					rgba(69, 67, 157, 0.157) 0px -0.12073px 0px -0.125px inset,
 					rgba(69, 67, 157, 0.95) 0px -1px 0px -0.25px inset,
-					rgba(83, 81, 184, 0.31) -0.24145px 0.18109px 0px -0.625px inset,
+					rgba(83, 81, 184, 0.31) -0.24145px 0.18109px 0px -0.625px
+						inset,
 					rgba(83, 81, 184, 0.75) -2px 1.5px 0px -1.25px inset;
 			}
 			.active-bg-gradient {
-				background: linear-gradient(180deg, #1b2228 0%, rgba(29, 36, 44, 0.4) 100%);
+				background: linear-gradient(
+					180deg,
+					#1b2228 0%,
+					rgba(29, 36, 44, 0.4) 100%
+				);
 			}
 		</style>
 	</body>

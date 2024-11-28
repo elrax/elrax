@@ -1,4 +1,5 @@
-import React, { type ReactElement } from "react"
+import type React from "react"
+import type { ReactElement } from "react"
 import { type GestureResponderEvent, type StyleProp, TouchableOpacity, type ViewStyle } from "react-native"
 import Animated, {
 	useAnimatedStyle,

@@ -41,7 +41,6 @@ bun.lockb
 # Compiler files
 cache/
 out/
-.eslintcache
 
 # Ignores development broadcast logs
 !broadcast

@@ -1,7 +1,7 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import Constants from "expo-constants"
 import type { Category } from "@elrax/api"
+import Constants from "expo-constants"
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
 import { Icon } from "./Icon"
 
 export type FeedTopOverlayProps = {

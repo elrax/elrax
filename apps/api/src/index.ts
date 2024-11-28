@@ -1,9 +1,9 @@
+import { fetchRequestHandler } from "@trpc/server/adapters/fetch"
 import { Hono } from "hono"
 import { cors } from "hono/cors"
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch"
 
+import { type Env, createContext } from "./context"
 import { appRouter } from "./router"
-import { createContext, type Env } from "./context"
 import { devApi } from "./utils/localR2"
 
 const app = new Hono<{ Bindings: Env }>()

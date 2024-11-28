@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { TextInput, View, TouchableOpacity, Text } from "react-native"
+import { Text, TextInput, TouchableOpacity, View } from "react-native"
 import { Icon } from "./Icon"
 
 const Input = React.forwardRef<

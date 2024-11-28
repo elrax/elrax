@@ -1,19 +1,20 @@
-import React, { useState } from "react"
-import Constants from "expo-constants"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { httpBatchLink } from "@trpc/client"
 import { createTRPCReact } from "@trpc/react-query"
+import Constants from "expo-constants"
+import type React from "react"
+import { useState } from "react"
 import superjson from "superjson"
 
 import type { AppRouter } from "@elrax/api"
-import Config from "../config"
 import { getUserJWT } from "~/stores/userJWT"
+import Config from "../config"
 
 /**
  * A set of typesafe hooks for consuming the API.
  */
 export const api = createTRPCReact<AppRouter>()
-export { type RouterInputs, type RouterOutputs } from "@elrax/api"
+export type { RouterInputs, RouterOutputs } from "@elrax/api"
 
 /**
  * Extend this function when going to production by

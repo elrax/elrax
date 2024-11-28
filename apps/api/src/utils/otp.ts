@@ -1,9 +1,9 @@
 import { Buffer } from "node:buffer"
 globalThis.Buffer = Buffer
 
-import { createDigest, createRandomBytes } from "@otplib/plugin-crypto-js"
-import { keyDecoder, keyEncoder } from "@otplib/plugin-base32-enc-dec"
 import { Authenticator, type AuthenticatorOptions } from "@otplib/core"
+import { keyDecoder, keyEncoder } from "@otplib/plugin-base32-enc-dec"
+import { createDigest, createRandomBytes } from "@otplib/plugin-crypto-js"
 import { dateNow } from "./date"
 
 export const authenticator = new Authenticator<AuthenticatorOptions>({

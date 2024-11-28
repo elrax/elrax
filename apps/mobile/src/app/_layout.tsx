@@ -1,15 +1,15 @@
-import React, { useEffect } from "react"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import NetInfo from "@react-native-community/netinfo"
+import { onlineManager } from "@tanstack/react-query"
 import { SplashScreen, router } from "expo-router"
 import { Slot } from "expo-router"
-import NetInfo from "@react-native-community/netinfo"
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import { onlineManager } from "@tanstack/react-query"
-import { GestureHandlerRootView } from "react-native-gesture-handler"
+import React, { useEffect } from "react"
 import { CacheManagerProvider, LFUPolicy } from "react-native-cache-video"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 
-import { TRPCProvider } from "~/utils/api"
 import { useIconFont } from "~/components/Icon"
 import { deleteUserJWT, getUserJWT } from "~/stores/userJWT"
+import { TRPCProvider } from "~/utils/api"
 
 SplashScreen.preventAutoHideAsync()
 onlineManager.setEventListener((setOnline) => {

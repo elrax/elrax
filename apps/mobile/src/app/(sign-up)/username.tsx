@@ -1,8 +1,8 @@
-import React from "react"
-import { Text, View, StyleSheet } from "react-native"
-import { setStatusBarStyle } from "expo-status-bar"
-import { Button } from "~/components/Button"
 import { router } from "expo-router"
+import { setStatusBarStyle } from "expo-status-bar"
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
+import { Button } from "~/components/Button"
 
 export default function Index() {
 	setStatusBarStyle("dark")

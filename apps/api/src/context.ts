@@ -1,12 +1,12 @@
-import superjson from "superjson"
-import { initTRPC, type inferAsyncReturnType } from "@trpc/server"
+import { createClient } from "@libsql/client"
+import { type inferAsyncReturnType, initTRPC } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { drizzle } from "drizzle-orm/libsql"
-import { createClient } from "@libsql/client"
+import superjson from "superjson"
 import { ZodError } from "zod"
 
-import { Environment } from "./types"
 import * as schema from "./db/schema"
+import { Environment } from "./types"
 
 /** Server environment variables */
 export type Env = {

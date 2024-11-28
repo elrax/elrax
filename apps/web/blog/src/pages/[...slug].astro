@@ -2,9 +2,9 @@
 import { type CollectionEntry, getCollection } from "astro:content"
 import FormattedDate from "@elrax/shared/components/FormattedDate.astro"
 import Tag from "@elrax/shared/components/Tag.astro"
-import Layout from "../layouts/Layout.astro"
 import arrowBack from "../assets/icons/arrow-back.svg"
 import linkSvg from "../assets/icons/link.svg"
+import Layout from "../layouts/Layout.astro"
 
 export const prerender = true
 
@@ -21,7 +21,7 @@ const pageUrl = hrefWOSlash + Astro.url.pathname
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog")
-	return posts.map((post) => ({
+	return posts.map((post: { slug: string }) => ({
 		params: { slug: post.slug },
 		props: post,
 	}))
@@ -29,7 +29,9 @@ export async function getStaticPaths() {
 ---
 
 <Layout {title} {description} {pageUrl} coverUrl={hrefWOSlash + heroImage}>
-	<main class="py-4 relative md:pt-9 md:pb-16 lg:pb-20 px-4 flex flex-col gap-4 md:gap-9 md:px-0">
+	<main
+		class="py-4 relative md:pt-9 md:pb-16 lg:pb-20 px-4 flex flex-col gap-4 md:gap-9 md:px-0"
+	>
 		<div
 			class="flex md:max-w-[640px] lg:max-w-[747px] 2xl:max-w-[996px] md:w-full md:mx-auto justify-between items-center"
 		>
@@ -48,17 +50,25 @@ export async function getStaticPaths() {
 					)
 				}
 			</div>
-			<div class="images md:w-1/4 justify-end flex flex-shrink-0 items-center">
-				<div class="hidden md:block text-sm 2xl:text-lg text-[#9A9BA2] mr-2">Authors:</div>
+			<div
+				class="images md:w-1/4 justify-end flex flex-shrink-0 items-center"
+			>
+				<div
+					class="hidden md:block text-sm 2xl:text-lg text-[#9A9BA2] mr-2"
+				>
+					Authors:
+				</div>
 				{
-					post.data.author.map((author, i) => (
-						<img
-							style={`margin-left: ${i !== 0 ? "-8.5px" : ""}`}
-							class="w-6 md:w-8 border-[0.75px] border-[#181818] h-6 md:h-8 rounded-full"
-							src={author.img}
-							alt="author"
-						/>
-					))
+					post.data.author.map(
+						(author: { img: string }, i: number) => (
+							<img
+								style={`margin-left: ${i !== 0 ? "-8.5px" : ""}`}
+								class="w-6 md:w-8 border-[0.75px] border-[#181818] h-6 md:h-8 rounded-full"
+								src={author.img}
+								alt="author"
+							/>
+						),
+					)
 				}
 			</div>
 		</div>
@@ -66,9 +76,19 @@ export async function getStaticPaths() {
 			<div
 				class="hero-image md:max-w-[640px] lg:max-w-[747px] 2xl:max-w-[996px] md:mx-auto md:w-full flex justify-center mb-4 md:mb-9"
 			>
-				{heroImage && <img class="border-[#565a5e58] border" src={heroImage} alt="" />}
+				{
+					heroImage && (
+						<img
+							class="border-[#565a5e58] border"
+							src={heroImage}
+							alt=""
+						/>
+					)
+				}
 			</div>
-			<div class="flex md:w-[474px] lg:w-[594px] 2xl:w-[792px] md:mx-auto">
+			<div
+				class="flex md:w-[474px] lg:w-[594px] 2xl:w-[792px] md:mx-auto"
+			>
 				<Tag tag={tag} />
 			</div>
 			<div
@@ -77,33 +97,51 @@ export async function getStaticPaths() {
 				<h1>{title}</h1>
 				<Content />
 				<div class="flex gap-4 flex-col">
-					<div class="text-[#9A9BA2] text-xs md:text-sm 2xl:text-lg">Authors:</div>
-					<div class="images gap-4 flex flex-col lg:flex-wrap lg:flex-row flex-shrink-0">
+					<div class="text-[#9A9BA2] text-xs md:text-sm 2xl:text-lg">
+						Authors:
+					</div>
+					<div
+						class="images gap-4 flex flex-col lg:flex-wrap lg:flex-row flex-shrink-0"
+					>
 						{
-							// eslint-disable-next-line @typescript-eslint/no-explicit-any
-							post.data.author.map((a: any) => (
-								<div class="flex gap-2 items-center">
-									<img
-										class="w-6 md:w-8 md:h-8 2xl:w-9 2xl:h-9 border-[0.75px] border-[#181818] h-6 rounded-full"
-										src={a.img}
-										alt="author"
-									/>
-									<div class="info flex text-xs md:text-sm 2xl:text-lg">
-										<div>
-											{a.name}, <span class="text-[#9A9BA2]">{a.role}</span>
+							post.data.author.map(
+								(a: {
+									img: string;
+									name: string;
+									role: string;
+								}) => (
+									<div class="flex gap-2 items-center">
+										<img
+											class="w-6 md:w-8 md:h-8 2xl:w-9 2xl:h-9 border-[0.75px] border-[#181818] h-6 rounded-full"
+											src={a.img}
+											alt="author"
+										/>
+										<div class="info flex text-xs md:text-sm 2xl:text-lg">
+											<div>
+												{a.name},{" "}
+												<span class="text-[#9A9BA2]">
+													{a.role}
+												</span>
+											</div>
 										</div>
 									</div>
-								</div>
-							))
+								),
+							)
 						}
 					</div>
 				</div>
 				<div class="flex flex-col gap-4 items-start">
-					<div class="text-[#9A9BA2] text-xs md:text-sm 2xl:text-lg">Share post:</div>
+					<div class="text-[#9A9BA2] text-xs md:text-sm 2xl:text-lg">
+						Share post:
+					</div>
 					<button
 						class="copy-link py-2.5 px-6 bg-[#FFFFFF0F] flex items-center gap-2 text-[#FFFFFF66] font-bold rounded-[40px] text-xs 2xl:text-lg"
 					>
-						<img class="w-4 h-4" src={linkSvg.src} alt="link-icon" />
+						<img
+							class="w-4 h-4"
+							src={linkSvg.src}
+							alt="link-icon"
+						/>
 						Copy link
 					</button>
 				</div>
@@ -113,13 +151,13 @@ export async function getStaticPaths() {
 </Layout>
 
 <script>
-	const copyLinkButtons = document.querySelectorAll(".copy-link")
+	const copyLinkButtons = document.querySelectorAll(".copy-link");
 	copyLinkButtons.forEach(
 		(b) =>
 			((b as HTMLElement).onclick = () => {
-				navigator.clipboard.writeText(window.location.href)
+				navigator.clipboard.writeText(window.location.href);
 			}),
-	)
+	);
 </script>
 
 <style is:global>

@@ -1,13 +1,14 @@
 ---
 import { getCollection } from "astro:content"
 import BlogCard from "@elrax/shared/components/BlogCard.astro"
-import Layout from "../layouts/Layout.astro"
 import chevron from "../assets/icons/chevron.svg"
+import Layout from "../layouts/Layout.astro"
 
 export const prerender = true
 
 const posts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a: { data: { pubDate: number } }, b: { data: { pubDate: number } }) =>
+		b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
 ---
 
@@ -24,22 +25,57 @@ const posts = (await getCollection("blog")).sort(
 			<p
 				class="text-sm md:text-base 2xl:text-xl 2xl:leading-[30px] text-center max-w-[474px] 2xl:max-w-[588px] text-gradient-secondary"
 			>
-				Follow the Elrax blog for announcements, feature updates, user stories, and technical posts
-				about our product.
+				Follow the Elrax blog for announcements, feature updates, user
+				stories, and technical posts about our product.
 			</p>
 		</div>
 		<section class="flex relative z-10 flex-col gap-6 md:gap-12">
-			<ul class="flex flex-wrap md:justify-stretch gap-6 md:gap-y-[54px] md:gap-x-5 lg:gap-x-6">
-				{posts.map((post, i) => <BlogCard post={post} index={i} />)}
+			<ul
+				class="flex flex-wrap md:justify-stretch gap-6 md:gap-y-[54px] md:gap-x-5 lg:gap-x-6"
+			>
+				{
+					posts.map(
+						(
+							post: {
+								slug: string;
+								data: {
+									title: string;
+									description: string;
+									heroImage?: string;
+									pubDate: Date;
+									tag?: string;
+									author: { name: string; img: string }[];
+								};
+							},
+							i: number,
+						) => <BlogCard post={post} index={i} />,
+					)
+				}
 			</ul>
 			<div class="flex justify-center gap-6">
 				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
-					<img class="w-5 h-5 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
-					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Prev</p>
+					<img
+						class="w-5 h-5 2xl:w-6 2xl:h-6"
+						src={chevron.src}
+						alt="icon"
+					/>
+					<p
+						class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]"
+					>
+						Prev
+					</p>
 				</button>
 				<button class="flex items-center gap-2 py-2 md:py-3 px-6">
-					<p class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]">Next</p>
-					<img class="w-5 h-5 rotate-180 2xl:w-6 2xl:h-6" src={chevron.src} alt="icon" />
+					<p
+						class="text-xs md:text-sm 2xl:text-lg leading-[100%] font-bold text-[#747474]"
+					>
+						Next
+					</p>
+					<img
+						class="w-5 h-5 rotate-180 2xl:w-6 2xl:h-6"
+						src={chevron.src}
+						alt="icon"
+					/>
 				</button>
 			</div>
 		</section>
@@ -54,7 +90,10 @@ const posts = (await getCollection("blog")).sort(
 		-webkit-text-fill-color: transparent;
 	}
 	.text-gradient-secondary {
-		background: var(--gradient-blue-3, linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%));
+		background: var(
+			--gradient-blue-3,
+			linear-gradient(180deg, #c8d9fc 0%, #f8f9ff 100%)
+		);
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;

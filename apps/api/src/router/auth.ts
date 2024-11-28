@@ -1,11 +1,11 @@
-import { z } from "zod"
 import { TRPCError } from "@trpc/server"
 import { Resend } from "resend"
+import { z } from "zod"
 
-import { verifyAppleToken, verifyFacebookToken, verifyGoogleToken } from "../utils/oauth"
 import { type Env, procedure, router } from "../context"
-import { type Database, signInUserOrCreate, otpVerifications } from "../db"
+import { type Database, otpVerifications, signInUserOrCreate } from "../db"
 import { OTPVerificationType, SignedWith } from "../db/types"
+import { verifyAppleToken, verifyFacebookToken, verifyGoogleToken } from "../utils/oauth"
 import { generateOTP } from "../utils/otp"
 
 const signInOrCreateUser = async (
@@ -45,7 +45,8 @@ const signInOrCreateUser = async (
 				lastName: user.lastName,
 			},
 		}
-	} else if (provider === "facebook") {
+	}
+	if (provider === "facebook") {
 		const res = await verifyFacebookToken(token, env.FACEBOOK_APP_ID, env.FACEBOOK_APP_SECRET)
 		const u = await signInUserOrCreate(
 			db,
@@ -70,7 +71,8 @@ const signInOrCreateUser = async (
 				lastName: res.lastName,
 			},
 		}
-	} else if (provider === "google") {
+	}
+	if (provider === "google") {
 		const res = await verifyGoogleToken(token)
 		const u = await signInUserOrCreate(
 			db,
