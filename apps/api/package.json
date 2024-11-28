@@ -17,8 +17,6 @@
 		"db:studio": "drizzle-kit studio",
 		"db:upgrade": "drizzle-kit up",
 		"dev": "wrangler dev --show-interactive-dev-session=false --env=dev --ip=0.0.0.0",
-		"format": "prettier --write --ignore-path=../../.gitignore .",
-		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
 		"test": "bun test"
 	},
 	"dependencies": {
@@ -45,6 +43,6 @@
 		"wrangler": "3.81.0"
 	},
 	"peerDependencies": {
-		"typescript": "5.5.4"
+		"typescript": "5.6.3"
 	}
 }

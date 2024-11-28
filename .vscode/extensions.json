@@ -1,7 +1,6 @@
 {
 	"recommendations": [
 		"bradlc.vscode-tailwindcss",
-		"dbaeumer.vscode-eslint",
 		"esbenp.prettier-vscode",
 		"me-dutour-mathieu.vscode-github-actions"
 	]

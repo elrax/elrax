@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native"
+import { router } from "expo-router"
 import { setStatusBarStyle } from "expo-status-bar"
+import React, { useState } from "react"
+import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native"
 import { Button } from "~/components/Button"
 import { VerificationCode } from "~/components/VerificationCode"
-import { router } from "expo-router"
 
 export default function Index() {
 	setStatusBarStyle("dark")

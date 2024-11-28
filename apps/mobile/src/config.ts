@@ -1,5 +1,5 @@
-import { channel } from "expo-updates"
 import { Environment } from "@elrax/api/src/types"
+import { channel } from "expo-updates"
 
 const Config = {
 	env: Environment.DEV,

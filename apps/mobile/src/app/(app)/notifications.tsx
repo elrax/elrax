@@ -1,6 +1,6 @@
-import React from "react"
-import { View, Button, StyleSheet } from "react-native"
 import { checkForUpdateAsync, fetchUpdateAsync, reloadAsync } from "expo-updates"
+import React from "react"
+import { Button, StyleSheet, View } from "react-native"
 
 export default function Notifications() {
 	// TODO: Move this logic

@@ -1,14 +1,12 @@
 ---
 import { getCollection } from "astro:content"
 import BlogCard from "@elrax/shared/components/BlogCard.astro"
-import Layout from "../layouts/Layout.astro"
 import chevron from "../assets/icons/chevron.svg"
+import Layout from "../layouts/Layout.astro"
 
 export const prerender = true
 
-const posts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)
+const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 ---
 
 <Layout>

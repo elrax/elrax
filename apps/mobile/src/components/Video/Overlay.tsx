@@ -1,6 +1,7 @@
-import React, { useState } from "react"
-import { View, Text, Image, StyleSheet } from "react-native"
+import type { VideoProps } from "@elrax/api"
 import { LinearGradient } from "expo-linear-gradient"
+import React, { useState } from "react"
+import { Image, StyleSheet, Text, View } from "react-native"
 import Animated, {
 	useAnimatedStyle,
 	interpolate,
@@ -8,7 +9,6 @@ import Animated, {
 	useDerivedValue,
 	withTiming,
 } from "react-native-reanimated"
-import type { VideoProps } from "@elrax/api"
 import { Icon } from "../Icon"
 import { TouchableScale } from "../TouchableScale"
 

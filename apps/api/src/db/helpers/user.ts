@@ -1,10 +1,10 @@
-import { eq } from "drizzle-orm"
-import jwt from "@tsndr/cloudflare-worker-jwt"
 import { createId } from "@paralleldrive/cuid2"
+import jwt from "@tsndr/cloudflare-worker-jwt"
+import { eq } from "drizzle-orm"
 
-import { type Database, users, authSessions } from "../"
-import type { SignedWith } from "../types"
+import { type Database, authSessions, users } from "../"
 import type { Env } from "../../context"
+import type { SignedWith } from "../types"
 
 type FindUserType = {
 	id?: string
@@ -67,7 +67,7 @@ export const signInUserOrCreate = async (
 				googleId: user.googleId,
 			})
 			.returning()
-		foundUser = returnedUsers[0]!
+		foundUser = returnedUsers[0]
 		newUser = true
 	}
 	const returnedSessions = await db
@@ -83,7 +83,7 @@ export const signInUserOrCreate = async (
 	const token = await jwt.sign(
 		{
 			userId: foundUser.id,
-			sessionId: returnedSessions[0]!.id,
+			sessionId: returnedSessions[0]?.id,
 		},
 		env.JWT_SECRET,
 	)

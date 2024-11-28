@@ -13,27 +13,25 @@
 		"build": "nx run-many -t=build --exclude=elrax --output-style=stream",
 		"clean": "nx run-many -t=clean --exclude=elrax && rm -rf node_modules",
 		"dev": "nx run-many -t=dev --exclude=elrax --output-style=stream",
-		"fix-pkgs": "syncpack fix-mismatches && syncpack set-semver-ranges && syncpack format",
-		"format": "nx run-many -t=format --exclude=elrax --output-style=stream",
-		"lint": "nx run-many -t=lint --exclude=elrax --output-style=stream",
+		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
+		"fix-all": "bun pkgs:fix && bun i && bun format && bun fix",
+		"format": "bun x @biomejs/biome format --write ./packages ./apps",
+		"lint": "bun x @biomejs/biome lint ./packages ./apps",
+		"pkgs:fix": "syncpack fix-mismatches && syncpack set-semver-ranges && syncpack format",
 		"release": "release-it",
 		"update-hooks": "simple-git-hooks"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
 		"@release-it/bumper": "6.0.1",
 		"@release-it/conventional-changelog": "8.0.1",
-		"eslint": "9.13.0",
-		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-astro": "1.3.0",
 		"nx": "19.5.3",
-		"prettier": "3.3.3",
 		"release-it": "17.10.0",
 		"simple-git-hooks": "2.11.1",
-		"syncpack": "12.4.0",
-		"typescript-eslint": "7.17.0"
+		"syncpack": "12.4.0"
 	},
 	"peerDependencies": {
-		"typescript": "5.5.4"
+		"typescript": "5.6.3"
 	},
 	"resolutions": {
 		"semver": "7.5.4"
@@ -43,13 +41,6 @@
 		"apps/web/*",
 		"packages/*"
 	],
-	"prettier": {
-		"useTabs": true,
-		"singleQuote": false,
-		"semi": false,
-		"trailingComma": "all",
-		"printWidth": 120
-	},
 	"release-it": {
 		"hooks": {
 			"after:bump": "bun fix-pkgs"
@@ -95,7 +86,7 @@
 		}
 	},
 	"simple-git-hooks": {
-		"pre-commit": "bun fix-pkgs && bun lint"
+		"pre-commit": "bun fix-all"
 	},
 	"syncpack": {
 		"versionGroups": [

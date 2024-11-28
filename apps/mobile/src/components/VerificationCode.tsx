@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { View, Text, StyleSheet, Pressable } from "react-native"
+import type React from "react"
+import { useEffect, useState } from "react"
+import { Pressable, StyleSheet, Text, View } from "react-native"
 import { CodeField, useClearByFocusCell } from "react-native-confirmation-code-field"
 
 const CELL_COUNT = 6

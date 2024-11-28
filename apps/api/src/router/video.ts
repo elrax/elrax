@@ -1,23 +1,23 @@
-import z from "zod"
 import { createId } from "@paralleldrive/cuid2"
 import { TRPCError } from "@trpc/server"
-import { eq, and, desc, isNull } from "drizzle-orm"
+import { and, desc, eq, isNull } from "drizzle-orm"
+import z from "zod"
 
-import { getUserAvatarUrl, getVideoUrl } from "../utils/storage"
 import { type Context, procedure, router } from "../context"
-import { dateNow } from "../utils/date"
 import {
+	type Comment,
+	ContentUploadStatus,
+	Storage,
+	type User,
+	comments,
 	contentItems,
 	getUploadUrls,
-	Storage,
-	ContentUploadStatus,
-	getUserUnuploadedVideos,
-	comments,
 	getUserOrNull,
-	type Comment,
-	type User,
+	getUserUnuploadedVideos,
 } from "../db"
 import type { VideoCommentProps, VideoProps } from "../types"
+import { dateNow } from "../utils/date"
+import { getUserAvatarUrl, getVideoUrl } from "../utils/storage"
 import { auth } from "./middleware"
 
 const transformComment = (ctx: Context, v: Comment & { author: User }) => {

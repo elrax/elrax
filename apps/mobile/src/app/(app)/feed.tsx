@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, RefreshControl, Text, View, StyleSheet } from "react-native"
-import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
-import { Comments, type CommentsMethods, type CommentItem } from "~/components/Comments"
-import { setStatusBarStyle } from "expo-status-bar"
+import { FlashList, type ViewToken } from "@shopify/flash-list"
 import { router } from "expo-router"
+import { setStatusBarStyle } from "expo-status-bar"
+import React, { useEffect, useRef, useState } from "react"
+import { Dimensions, RefreshControl, StyleSheet, Text, View } from "react-native"
+import { type CommentItem, Comments, type CommentsMethods } from "~/components/Comments"
 
 import type { VideoProps } from "@elrax/api"
-import { FeedVideo, type FeedVideoRef } from "~/components/Video"
-import FeedTopOverlay from "~/components/FeedTopOverlay"
-import { api } from "~/utils/api"
-import { useVideoViewState } from "~/stores/videoViewState"
-import { deleteUserJWT } from "~/stores/userJWT"
 import { toRelative } from "@elrax/api/src/utils/date"
+import FeedTopOverlay from "~/components/FeedTopOverlay"
+import { FeedVideo, type FeedVideoRef } from "~/components/Video"
+import { deleteUserJWT } from "~/stores/userJWT"
+import { useVideoViewState } from "~/stores/videoViewState"
+import { api } from "~/utils/api"
 
 export default function Index() {
 	setStatusBarStyle("light")
@@ -64,7 +64,7 @@ export default function Index() {
 	}, [videos.data])
 
 	const onViewableItemsChanged = useRef(({ changed }: { changed: ViewToken[] }) => {
-		changed.forEach((element) => {
+		for (const element of changed) {
 			const cell = mediaRefs.current[element.key]
 			if (cell) {
 				if (element.isViewable) {
@@ -75,7 +75,7 @@ export default function Index() {
 					cell.pause()
 				}
 			}
-		})
+		}
 	})
 
 	const openComments = () => {

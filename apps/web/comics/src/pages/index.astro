@@ -6,9 +6,7 @@ import Layout from "../layouts/Layout.astro"
 
 export const prerender = true
 
-const comics = (await getCollection("comics")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)
+const comics = (await getCollection("comics")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 ---
 
 <Layout>

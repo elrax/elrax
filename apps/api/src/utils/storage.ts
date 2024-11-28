@@ -1,11 +1,11 @@
+import type { Env } from "../context"
 import { Storage } from "../db/types"
 import { Environment } from "../types"
-import type { Env } from "../context"
 
 /** Returns current base url. Used in dev environment */
 export const getCurrentUrl = (fullUrl: string) => {
 	const url = new URL(fullUrl)
-	const currentUrl = url.protocol + "//" + url.host + "/"
+	const currentUrl = `${url.protocol}//${url.host}/`
 	return currentUrl
 }
 
@@ -15,7 +15,7 @@ export const getStorageUrl = (storage: Storage, env: Env, currentUrl: string) =>
 		case Storage.PRIME_R2_BUCKET:
 			switch (env.ENVIRONMENT) {
 				case Environment.DEV:
-					return currentUrl + "dev/getFile/"
+					return `${currentUrl}dev/getFile/`
 				case Environment.STAGING:
 					return "https://cdn-staging.elrax.com/"
 				case Environment.PRODUCTION:

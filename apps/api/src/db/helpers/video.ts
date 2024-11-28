@@ -1,10 +1,10 @@
-import { AwsClient } from "aws4fetch"
 import { TRPCError } from "@trpc/server"
+import { AwsClient } from "aws4fetch"
 import { and, eq } from "drizzle-orm"
 
-import { Environment } from "../../types"
+import { ContentUploadStatus, type Database, contentItems } from ".."
 import type { Env } from "../../context"
-import { contentItems, type Database, ContentUploadStatus } from ".."
+import { Environment } from "../../types"
 
 export const getUserUnuploadedVideos = (db: Database, userId: string) => {
 	return db.query.contentItems.findMany({

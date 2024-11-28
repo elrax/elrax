@@ -1,17 +1,17 @@
-import { type AnySQLiteColumn, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
-import { type InferInsertModel, relations, type InferSelectModel } from "drizzle-orm"
-import { createSelectSchema } from "drizzle-zod"
 import { createId } from "@paralleldrive/cuid2"
+import { type InferInsertModel, type InferSelectModel, relations } from "drizzle-orm"
+import { type AnySQLiteColumn, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { createSelectSchema } from "drizzle-zod"
+import { dateNow } from "../utils/date"
 import {
+	CommentStatus,
+	CommentType,
+	ContentUploadStatus,
+	type OTPVerificationType,
 	type SignedWith,
 	Storage,
-	ContentUploadStatus,
 	UserOnboardingStatus,
-	CommentType,
-	CommentStatus,
-	type OTPVerificationType,
 } from "./types"
-import { dateNow } from "../utils/date"
 
 /** Users */
 

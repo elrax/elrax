@@ -14,8 +14,6 @@
 		"build": "astro build",
 		"clean": "rm -rf node_modules dist .astro",
 		"dev": "astro dev",
-		"format": "prettier --write --ignore-path=../../../.gitignore .",
-		"lint": "eslint \"src\" && prettier --check --ignore-path=../../../.gitignore .",
 		"preview": "astro preview",
 		"start": "astro dev"
 	},

@@ -1,7 +1,7 @@
-import React, { useRef } from "react"
-import { Pressable, Text, View, Animated, StyleSheet, type ViewStyle } from "react-native"
-import { LinearGradient } from "expo-linear-gradient"
 import { Image } from "expo-image"
+import { LinearGradient } from "expo-linear-gradient"
+import React, { useRef } from "react"
+import { Animated, Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
 import { Icon } from "./Icon"
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)

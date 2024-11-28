@@ -1,13 +1,13 @@
-import React, { useCallback, useImperativeHandle, useRef, forwardRef } from "react"
-import { StyleSheet, View, Text, Pressable, TouchableOpacity } from "react-native"
 import {
-	BottomSheetFlatList,
-	BottomSheetModal,
 	BottomSheetBackdrop,
+	BottomSheetFlatList,
 	BottomSheetFooter,
+	BottomSheetModal,
 	BottomSheetTextInput,
 } from "@gorhom/bottom-sheet"
 import { Image } from "expo-image"
+import React, { useCallback, useImperativeHandle, useRef, forwardRef } from "react"
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Icon } from "~/components/Icon"
 
 interface CommentsProps {

@@ -1,5 +1,5 @@
-import React from "react"
 import { Tabs } from "expo-router"
+import type React from "react"
 import { Icon } from "~/components/Icon"
 
 export default function RootLayout() {

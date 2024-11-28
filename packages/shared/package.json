@@ -9,9 +9,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"clean": "rm -rf node_modules dist .astro",
-		"format": "prettier --write --ignore-path=../../.gitignore .",
-		"lint": "eslint \"./\" && prettier --check --ignore-path=../../.gitignore ."
+		"clean": "rm -rf node_modules dist .astro"
 	},
 	"dependencies": {
 		"@fontsource/nunito-sans": "5.1.0",

@@ -1,7 +1,7 @@
-import React from "react"
-import { View, TouchableWithoutFeedback, Keyboard, Pressable, Text, StyleSheet } from "react-native"
-import { router } from "expo-router"
 import { Image } from "expo-image"
+import { router } from "expo-router"
+import React from "react"
+import { Keyboard, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native"
 
 import { Button } from "~/components/Button"
 import { Icon } from "~/components/Icon"
@@ -105,7 +105,7 @@ export default function Profile() {
 						flex: 1,
 						backgroundColor: "#FFFFFF0F",
 					}}
-				></View>
+				/>
 			</View>
 		</TouchableWithoutFeedback>
 	)

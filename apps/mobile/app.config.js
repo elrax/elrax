@@ -99,7 +99,7 @@ const defineConfig = {
 				appID: process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
 				clientToken: process.env.EXPO_PUBLIC_FACEBOOK_CLIENT_TOKEN,
 				displayName: "Elrax",
-				scheme: "fb" + process.env.EXPO_PUBLIC_FACEBOOK_APP_ID,
+				scheme: `fb${process.env.EXPO_PUBLIC_FACEBOOK_APP_ID}`,
 				advertiserIDCollectionEnabled: false,
 				autoLogAppEventsEnabled: false,
 				isAutoInitEnabled: true,

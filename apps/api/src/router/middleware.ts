@@ -1,6 +1,6 @@
+import { TRPCError } from "@trpc/server"
 import jwt from "@tsndr/cloudflare-worker-jwt"
 import { eq } from "drizzle-orm"
-import { TRPCError } from "@trpc/server"
 
 import { middleware } from "../context"
 import { authSessions } from "../db"

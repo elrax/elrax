@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
-import { View, Image, Text, Button, StyleSheet } from "react-native"
-import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker"
-import { makeDirectoryAsync, getInfoAsync, cacheDirectory, readDirectoryAsync, deleteAsync } from "expo-file-system"
+import { cacheDirectory, deleteAsync, getInfoAsync, makeDirectoryAsync, readDirectoryAsync } from "expo-file-system"
+import { MediaTypeOptions, launchImageLibraryAsync } from "expo-image-picker"
 import { FFmpegKit, FFmpegKitConfig, ReturnCode } from "ffmpeg-kit-react-native"
+import React, { useState, useEffect } from "react"
+import { Button, Image, StyleSheet, Text, View } from "react-native"
 import Video from "react-native-video"
 import { api, getBaseUrl } from "~/utils/api"
 
@@ -59,10 +59,9 @@ const videoToHLS = async (source: string, dest: string) => {
 	const result = await ffmpegSession.getReturnCode()
 	if (ReturnCode.isSuccess(result)) {
 		return true
-	} else {
-		console.error(result)
-		return false
 	}
+	console.error(result)
+	return false
 }
 
 const videoToThumbnail = async (source: string, dest: string) => {
@@ -71,10 +70,9 @@ const videoToThumbnail = async (source: string, dest: string) => {
 	const result = await ffmpegSession.getReturnCode()
 	if (ReturnCode.isSuccess(result)) {
 		return true
-	} else {
-		console.error(result)
-		return false
 	}
+	console.error(result)
+	return false
 }
 
 export default function Upload() {
@@ -167,7 +165,7 @@ export default function Upload() {
 		}
 		const url = await updateVideo.mutateAsync({ contentItemId })
 		setStatus({ btn: "Okay", msg: "Video uploaded." })
-		console.log("Video url: " + url)
+		console.log(`Video url: ${url}`)
 	}
 
 	return (

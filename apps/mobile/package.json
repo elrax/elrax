@@ -14,9 +14,7 @@
 		"clean": "rm -rf node_modules .expo dist",
 		"dev": "expo start --dev-client",
 		"fix": "expo install --fix",
-		"format": "prettier --write --ignore-path=../../.gitignore .",
 		"ios": "expo start --ios",
-		"lint": "eslint \"src\" && prettier --check --ignore-path=../../.gitignore .",
 		"prepare": "mkdir -p ./node_modules/.cache/nx"
 	},
 	"dependencies": {
