@@ -13,6 +13,6 @@
 	},
 	"dependencies": {
 		"@fontsource/nunito-sans": "5.1.0",
-		"astro": "4.16.6"
+		"astro": "4.16.16"
 	}
 }
