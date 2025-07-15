@@ -20,7 +20,7 @@
 		"test": "bun test"
 	},
 	"dependencies": {
-		"@libsql/client": "0.14.0",
+		"@libsql/client": "0.15.9",
 		"@otplib/core": "12.0.1",
 		"@otplib/plugin-base32-enc-dec": "12.0.1",
 		"@otplib/plugin-crypto-js": "12.0.1",
@@ -29,17 +29,17 @@
 		"@tsndr/cloudflare-worker-jwt": "2.5.3",
 		"aws4fetch": "1.0.20",
 		"dayjs": "1.11.13",
-		"drizzle-orm": "0.35.3",
-		"drizzle-zod": "0.5.1",
-		"hono": "4.6.5",
+		"drizzle-orm": "0.44.3",
+		"drizzle-zod": "0.8.2",
+		"hono": "4.8.5",
 		"resend": "3.5.0",
-		"superjson": "2.2.1",
+		"superjson": "2.2.2",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20241018.0",
-		"bun-types": "1.1.32",
-		"drizzle-kit": "0.26.2",
+		"@cloudflare/workers-types": "4.20250712.0",
+		"bun-types": "1.2.18",
+		"drizzle-kit": "0.31.4",
 		"wrangler": "3.81.0"
 	},
 	"peerDependencies": {
