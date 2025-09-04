@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@astrojs/alpinejs": "0.4.0",
 		"@astrojs/check": "0.9.4",
-		"@astrojs/cloudflare": "11.1.0",
+		"@astrojs/cloudflare": "12.6.6",
 		"@astrojs/tailwind": "5.1.2",
 		"@elrax/shared": "workspace:*",
 		"alpinejs": "3.14.3",
