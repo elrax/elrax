@@ -27,7 +27,7 @@
 		"@release-it/conventional-changelog": "8.0.1",
 		"nx": "19.5.3",
 		"release-it": "17.10.0",
-		"simple-git-hooks": "2.11.1",
+		"simple-git-hooks": "2.13.1",
 		"syncpack": "12.4.0"
 	},
 	"peerDependencies": {
