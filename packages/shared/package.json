@@ -12,7 +12,7 @@
 		"clean": "rm -rf node_modules dist .astro"
 	},
 	"dependencies": {
-		"@fontsource/nunito-sans": "5.1.0",
+		"@fontsource/nunito-sans": "5.2.7",
 		"astro": "4.16.6"
 	}
 }
