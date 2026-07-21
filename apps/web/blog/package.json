@@ -21,7 +21,7 @@
 		"@astrojs/alpinejs": "0.4.0",
 		"@astrojs/cloudflare": "11.1.0",
 		"@astrojs/mdx": "3.1.8",
-		"@astrojs/rss": "4.0.9",
+		"@astrojs/rss": "4.0.19",
 		"@astrojs/sitemap": "3.2.1",
 		"@astrojs/tailwind": "5.1.2",
 		"@elrax/shared": "workspace:*",
